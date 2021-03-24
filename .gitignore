@@ -1,0 +1,15 @@
+# IDE meta data
+.idea
+.vscode
+
+# Dependencies
+vendor
+node_modules
+
+# Local caches
+cache/*
+!cache/.gitkeep
+
+# Configuration and Environment
+.env*
+!.env.example
