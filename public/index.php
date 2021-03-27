@@ -1,4 +1,4 @@
 <?php
 
 echo 'Hello world, i am timon!';
-echo ' another echo';
+echo ' another echo for testing';
