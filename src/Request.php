@@ -18,14 +18,14 @@ class Request implements IRequest
      **/
     public function __construct()
     {
-        $this->context = getContext();
-        $this->params  = getRequest();
+        $this->context = $_SERVER;
+        $this->params  = $_REQUEST;
         $this->ageRequest();
 
     }//end __construct()
 
 
-    public function ageRequest()
+    public function ageRequest(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Get input field value
