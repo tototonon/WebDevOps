@@ -21,6 +21,7 @@ class Request implements IRequest
         $this->context = $_SERVER;
         $this->params  = $_REQUEST;
         $this->ageRequest();
+        $this->getContext();
 
     }//end __construct()
 
