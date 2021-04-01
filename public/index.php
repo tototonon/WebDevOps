@@ -1,9 +1,10 @@
 <?php
 
 declare(strict_types=1);
+require __DIR__ . '/../vendor/autoload.php';
 
-$urlPath = $_SERVER['REQUEST_URI'];
 try {
+    $urlPath = \TononT\Webentwicklung\Request::getUrl();
     if (strpos(strtolower($urlPath), 'hello')) {
         $personToGreet = 'Stranger';
         if (isset($_REQUEST['name'])) {
