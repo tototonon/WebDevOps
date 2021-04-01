@@ -19,7 +19,8 @@ class Request implements IRequest
     public function __construct()
     {
         $this->getContext();
-        $this->ageRequest();
+        $this->idRequest();
+        $this->getRequest();
 
     }//end __construct()
 
@@ -29,24 +30,51 @@ class Request implements IRequest
      *
      * @return void
      **/
-    public function ageRequest(): void
+    public function idRequest(): void
     {
-        if (isset($_SERVER)) {
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                // Get input field value
-                $age = htmlspecialchars($_REQUEST['fage']);
+        if (isset($_REQUEST['id']) && isset($_REQUEST['user'])) {
+            $id = $_REQUEST['id'];
 
-                // If input field is empty
-                if (empty($age)) {
-                    echo 'Age is empty';
-                } else {
-                    // Display age
-                    echo $age;
-                }
-            }
+            $user = $_REQUEST['user'];
+
+            echo 'Welcome '.$user.' - ID: '.$id;
+        } else {
+            echo 'Welcome visitor';
         }
 
-    }//end ageRequest()
+    }//end idRequest()
+
+
+    /**
+     * Function for Postrequest.
+     *
+     * @return void
+     **/
+    public function postRequest()
+    {
+        if (isset($_POST['user'])) {
+            echo 'Welcome '.$_POST['user'];
+        } else {
+            echo 'Welcome visitor';
+        }
+
+    }//end postRequest()
+
+
+    /**
+     * Function for Getrequest.
+     *
+     * @return array
+     **/
+    public function getRequest(): array
+    {
+        if (isset($_GET['src']) && isset($_GET['id'])) {
+            return;
+        } else {
+            // other php instructions
+        }
+
+    }//end GETRequest()
 
 
     /**
@@ -60,19 +88,6 @@ class Request implements IRequest
 
     }//end setContext()
 
-
-    /**
-     * Set request.
-     *
-     * @return void
-     **/
-    public function setRequest(): void
-    {
-        $this->context = $_REQUEST;
-
-    }//end setRequest()
-
-
     /**
      * Get context.
      *
@@ -83,18 +98,6 @@ class Request implements IRequest
             return $this->context;
 
     }//end getContext()
-
-
-    /**
-     * Get request.
-     *
-     * @return array
-     **/
-    public function getRequest(): array
-    {
-        return $this->params;
-
-    }//end getRequest()
 
 
 }//end class
