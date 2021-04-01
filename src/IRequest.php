@@ -12,7 +12,7 @@ interface IRequest
      **/
 
 
-    public function ageRequest();
+    public function idRequest();
 
 
 }//end interface
