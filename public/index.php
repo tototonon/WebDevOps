@@ -3,14 +3,23 @@
 declare(strict_types=1);
 require __DIR__.'/../vendor/autoload.php';
 
+
 try {
-    $urlPath = \TononT\Webentwicklung\Request::getUrl();
+    $request = new \TononT\Webentwicklung\Request();
+    $urlPath = "http://tonon.test";
     if (empty($urlPath)) {
         echo 'path is empty! ';
     }
 
-    if (isset($urlPath)) {
-        echo $urlPath;
+    if (isset($request)) {
+        echo $request;
+    } else {
+        if(isset($urlPath)&&$request != null){
+            echo "The path is: ";
+            echo $urlPath;
+            echo "The request is: ";
+            echo $request;
+        }
     }
 } catch (Exception $ex) {
     $ex->getMessage();
