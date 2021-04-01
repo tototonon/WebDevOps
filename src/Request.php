@@ -8,96 +8,146 @@ namespace TononT\Webentwicklung;
 class Request implements IRequest
 {
 
-    private array $context;
+    // contains the URL of the request
+    private static $url = null;
 
-    private array $params;
+    // contains the request type of the request : GET | POST
+    private static $type = null;
+
+    // contains the segments of the request
+    private static $segments = null;
 
 
-    /**
-     * Construct.
-     **/
     public function __construct()
     {
-        $this->getContext();
-        $this->idRequest();
-        $this->getRequest();
+        $this->setHttpRequestMethod();
+        $this->setUriProperties();
+        $this->setInputData();
 
     }//end __construct()
 
 
-    /**
-     * Function for request.
-     *
-     * @return void
-     **/
-    public function idRequest(): void
+    protected function setHttpRequestMethod()
     {
-        if (isset($_REQUEST['id']) && isset($_REQUEST['user'])) {
-            $id = $_REQUEST['id'];
+        $this->httpRequestMethod = $this->validateHttpRequestMethod($_SERVER['REQUEST_METHOD']);
 
-            $user = $_REQUEST['user'];
+    }//end setHttpRequestMethod()
 
-            echo 'Welcome '.$user.' - ID: '.$id;
-        } else {
-            echo 'Welcome visitor';
+
+    protected function validateHttpRequestMethod($input)
+    {
+        if (empty($input)) {
+            throw new InvalidArgumentException('I need valid value');
         }
 
-    }//end idRequest()
+        switch ($input) {
+            case 'GET':
+            case 'POST':
+            case 'PUT':
+            case 'DELETE':
+            case 'HEAD':
+            return $input;
 
-
-    /**
-     * Function for Postrequest.
-     *
-     * @return void
-     **/
-    public function postRequest()
-    {
-        if (isset($_POST['user'])) {
-            echo 'Welcome '.$_POST['user'];
-        } else {
-            echo 'Welcome visitor';
+                break;
+            default:
+            throw new InvalidArgumentException('Unexpected value.');
+                break;
         }
 
-    }//end postRequest()
+    }//end validateHttpRequestMethod()
 
+
+    public function setUriProperties()
+    {
+        self::parseURL();
+
+    }//end setUriProperties()
+
+
+    protected function setInputData()
+    {
+        switch ($this->httpRequestMethod) {
+            case 'GET':
+            case 'HEAD':
+                $this->setDataFromGet();
+            break;
+
+            case 'POST':
+                $this->setDataFromPost();
+            break;
+
+            case 'PUT':
+                $this->setDataFromPut();
+            break;
+
+            case 'DELETE':
+                // do nothing, no data to set
+            break;
+
+            default:
+            throw new Exception(
+                "Unmapped httpActionMethod. '{$this->httpRequestMethod}'"
+            );
+        }//end switch
+
+    }//end setInputData()
+
+
+    private static function parseURL()
+    {
+        $url        = self::$url;
+        self::$data = (object) [];
+        self::$type = $_SERVER['REQUEST_METHOD'];
+
+        self::$segments = explode('/', $url);
+
+        self::$data->getParameters = array_values(array_diff(array_slice(self::$segments, 2), ['']));
+
+    }//end parseURL()
+
+
+    private function setDataFromGet()
+    {
+
+    }//end setDataFromGet()
+
+
+    private function setDataFromPost()
+    {
+
+    }//end setDataFromPost()
+
+
+    private function setDataFromPut()
+    {
+
+    }//end setDataFromPut()
+
+
+    /*
+     * Returns the request type
+     */
+    public static function getType()
+    {
+        return self::$type;
+
+    }
 
     /**
-     * Function for Getrequest.
-     *
-     * @return array
-     **/
-    public function getRequest(): array
+     * @return null
+     */
+    public static function getUrl()
     {
-        if (isset($_GET['src']) && isset($_GET['id'])) {
-            return;
-        } else {
-            // other php instructions
-        }
-
-    }//end GETRequest()
-
+        return self::$url;
+    }
 
     /**
-     * Set context.
-     *
-     * @return void
-     **/
-    public function setContext(): void
+     * @return null
+     */
+    public static function getSegments()
     {
-        $this->context = $_SERVER['PHP_SELF'];
-
-    }//end setContext()
-
-    /**
-     * Get context.
-     *
-     * @return array
-     **/
-    public function getContext(): array
-    {
-            return $this->context;
-
-    }//end getContext()
+        return self::$segments;
+    }//end getType()
 
 
 }//end class
