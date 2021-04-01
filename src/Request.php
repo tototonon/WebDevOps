@@ -22,7 +22,7 @@ class Request implements IRequest
 
     private static $parameters = null;
 
-    public $httpRequestMethod;
+    private $httpRequestVar = null;
 
 
     public function __construct()
@@ -36,7 +36,11 @@ class Request implements IRequest
 
     protected function setHttpRequestMethod()
     {
-        $this->httpRequestMethod = $this->validateHttpRequestMethod($_SERVER['REQUEST_METHOD']);
+        if (!isset($_SERVER['REQUEST_METHOD'])) {
+            return;
+        }
+
+        $this->httpRequestVar = $this->validateHttpRequestMethod($_SERVER['REQUEST_METHOD']);
 
     }//end setHttpRequestMethod()
 
@@ -71,7 +75,7 @@ class Request implements IRequest
 
     protected function setInputData()
     {
-        switch ($this->httpRequestMethod) {
+        switch ($this->httpRequestVar) {
             case 'GET':
             case 'HEAD':
                 $this->setDataFromGet();
@@ -91,7 +95,7 @@ class Request implements IRequest
 
             default:
             throw new Exception(
-                "Unmapped httpActionMethod. '{$this->httpRequestMethod}'"
+                "Unmapped httpActionMethod. '{$this->httpRequestVar}'"
             );
         }//end switch
 
@@ -100,13 +104,8 @@ class Request implements IRequest
 
     private static function parseURL()
     {
-        $url        = self::$url;
-        self::$data = [];
-        self::$type = $_SERVER['REQUEST_METHOD'];
-
+        $url            = self::$url;
         self::$segments = explode('/', $url);
-
-        self::$data->getParameters = array_values(array_diff(array_slice(self::$segments, 2), ['']));
 
     }//end parseURL()
 
@@ -187,6 +186,13 @@ class Request implements IRequest
         self::$data = $data;
 
     }//end setData()
+
+
+    public function __toString()
+    {
+        return 'request example ';
+
+    }//end __toString()
 
 
 }//end class
