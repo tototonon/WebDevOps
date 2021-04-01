@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung;
 
+use Exception;
 
 class Request implements IRequest
 {
 
     // contains the URL of the request
-    private static $url = null;
+    private static $url = 'http://tonon.test';
 
     // contains the request type of the request : GET | POST
     private static $type = null;
 
     // contains the segments of the request
     private static $segments = null;
+
+    private static $data = null;
+
+    private static $parameters = null;
+
+    public $httpRequestMethod;
 
 
     public function __construct()
@@ -37,7 +44,7 @@ class Request implements IRequest
     protected function validateHttpRequestMethod($input)
     {
         if (empty($input)) {
-            throw new InvalidArgumentException('I need valid value');
+            throw new Exception('I need valid value');
         }
 
         switch ($input) {
@@ -48,10 +55,8 @@ class Request implements IRequest
             case 'HEAD':
             return $input;
 
-                break;
             default:
-            throw new InvalidArgumentException('Unexpected value.');
-                break;
+            throw new Exception('Unexpected value.');
         }
 
     }//end validateHttpRequestMethod()
@@ -96,7 +101,7 @@ class Request implements IRequest
     private static function parseURL()
     {
         $url        = self::$url;
-        self::$data = (object) [];
+        self::$data = [];
         self::$type = $_SERVER['REQUEST_METHOD'];
 
         self::$segments = explode('/', $url);
@@ -131,7 +136,8 @@ class Request implements IRequest
     {
         return self::$type;
 
-    }
+    }//end getType()
+
 
     /**
      * @return null
@@ -139,7 +145,9 @@ class Request implements IRequest
     public static function getUrl()
     {
         return self::$url;
-    }
+
+    }//end getUrl()
+
 
     /**
      * @return null
@@ -147,7 +155,38 @@ class Request implements IRequest
     public static function getSegments()
     {
         return self::$segments;
-    }//end getType()
+
+    }//end getSegments()
+
+
+    /**
+     * @return null
+     */
+    public static function getParameters()
+    {
+        return self::$parameters;
+
+    }//end getParameters()
+
+
+    /**
+     * @return null
+     */
+    public static function getData()
+    {
+        return self::$data;
+
+    }//end getData()
+
+
+    /**
+     * @param null $data
+     */
+    public static function setData($data): void
+    {
+        self::$data = $data;
+
+    }//end setData()
 
 
 }//end class
