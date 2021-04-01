@@ -18,35 +18,42 @@ class Request implements IRequest
      **/
     public function __construct()
     {
-        $this->context = $_SERVER;
-        $this->params  = $_REQUEST;
-        $this->ageRequest();
         $this->getContext();
+        $this->ageRequest();
 
     }//end __construct()
 
 
+    /**
+     * Function for request.
+     *
+     * @return void
+     **/
     public function ageRequest(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Get input field value
-            $age = htmlspecialchars($_REQUEST['fage']);
+        if (isset($_SERVER)) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                // Get input field value
+                $age = htmlspecialchars($_REQUEST['fage']);
 
-            // If input field is empty
-            if (empty($age)) {
-                // Display message "Age is empty"
-                echo 'Age is empty';
-
-                // Else if input field is not empty
-            } else {
-                // Display age
-                echo $age;
+                // If input field is empty
+                if (empty($age)) {
+                    echo 'Age is empty';
+                } else {
+                    // Display age
+                    echo $age;
+                }
             }
         }
 
     }//end ageRequest()
 
 
+    /**
+     * Set context.
+     *
+     * @return void
+     **/
     public function setContext(): void
     {
         $this->context = $_SERVER['PHP_SELF'];
@@ -54,6 +61,11 @@ class Request implements IRequest
     }//end setContext()
 
 
+    /**
+     * Set request.
+     *
+     * @return void
+     **/
     public function setRequest(): void
     {
         $this->context = $_REQUEST;
@@ -61,6 +73,11 @@ class Request implements IRequest
     }//end setRequest()
 
 
+    /**
+     * Get context.
+     *
+     * @return array
+     **/
     public function getContext(): array
     {
             return $this->context;
@@ -68,6 +85,11 @@ class Request implements IRequest
     }//end getContext()
 
 
+    /**
+     * Get request.
+     *
+     * @return array
+     **/
     public function getRequest(): array
     {
         return $this->params;
