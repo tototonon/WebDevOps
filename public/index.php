@@ -10,6 +10,6 @@ if (strpos(strtolower($urlPath), 'hello')) {
     }
     echo 'Hello ' . $personToGreet;
 } else {
-    // example path: /foobar
+
     echo 'Hello there!';
 }
