@@ -20,8 +20,5 @@
     "psr-4": {
       "TononT\\Webentwicklung\\": "src/"
     }
-  },
-  "scripts": {
-    "psalm": "vendor/bin/psalm --config=psalm.xml"
   }
 }
