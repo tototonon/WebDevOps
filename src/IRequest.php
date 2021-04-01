@@ -12,7 +12,7 @@ interface IRequest
      **/
 
 
-    public function idRequest();
+    public function setUriProperties();
 
 
 }//end interface
