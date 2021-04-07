@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use TononT\Webentwicklung\Request;
 use TononT\Webentwicklung\Http;
+use TononT\Webentwicklung\Response;
 
 require_once __DIR__ . '/../src/Http.php';
 require __DIR__ . '/../vendor/autoload.php';
@@ -13,12 +14,9 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-
-// TODO
 try {
     $request = new Request();
     $urlPath = 'http://tonon.test';
-
     if (empty($urlPath) === true) {
         echo 'path is empty! ';
         Http::send_http_status(400);
@@ -39,4 +37,9 @@ try {
     echo $ex->getMessage();
 }
 
-echo "success";
+try {
+    $response = new Response();
+    echo $response;
+} catch (Exception $ex) {
+    echo $ex->getMessage();
+}
