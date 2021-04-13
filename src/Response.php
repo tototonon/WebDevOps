@@ -11,9 +11,9 @@ require_once __DIR__.'/../src/Http.php';
 class Response
 {
 
-    private string $body = "jaa";
+    protected $body;
 
-    private int $httpstatus = 1;
+    private  $httpstatus = 1;
 
 
     public function __construct()
