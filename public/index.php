@@ -37,9 +37,3 @@ try {
     echo $ex->getMessage();
 }
 
-try {
-    $response = new Response();
-    echo $response;
-} catch (Exception $ex) {
-    echo $ex->getMessage();
-}
