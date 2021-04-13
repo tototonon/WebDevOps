@@ -9,8 +9,8 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
-    "ext-http": "*"
+    "php": ">=7.3",
+    "php-http/curl-client": "^2.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5.4",
