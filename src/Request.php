@@ -10,7 +10,7 @@ class Request implements IRequest
 {
 
     // contains the URL of the request
-    private static $url = 'http://tonon.test';
+    private static $url;
 
     // contains the request type of the request : GET | POST
     private static $type = null;
@@ -68,11 +68,13 @@ class Request implements IRequest
 
     public function setUriProperties()
     {
-        self::parseURL();
+        self::$url = 'http://tonon.test';
+        //self::parseURL();
 
     }//end setUriProperties()
 
 
+    // set http Action
     protected function setInputData()
     {
         switch ($this->httpRequestVar) {
@@ -102,14 +104,7 @@ class Request implements IRequest
     }//end setInputData()
 
 
-    private static function parseURL()
-    {
-        $url            = self::$url;
-        self::$segments = explode('/', $url);
-
-    }//end parseURL()
-
-
+    // TODO
     private function setDataFromGet()
     {
 
