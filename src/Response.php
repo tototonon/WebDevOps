@@ -13,13 +13,13 @@ class Response
 
     protected $body;
 
-    private  $httpstatus = 1;
+    private  $httpstatus;
 
 
     public function __construct()
     {
-        $this->body;
-       $this->httpstatus;
+        $this->getBody();
+       $this->getHttpstatus();
     }//end __construct()
 
 
