@@ -19,7 +19,6 @@ test:
   dependencies:
     - prepare-dependencies
   script:
-    - "./vendor/bin/psalm --init"
     - "./vendor/bin/psalm --show-info=true"
     - "./vendor/bin/phpcs --standard=PSR12 src public/index.php"
     - "./vendor/bin/phpunit tests"
