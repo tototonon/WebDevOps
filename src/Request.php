@@ -6,11 +6,8 @@ namespace TononT\Webentwicklung;
 
 use Exception;
 
-class Request implements IRequest
+class Request
 {
-
-    // contains the URL of the request
-    private static $url;
 
     // contains the request type of the request : GET | POST
     private static $type = null;
@@ -28,10 +25,22 @@ class Request implements IRequest
     public function __construct()
     {
         $this->setHttpRequestMethod();
-        $this->setUriProperties();
         $this->setInputData();
 
     }//end __construct()
+
+
+    // TODO
+    public function hasHeader()
+    {
+
+    }//end hasHeader()
+
+
+    public function getHeader()
+    {
+
+    }//end getHeader()
 
 
     protected function setHttpRequestMethod()
@@ -43,6 +52,13 @@ class Request implements IRequest
         $this->httpRequestVar = $this->validateHttpRequestMethod($_SERVER['REQUEST_METHOD']);
 
     }//end setHttpRequestMethod()
+
+
+    public function setUrl(string $url)
+    {
+        $this->$url = $_SERVER['REQUEST_URI'];
+
+    }//end setUrl()
 
 
     protected function validateHttpRequestMethod($input)
@@ -64,14 +80,6 @@ class Request implements IRequest
         }
 
     }//end validateHttpRequestMethod()
-
-
-    public function setUriProperties()
-    {
-        self::$url = 'http://tonon.test';
-        //self::parseURL();
-
-    }//end setUriProperties()
 
 
     // set http Action
