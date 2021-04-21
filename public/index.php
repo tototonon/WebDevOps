@@ -14,18 +14,16 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-try {
-    $request = new Request();
-    if (isset($request) === true) {
-        echo $request;
-    } else {
-        if ($request !== null) {
-            echo 'The request is: ';
-            echo $request;
-        }
-    }
-} catch (Exception $ex) {
-    echo $ex->getMessage();
+$request = new Request();
+$request->setUrl($_SERVER['REQUEST_URI']);
+$request->setParameters($_REQUEST);
 
+$response = new Response();
 
-}
+$router = new Router();
+
+$router->addRoute('/blog/show', [BlogController::class, 'show']);
+$router->route($request, $response);
+
+http_response_code($response->getStatusCode());
+echo $response->getBody();
