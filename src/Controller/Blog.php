@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Controller;
@@ -11,21 +10,23 @@ use TononT\Webentwicklung\View\Blog\Show;
 
 class Blog
 {
+
+
     /**
-     * @param IRequest $request
+     * @param IRequest  $request
      * @param IResponse $response
      */
     public function show(IRequest $request, IResponse $response): void
     {
-        $blogEntryFixture1 = new \stdClass();
-        $blogEntryFixture1->title = 'How to blog';
+        $blogEntryFixture1         = new \stdClass();
+        $blogEntryFixture1->title  = 'How to blog';
         $blogEntryFixture1->author = 'Ernie';
-        $blogEntryFixture1->text = 'Lorem ipsum dolor sit amet, anim id est laborum.';
+        $blogEntryFixture1->text   = 'Lorem ipsum dolor sit amet, anim id est laborum.';
 
-        $blogEntryFixture2 = new \stdClass();
-        $blogEntryFixture2->title = 'MVC made easy';
+        $blogEntryFixture2         = new \stdClass();
+        $blogEntryFixture2->title  = 'MVC made easy';
         $blogEntryFixture2->author = 'Bert';
-        $blogEntryFixture2->text = 'Pulvinar fames non phasellus dignissim imperdiet sociosqu magna dictum gravida.';
+        $blogEntryFixture2->text   = 'Pulvinar fames non phasellus dignissim imperdiet sociosqu magna dictum gravida.';
 
         $view = new Show();
 
@@ -34,5 +35,5 @@ class Blog
         if (preg_match('/\/mvc(\?|$)/', $request->getUrl()) === 1) {
             $response->setBody($view->render(['entry' => $blogEntryFixture2]));
         }
-    }
-}
+    }//end show()
+}//end class
