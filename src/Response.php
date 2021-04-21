@@ -16,17 +16,17 @@ class Response
     /**
      * @var string
      */
-   // protected $body;
+   protected string $body;
 
     /**
      * @var integer
      */
-    protected $statusCode = 200;
+    protected int $statusCode = 200;
 
     /**
      * @var array
      */
-    protected  $headers;
+    protected array $headers;
 
 
     /**
