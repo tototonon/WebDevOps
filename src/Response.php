@@ -8,7 +8,7 @@ use Exception;
 
 require_once __DIR__.'/../src/Http.php';
 
-class Response
+class Response implements IResponse
 {
 
     private $httpstatus;
