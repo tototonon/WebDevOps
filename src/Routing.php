@@ -16,7 +16,7 @@ class Routing
     /**
      * @var array
      */
-    protected $routes = [];
+    protected array $routes = [];
 
     /**
      * @param string $route
