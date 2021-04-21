@@ -29,9 +29,14 @@ class Request implements IRequest
     /**
      * @param mixed $url
      */
-    public function setUrl($url): void
+    public function setUrl(mixed $url): void
     {
-        $this->url = $url;
+        if (!empty($url)) {
+            $this->url = $url;
+        }
+        else {
+            new Exception("url not found");
+        }
     }
 
     /**

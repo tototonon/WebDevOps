@@ -12,9 +12,9 @@ interface IRequest
     public function getUrl(): string;
 
     /**
-     * @param string $url
+     * @param mixed $url
      */
-    public function setUrl(string $url): void;
+    public function setUrl(mixed $url): void;
 
     /**
      * @return array
