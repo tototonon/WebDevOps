@@ -6,7 +6,8 @@ use TononT\Webentwicklung\Request;
 use TononT\Webentwicklung\Http;
 use TononT\Webentwicklung\Response;
 use TononT\Webentwicklung\Routing;
-use TononT\Webentwicklung\Controller;
+use TononT\Webentwicklung\Controller\Blog as BlogController;
+
 require_once __DIR__ . '/../src/Http.php';
 require __DIR__ . '/../vendor/autoload.php';
 
