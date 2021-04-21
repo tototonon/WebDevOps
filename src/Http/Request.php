@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TononT\Webentwicklung;
+namespace TononT\Webentwicklung\Http;
 
 use Exception;
 

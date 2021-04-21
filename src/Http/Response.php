@@ -1,12 +1,11 @@
 <?php
 
 
-namespace TononT\Webentwicklung;
+namespace TononT\Webentwicklung\Http;
 
 
 use Exception;
 
-require_once __DIR__.'/../src/Http.php';
 
 class Response implements IResponse
 {
