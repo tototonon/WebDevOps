@@ -10,6 +10,7 @@ require_once __DIR__.'/../src/Request.php';
 use TononT\Webentwicklung\IRequest;
 use TononT\Webentwicklung\IResponse;
 
+
 class Routing
 {
 
@@ -31,7 +32,7 @@ class Routing
      * @param RequestInterface $request
      * @param ResponseInterface $response
      */
-    public function route(RequestInterface $request, ResponseInterface $response)
+    public function route(IRequest $request, IResponse $response)
     {
         $url = strtolower($request->getUrl());
         foreach ($this->routes as $route => $controller) {
