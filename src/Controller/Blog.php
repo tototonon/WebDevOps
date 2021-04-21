@@ -5,17 +5,17 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Controller;
 
-use TononT\Webentwicklung\IRequest;
-use TononT\Webentwicklung\IResponse;
+use TononT\Webentwicklung\Http\IResponse;
+use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\View\Blog\Show;
 
 class Blog
 {
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
+     * @param IRequest $request
+     * @param IResponse $response
      */
-    public function show(RequestInterface $request, ResponseInterface $response): void
+    public function show(IRequest $request, IResponse $response): void
     {
         $blogEntryFixture1 = new \stdClass();
         $blogEntryFixture1->title = 'How to blog';
