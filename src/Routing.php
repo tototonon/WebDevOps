@@ -5,10 +5,8 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung;
 
-require_once __DIR__.'/../src/Request.php';
-
-use TononT\Webentwicklung\IRequest;
-use TononT\Webentwicklung\IResponse;
+use TononT\Webentwicklung\Http\IRequest;
+use TononT\Webentwicklung\Http\IResponse;
 
 
 class Routing
@@ -29,8 +27,8 @@ class Routing
     }
 
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
+     * @param IRequest $request
+     * @param IResponse $response
      */
     public function route(IRequest $request, IResponse $response)
     {
