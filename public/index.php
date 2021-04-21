@@ -5,6 +5,7 @@ declare(strict_types=1);
 use TononT\Webentwicklung\Request;
 use TononT\Webentwicklung\Http;
 use TononT\Webentwicklung\Response;
+use TononT\Webentwicklung\Routing;
 
 require_once __DIR__ . '/../src/Http.php';
 require __DIR__ . '/../vendor/autoload.php';
@@ -20,7 +21,7 @@ $request->setParameters($_REQUEST);
 
 $response = new Response();
 
-$router = new Router();
+$router = new Routing();
 
 $router->addRoute('/blog/show', [BlogController::class, 'show']);
 $router->route($request, $response);
