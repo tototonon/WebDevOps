@@ -11,12 +11,12 @@ class Request implements IRequest
     /**
      * @var string
      */
-    protected $url;
+    protected string $url = '';
 
     /**
      * @var array
      */
-    protected $parameters;
+    protected array $parameters;
 
     /**
      * @return string
