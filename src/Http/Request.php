@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Http;
 
-use Exception;
 
 class Request implements IRequest
 {
     /**
      * @var string
      */
-    protected string $url = '';
+    private string $url = '';
 
     /**
      * @var array
@@ -29,14 +28,10 @@ class Request implements IRequest
     /**
      * @param mixed $url
      */
-    public function setUrl(mixed $url): void
+    public function setUrl($url): void
     {
-        if (!empty($url)) {
-            $this->url = $url;
-        }
-        else {
-            new Exception("url not found");
-        }
+            $this->$url = $url;
+
     }
 
     /**
@@ -82,23 +77,4 @@ class Request implements IRequest
         return isset($this->parameters[$name]);
     }
 
-    protected function validateHttpRequestMethod($input)
-    {
-        if (empty($input)) {
-            throw new Exception('I need valid value');
-        }
-
-        switch ($input) {
-            case 'GET':
-            case 'POST':
-            case 'PUT':
-            case 'DELETE':
-            case 'HEAD':
-                return $input;
-
-            default:
-                throw new Exception('Unexpected value.');
-        }
-
-    }//end validateHttpRequestMethod()
 }

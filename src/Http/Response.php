@@ -4,29 +4,25 @@
 namespace TononT\Webentwicklung\Http;
 
 
-use Exception;
-
 
 class Response implements IResponse
 {
 
-    private $httpstatus;
 
     /**
      * @var string
      */
-   protected string $body;
+    protected string $body;
 
     /**
-     * @var integer
+     * @var int
      */
     protected int $statusCode = 200;
 
     /**
      * @var array
      */
-    protected array $headers;
-
+    protected array $headers = [];
 
     /**
      * @return string
@@ -34,9 +30,7 @@ class Response implements IResponse
     public function getBody(): string
     {
         return $this->body;
-
-    }//end getBody()
-
+    }
 
     /**
      * @param mixed $body
@@ -44,40 +38,32 @@ class Response implements IResponse
     public function setBody($body): void
     {
         $this->body = $body;
-
-    }//end setBody()
-
+    }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getStatusCode(): int
     {
         return $this->statusCode;
-
-    }//end getStatusCode()
-
+    }
 
     /**
-     * @param integer $statusCode
+     * @param int $statusCode
      */
     public function setStatusCode(int $statusCode): void
     {
         $this->statusCode = $statusCode;
-
-    }//end setStatusCode()
-
+    }
 
     /**
-     * @param  string $name
+     * @param string $name
      * @return string
      */
     public function getHeader(string $name): string
     {
         return $this->headers[$name];
-
-    }//end getHeader()
-
+    }
 
     /**
      * @return array
@@ -85,9 +71,7 @@ class Response implements IResponse
     public function getHeaders(): array
     {
         return $this->headers;
-
-    }//end getHeaders()
-
+    }
 
     /**
      * @param string $name
@@ -96,9 +80,7 @@ class Response implements IResponse
     public function setHeader(string $name, string $header): void
     {
         $this->headers[$name] = $header;
-
-    }//end setHeader()
-
+    }
 
     /**
      * @param array $headers
@@ -106,43 +88,17 @@ class Response implements IResponse
     public function setHeaders(array $headers): void
     {
         $this->headers = $headers;
-
-    }//end setHeaders()
-
+    }
 
     /**
-     * @param  string $name
-     * @return boolean
+     * @param string $name
+     * @return bool
      */
     public function hasHeader(string $name): bool
     {
         return isset($this->headers[$name]);
+    }
 
-    }//end hasHeader()
-
-
-    /**
-     * @return integer
-     */
-    public function getHttpstatus(): int
-    {
-        return $this->httpstatus;
-
-    }//end getHttpstatus()
-
-
-    /**
-     * @param integer $httpstatus
-     */
-    public function setHttpstatus(int $httpstatus): void
-    {
-        if ($httpstatus != 0 && null) {
-            $this->httpstatus = Http::send_http_status($httpstatus);
-        } else {
-            throw new Exception('Http-status-code error');
-        }
-
-    }//end setHttpstatus()
 
 
 }//end class
