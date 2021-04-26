@@ -7,7 +7,6 @@ namespace TononT\Webentwicklung;
 
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
-use function call_user_func;
 
 
 class Routing
@@ -16,7 +15,7 @@ class Routing
     /**
      * @var array
      */
-    protected array $routes = [];
+    private array $routes = [];
 
 
     /**
@@ -25,7 +24,7 @@ class Routing
      */
     public function addRoute(string $route, callable $controller)
     {
-        $this->routes[$route] = $controller;
+           $this->routes[$route] = $controller;
 
     }//end addRoute()
 

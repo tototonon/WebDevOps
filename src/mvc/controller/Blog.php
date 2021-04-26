@@ -8,9 +8,13 @@ use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\View\Blog\Show;
 
+/**
+ * Class Blog
+ * @package TononT\Webentwicklung\Controller
+ */
+
 class Blog
 {
-
 
     /**
      * @param IRequest  $request
