@@ -1,26 +1,37 @@
 <?php
 
 
-namespace TononT\Webentwicklung\api\config;
+namespace TononT\Webentwicklung\mvc\model;
+
 use PDO;
 use PDOException;
 
 class Connection
 {
-    // specify your own database credentials
-    private $conn = null;
 
-    // get the database connection
-    public function getConnection(){
+    private $dbConnection = null;
 
-        try{
-          $this->conn = new PDO("mysql:host=localhost;dbname=api_db","timonTonon","420");
-            $this->conn->exec("set names utf8");
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Connected successfully";
-        }catch(PDOException $exception){
-            echo "Connection error: " . $exception->getMessage();
+    public function __construct()
+    {
+        $host = getenv('DB_HOST');
+        $port = getenv('DB_PORT');
+        $db   = getenv('DB_DATABASE');
+        $user = getenv('DB_USERNAME');
+        $pass = getenv('DB_PASSWORD');
+
+        try {
+            $this->dbConnection = new \PDO(
+                "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
+                $user,
+                $pass
+            );
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
         }
-        return $this->conn;
+    }
+
+    public function getConnection()
+    {
+        return $this->dbConnection;
     }
 }

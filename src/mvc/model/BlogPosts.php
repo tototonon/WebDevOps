@@ -1,7 +1,7 @@
 <?php
 
 
-namespace TononT\Webentwicklung\api\config;
+namespace TononT\Webentwicklung\mvc\model;
 
 
 class BlogPosts
