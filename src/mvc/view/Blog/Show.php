@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TononT\Webentwicklung\View\Blog;
-
+namespace TononT\Webentwicklung\mvc\view\Blog;
 
 class Show
 {
@@ -16,7 +15,7 @@ class Show
     {
         extract($data);
         ob_start();
-        require dirname(dirname(dirname(__DIR__))) . '/view/templates/blog/show.html';
+        require dirname(dirname(dirname(dirname(__DIR__)))) . '/View/templates/blog/show.html';
         return ob_get_clean();
     }
 }

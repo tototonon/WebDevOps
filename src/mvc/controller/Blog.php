@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace TononT\Webentwicklung\Controller;
+namespace TononT\Webentwicklung\mvc\controller;
 
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
-use TononT\Webentwicklung\View\Blog\Show;
+use TononT\Webentwicklung\mvc\view\Blog\Show;
 
 /**
  * Class Blog
- * @package TononT\Webentwicklung\Controller
+ * @package TononT\Webentwicklung\controller
  */
 
 class Blog
