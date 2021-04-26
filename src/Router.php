@@ -2,32 +2,27 @@
 
 declare(strict_types=1);
 
-
 namespace TononT\Webentwicklung;
 
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
 
-
-class Routing
+class Router
 {
 
     /**
      * @var array
      */
-    private array $routes = [];
-
+   private array $routes = [];
 
     /**
      * @param string   $route
      * @param callable $controller
-     */
+*/
     public function addRoute(string $route, callable $controller)
     {
            $this->routes[$route] = $controller;
-
     }//end addRoute()
-
 
     /**
      * @param IRequest  $request
@@ -38,14 +33,12 @@ class Routing
         $url = strtolower($request->getUrl());
         foreach ($this->routes as $route => $controller) {
             if (strpos($url, $route) !== false) {
-                call_user_func($controller, $request, $response);
+                \call_user_func($controller, $request, $response);
                 return;
             }
         }
 
         $response->setBody('Hello there!');
-
-    }//end route()
-
+    }
 
 }//end class
