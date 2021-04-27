@@ -17,6 +17,7 @@ class Request implements IRequest
      */
     protected array $parameters;
 
+
     /**
      * @return string
      */
@@ -30,8 +31,10 @@ class Request implements IRequest
      */
     public function setUrl($url): void
     {
-            $this->$url = $url;
 
+        if(isset($url)) {
+            $this->url = $url;
+        } else $this->url = "https://tonon.test/blog/show";
     }
 
     /**

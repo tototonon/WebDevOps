@@ -24,13 +24,14 @@ class Router
            $this->routes[$route] = $controller;
     }//end addRoute()
 
+
     /**
      * @param IRequest  $request
      * @param IResponse $response
      */
     public function route(IRequest $request, IResponse $response)
     {
-        $url = strtolower($request->getUrl());
+        $url =  strtolower($request->getUrl());
         foreach ($this->routes as $route => $controller) {
             if (strpos($url, $route) !== false) {
                 \call_user_func($controller, $request, $response);
