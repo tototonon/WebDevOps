@@ -61,6 +61,6 @@ class Blog
         $entry = $repository->getByUrlKey($potentialUrlKey);
         // TODO here we would need error handling for our 404 handling
         $response->setBody($view->render(['entry' => $entry]));
-*/
+
     }//end show()
 }//end class
