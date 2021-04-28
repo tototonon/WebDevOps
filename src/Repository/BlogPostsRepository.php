@@ -22,7 +22,9 @@ class BlogPostsRepository extends AbstractRepository
      */
     public function getByUrlKey(string $urlKey)
     {
-        $query = $this->connection->prepare('select * from blog_posts where url_key = :urlKey');
+        if (isset($this->connection)) {
+            $query = $this->connection->prepare('select * from blog_posts where url_key = :urlKey');
+        }
         $query->bindParam(':urlKey', $urlKey);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
