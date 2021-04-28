@@ -28,6 +28,7 @@ class Blog
      */
     public function show(IRequest $request, IResponse $response): void
     {
+        /**
         $blogEntryFixture1 = new \stdClass();
         $blogEntryFixture1->title = 'How to blog';
         $blogEntryFixture1->author = 'Ernie';
@@ -38,7 +39,7 @@ class Blog
         $blogEntryFixture2->author = 'Bert';
         $blogEntryFixture2->text = 'Pulvinar fames non phasellus dignissim imperdiet sociosqu magna dictum gravida.';
 
-        $view = new AbstractShow();
+        $view = new Show();
 
         $response->setBody($view->render(['entry' => $blogEntryFixture1]));
 
@@ -46,7 +47,9 @@ class Blog
             $response->setBody($view->render(['entry' => $blogEntryFixture2]));
         }
 
-        /**
+    }
+         * */
+
         $repository = new BlogPostsRepository();
         $view = new AbstractShow();
 
