@@ -6,7 +6,7 @@ namespace TononT\Webentwicklung\mvc\controller;
 
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
-use TononT\Webentwicklung\mvc\view\Blog\Show;
+use TononT\Webentwicklung\mvc\view\Blog\AbstractShow;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 /**
@@ -24,7 +24,7 @@ class Blog
     public function show(IRequest $request, IResponse $response): void
     {
         $repository = new BlogPostsRepository();
-        $view = new Show();
+        $view = new AbstractShow();
 
         // extract URL key from call
         $lastSlash = strripos($request->getUrl(), '/') ?: 0;
