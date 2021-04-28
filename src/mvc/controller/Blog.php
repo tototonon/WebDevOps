@@ -7,6 +7,7 @@ namespace TononT\Webentwicklung\mvc\controller;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\view\Blog\Show;
+use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 /**
  * Class Blog
@@ -22,22 +23,17 @@ class Blog
      */
     public function show(IRequest $request, IResponse $response): void
     {
-        $blogEntryFixture1         = new \stdClass();
-        $blogEntryFixture1->title  = 'How to blog';
-        $blogEntryFixture1->author = 'Ernie';
-        $blogEntryFixture1->text   = 'Lorem ipsum dolor sit amet, anim id est laborum.';
-
-        $blogEntryFixture2         = new \stdClass();
-        $blogEntryFixture2->title  = 'MVC made easy';
-        $blogEntryFixture2->author = 'Bert';
-        $blogEntryFixture2->text   = 'Pulvinar fames non phasellus dignissim imperdiet sociosqu magna dictum gravida.';
-
+        $repository = new BlogPostsRepository();
         $view = new Show();
 
-        $response->setBody($view->render(['entry' => $blogEntryFixture1]));
+        // extract URL key from call
+        $lastSlash = strripos($request->getUrl(), '/') ?: 0;
+        $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
 
-        if (preg_match('/\/mvc(\?|$)/', $request->getUrl()) === 1) {
-            $response->setBody($view->render(['entry' => $blogEntryFixture2]));
-        }
+        // get blog entry from database
+        $entry = $repository->getByUrlKey($potentialUrlKey);
+        // TODO here we would need error handling for our 404 handling
+        $response->setBody($view->render(['entry' => $entry]));
+
     }//end show()
 }//end class
