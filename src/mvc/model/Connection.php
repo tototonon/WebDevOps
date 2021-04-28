@@ -3,35 +3,44 @@
 
 namespace TononT\Webentwicklung\mvc\model;
 
-use PDO;
-use PDOException;
+use Dotenv\Dotenv;
 
-class Connection
+abstract class Connection
 {
 
-    private $dbConnection = null;
+    /**
+     * @var \PDO
+     */
+    protected \PDO $connection;
 
-    public function __construct()
+    /**
+     * @return \PDO
+     */
+    protected function getConnection(): \PDO
     {
-        $host = getenv('DB_HOST');
-        $port = getenv('DB_PORT');
-        $db   = getenv('DB_DATABASE');
-        $user = getenv('DB_USERNAME');
-        $pass = getenv('DB_PASSWORD');
+        return $this->connection;
+    }
+
+    /**
+     *
+     */
+    protected function connectToDb(): void
+    {
+        $dotenv = Dotenv::createImmutable(dirname(dirname(__DIR__)));
+        $dotenv->load();
 
         try {
-            $this->dbConnection = new \PDO(
-                "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
-                $user,
-                $pass
+            $connection = new \PDO(
+                $_ENV['DB_DSN'],
+                $_ENV['DB_USER'],
+                $_ENV['DB_PASSWORD']
             );
+            // set the PDO error mode to exception
+            $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->connection = $connection;
         } catch (\PDOException $e) {
-            exit($e->getMessage());
+            echo "Connection failed: " . $e->getMessage();
         }
     }
 
-    public function getConnection()
-    {
-        return $this->dbConnection;
-    }
 }
