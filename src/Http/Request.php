@@ -32,9 +32,9 @@ class Request implements IRequest
     public function setUrl($url): void
     {
 
-        if(isset($url)) {
+        if(!empty($url)) {
             $this->url = $url;
-        } else $this->url = "https://tonon.test/blog/show";
+        }
     }
 
     /**
