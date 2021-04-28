@@ -7,8 +7,8 @@ cache/*
 !cache/.gitkeep
 
 # Configuration and Environment
-.env*
-!.env.example
+.env
+!.env
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,linux,windows,symfony,composer,jetbrains+all,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,windows,symfony,composer,jetbrains+all,node
