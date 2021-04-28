@@ -16,12 +16,18 @@ class Router
    private array $routes = [];
 
     /**
-     * @param string   $route
-     * @param callable $controller
-*/
-    public function addRoute(string $route, callable $controller)
+     * @param string $route
+     * @param string $controllerName
+     * @param string $actionName
+     */
+
+    public function addRoute(string $route, string $controllerName, string $actionName)
     {
-           $this->routes[$route] = $controller;
+        $this->routes[$route] = [
+            'controller' => $controllerName,
+            'action' => $actionName
+        ];
+
     }//end addRoute()
 
 
@@ -31,12 +37,15 @@ class Router
      */
     public function route(IRequest $request, IResponse $response)
     {
-        $url =  strtolower($request->getUrl());
-        foreach ($this->routes as $route => $controller) {
+        $url = strtolower($request->getUrl());
+        foreach ($this->routes as $route => $controllerArray) {
             if (strpos($url, $route) !== false) {
-                \call_user_func($controller, $request, $response);
+                $controller = new $controllerArray['controller']();
+                $action = $controllerArray['action'];
+                $controller->$action($request, $response);
                 return;
             }
+
         }
 
         $response->setBody('Hello there!');
