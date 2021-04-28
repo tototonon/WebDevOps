@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
-
-namespace TononT\Webentwicklung\mvc\model;
+namespace TononT\Webentwicklung\Repository;
 
 use Dotenv\Dotenv;
 
-abstract class Connection
+abstract class AbstractRepository
 {
 
     /**

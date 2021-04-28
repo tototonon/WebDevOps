@@ -17,15 +17,13 @@ $request->setUrl($_SERVER['REQUEST_URI']);
 $request->setParameters($_REQUEST);
 $response = new Response();
 $router = new Router();
-$router->addRoute("/blog/show",[new BlogController(),"show"]);
+$router->addRoute('/blog/show', BlogController::class, 'show');
 $router->route($request, $response);
-//$conn =new Connection();
-//$db = $conn->getConnection();
-//$blogposts = new BlogPosts($db);
 http_response_code($response->getStatusCode());
 echo $response->getBody();
 
 echo "**". $_SERVER['REQUEST_URI'] . "**";
+echo "**". $_SERVER['REQUEST_METHOD'] . "**";
 
 
 

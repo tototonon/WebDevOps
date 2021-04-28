@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\view\Blog;
 
-class Show
+ class AbstractShow
 {
 
     /**
