@@ -13,7 +13,7 @@ class Router
     /**
      * @var array
      */
-   private array $routes = [];
+    private array $routes = [];
 
     /**
      * @param string $route
@@ -32,8 +32,9 @@ class Router
 
 
     /**
-     * @param IRequest  $request
+     * @param IRequest $request
      * @param IResponse $response
+     * @throws NotFoundException
      */
     public function route(IRequest $request, IResponse $response)
     {
@@ -46,9 +47,9 @@ class Router
                 return;
             }
 
+
         }
+        throw new NotFoundException();
 
-        $response->setBody('Hello there!');
-    }
-
-}//end class
+    }//end class
+}
