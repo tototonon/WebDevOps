@@ -5,6 +5,7 @@ namespace TononT\Webentwicklung\Repository;
 
 
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\view\Blog\ShowBlog;
 
 class BlogPostsRepository extends AbstractRepository
 {
@@ -41,6 +42,7 @@ class BlogPostsRepository extends AbstractRepository
         $result->text = $resultData['text'];
         return $result;
     }
+
 
 
 }
