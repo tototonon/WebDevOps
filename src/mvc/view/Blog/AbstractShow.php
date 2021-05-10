@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\view\Blog;
 
-class AbstractShow
+abstract class AbstractShow
 {
+
+    /**
+     * @return string
+     */
+    abstract protected function getTemplatePath(): string;
 
     /**
      * @param array $data
@@ -15,7 +20,8 @@ class AbstractShow
     {
         extract($data);
         ob_start();
-        require dirname(dirname(dirname(dirname(__DIR__)))) . '/View/templates/blog/show.html';
+        require dirname(dirname(dirname(dirname(__DIR__)))) . $this->getTemplatePath();
         return ob_get_clean();
     }
+
 }
