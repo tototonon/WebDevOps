@@ -5,7 +5,7 @@ namespace TononT\Webentwicklung\Repository;
 
 
 use TononT\Webentwicklung\mvc\model\BlogPosts;
-use TononT\Webentwicklung\mvc\view\Blog\ShowBlog;
+use TononT\Webentwicklung\mvc\view\Blog\Show;
 
 class BlogPostsRepository extends AbstractRepository
 {
@@ -15,6 +15,20 @@ class BlogPostsRepository extends AbstractRepository
     public function __construct()
     {
         $this->connectToDb();
+    }
+    /**
+     * @param BlogPosts $blogPosts
+     */
+    public function add(BlogPosts $blogPosts): void
+    {
+        $query = $this->connection->prepare(
+            'insert into blog_posts (title, url_key, author, text) values (:title, :urlKey, :author, :text); '
+        );
+        $query->bindParam(':title', $blogPosts->title);
+        $query->bindParam(':urlKey', $blogPosts->urlKey);
+        $query->bindParam(':author', $blogPosts->author);
+        $query->bindParam(':text', $blogPosts->text);
+        $query->execute();
     }
 
     /**
