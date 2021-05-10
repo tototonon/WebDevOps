@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\mvc\view\Blog;
 
 
-class ShowBlog extends AbstractShow
+class Show extends AbstractShow
 {
 
     /**
@@ -13,7 +13,7 @@ class ShowBlog extends AbstractShow
      */
     protected function getTemplatePath(): string
     {
-        return '/view/templates/blog/show.html';
+        return '\view\templates\blog\show.html';
     }
 
 }
