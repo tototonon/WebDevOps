@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
+
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\view\Blog\AbstractShow;
+use TononT\Webentwicklung\mvc\view\Blog\ShowBlog;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 /**
@@ -18,8 +20,7 @@ class Blog
 {
     public function add(IRequest $request, IResponse $response): void
     {
-        $repository = new BlogPostsRepository();
-        $view = new AbstractShow();
+
     }
 
     /**
@@ -58,8 +59,18 @@ class Blog
         $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
 
         // get blog entry from database
-        $entry = $repository->getByUrlKey($potentialUrlKey);
-        // TODO here we would need error handling for our 404 handling
+        try {
+            $entry = $repository->getByUrlKey($potentialUrlKey);
+            if($entry == null) {
+                 $view = new ShowBlog();
+
+            }
+            // TODO here we would need error handling for our 404 handling
+        } catch (\Exception $e) {
+            $view = new ShowBlog();
+            http_response_code($response->getStatusCode());
+            echo $response->getBody();
+        }
         $response->setBody($view->render(['entry' => $entry]));
 
     }//end show()
