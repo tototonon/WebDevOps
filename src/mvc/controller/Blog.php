@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
+
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\view\Blog\AbstractShow;
+use TononT\Webentwicklung\mvc\view\Blog\ShowBlog;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 /**
@@ -18,8 +20,7 @@ class Blog
 {
     public function add(IRequest $request, IResponse $response): void
     {
-        $repository = new BlogPostsRepository();
-        $view = new AbstractShow();
+
     }
 
     /**
@@ -28,6 +29,7 @@ class Blog
      */
     public function show(IRequest $request, IResponse $response): void
     {
+        /**
         $blogEntryFixture1 = new \stdClass();
         $blogEntryFixture1->title = 'How to blog';
         $blogEntryFixture1->author = 'Ernie';
@@ -38,7 +40,7 @@ class Blog
         $blogEntryFixture2->author = 'Bert';
         $blogEntryFixture2->text = 'Pulvinar fames non phasellus dignissim imperdiet sociosqu magna dictum gravida.';
 
-        $view = new AbstractShow();
+        $view = new Show();
 
         $response->setBody($view->render(['entry' => $blogEntryFixture1]));
 
@@ -46,7 +48,9 @@ class Blog
             $response->setBody($view->render(['entry' => $blogEntryFixture2]));
         }
 
-        /**
+    }
+         * */
+
         $repository = new BlogPostsRepository();
         $view = new AbstractShow();
 
@@ -55,9 +59,19 @@ class Blog
         $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
 
         // get blog entry from database
-        $entry = $repository->getByUrlKey($potentialUrlKey);
-        // TODO here we would need error handling for our 404 handling
+        try {
+            $entry = $repository->getByUrlKey($potentialUrlKey);
+            if($entry == null) {
+                 $view = new ShowBlog();
+
+            }
+            // TODO here we would need error handling for our 404 handling
+        } catch (\Exception $e) {
+            $view = new ShowBlog();
+            http_response_code($response->getStatusCode());
+            echo $response->getBody();
+        }
         $response->setBody($view->render(['entry' => $entry]));
-*/
+
     }//end show()
 }//end class

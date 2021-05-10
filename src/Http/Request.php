@@ -32,10 +32,9 @@ class Request implements IRequest
     public function setUrl($url): void
     {
 
-        if(!empty($url)) {
+        if(isset($url))
             $this->url = $url;
         }
-    }
 
     /**
      * @return array

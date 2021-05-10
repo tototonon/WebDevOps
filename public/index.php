@@ -22,8 +22,7 @@ $router->route($request, $response);
 http_response_code($response->getStatusCode());
 echo $response->getBody();
 
-echo "**". $_SERVER['REQUEST_URI'] . "**";
-echo "**". $_SERVER['REQUEST_METHOD'] . "**";
+
 
 
 

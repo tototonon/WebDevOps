@@ -5,6 +5,7 @@ namespace TononT\Webentwicklung\Repository;
 
 
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\view\Blog\ShowBlog;
 
 class BlogPostsRepository extends AbstractRepository
 {
@@ -22,16 +23,13 @@ class BlogPostsRepository extends AbstractRepository
      */
     public function getByUrlKey(string $urlKey)
     {
-        if (isset($this->connection)) {
-            $query = $this->connection->prepare('select * from blog_posts where url_key = :urlKey');
-        }
+        $query = $this->connection->prepare("select * from blog_posts where url_key=:urlKey");
         $query->bindParam(':urlKey', $urlKey);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
         $resultData = $query->fetch();
 
         if (!$resultData) {
-            echo  $resultData;
             return null;
         }
 
@@ -44,5 +42,7 @@ class BlogPostsRepository extends AbstractRepository
         $result->text = $resultData['text'];
         return $result;
     }
+
+
 
 }
