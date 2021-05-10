@@ -7,9 +7,12 @@ namespace TononT\Webentwicklung\mvc\controller;
 
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
-use TononT\Webentwicklung\mvc\view\Blog\AbstractShow;
-use TononT\Webentwicklung\mvc\view\Blog\ShowBlog;
+use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
+use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
+use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
+use Respect\Validation\Validator;
 
 /**
  * Class Blog
@@ -18,10 +21,42 @@ use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 class Blog
 {
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
     public function add(IRequest $request, IResponse $response): void
     {
+        if (!$request->hasParameter('title')) {
+            // render the form
+            $view = new AddView();
+            $response->setBody($view->render([]));
+        } else {
+            // do the validation here
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['title']);
+            Validator::allOf(
+                Validator::notEmpty(),
+                Validator::stringType()
+            )->check($request->getParameters()['urlKey']);
+            Validator::allOf(
+                Validator::notEmpty(),
+                Validator::stringType()
+            )->check($request->getParameters()['author']);
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
 
+            // create a database entry
+            $blogPost = new BlogPosts();
+            $blogPost->title = $request->getParameter('title');
+            $blogPost->urlKey = $request->getParameter('urlKey');
+            $blogPost->author = $request->getParameter('author');
+            $blogPost->text = $request->getParameter('text');
+            $repository = new BlogPostsRepository();
+            $repository->add($blogPost);
+            $response->setBody('great success');
+        }
     }
+
+
 
     /**
      * @param IRequest  $request
@@ -52,25 +87,25 @@ class Blog
          * */
 
         $repository = new BlogPostsRepository();
-        $view = new AbstractShow();
+        $view = new ShowView();
 
         // extract URL key from call
         $lastSlash = strripos($request->getUrl(), '/') ?: 0;
         $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
 
         // get blog entry from database
-        try {
             $entry = $repository->getByUrlKey($potentialUrlKey);
-            if($entry == null) {
-                 $view = new ShowBlog();
-
+            if (!$entry) {
+                throw new NotFoundException();
             }
-            // TODO here we would need error handling for our 404 handling
-        } catch (\Exception $e) {
-            $view = new ShowBlog();
-            http_response_code($response->getStatusCode());
-            echo $response->getBody();
-        }
+
+            // escaping the entry fields with htmlspecialchars
+            // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
+            foreach ($entry as $key => $item) {
+                $entry->$key = htmlspecialchars($item);
+            }
+
+
         $response->setBody($view->render(['entry' => $entry]));
 
     }//end show()
