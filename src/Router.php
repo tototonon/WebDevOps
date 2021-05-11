@@ -49,7 +49,9 @@ class Router
 
 
         }
-        throw new NotFoundException();
+        $response->setBody("huhu");
+        //throw new NotFoundException();
+
 
     }//end class
 }
