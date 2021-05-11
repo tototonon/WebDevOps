@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
-
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
@@ -43,6 +42,8 @@ class Blog
                 Validator::stringType()
             )->check($request->getParameters()['author']);
             Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['file']);
+
 
             // create a database entry
             $blogPost = new BlogPosts();
@@ -50,6 +51,7 @@ class Blog
             $blogPost->urlKey = $request->getParameter('urlKey');
             $blogPost->author = $request->getParameter('author');
             $blogPost->text = $request->getParameter('text');
+            $blogPost->file = $request->getParameter('file');
             $repository = new BlogPostsRepository();
             $repository->add($blogPost);
             $response->setBody('great success');
@@ -64,27 +66,6 @@ class Blog
      */
     public function show(IRequest $request, IResponse $response): void
     {
-        /**
-        $blogEntryFixture1 = new \stdClass();
-        $blogEntryFixture1->title = 'How to blog';
-        $blogEntryFixture1->author = 'Ernie';
-        $blogEntryFixture1->text = 'Lorem ipsum dolor sit amet, anim id est laborum.';
-
-        $blogEntryFixture2 = new \stdClass();
-        $blogEntryFixture2->title = 'MVC made easy';
-        $blogEntryFixture2->author = 'Bert';
-        $blogEntryFixture2->text = 'Pulvinar fames non phasellus dignissim imperdiet sociosqu magna dictum gravida.';
-
-        $view = new Show();
-
-        $response->setBody($view->render(['entry' => $blogEntryFixture1]));
-
-        if (preg_match('/\/mvc(\?|$)/', $request->getUrl()) === 1) {
-            $response->setBody($view->render(['entry' => $blogEntryFixture2]));
-        }
-
-    }
-         * */
 
         $repository = new BlogPostsRepository();
         $view = new ShowView();
@@ -95,18 +76,19 @@ class Blog
 
         // get blog entry from database
             $entry = $repository->getByUrlKey($potentialUrlKey);
-            if (!$entry) {
-                throw new NotFoundException();
-            }
-
+        if (!$entry) {
+            if($potentialUrlKey == "show") {
+             error_reporting(0);
+             echo "show something or go Back";
+            } else throw new NotFoundException();
+        }
             // escaping the entry fields with htmlspecialchars
             // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
-            foreach ($entry as $key => $item) {
-                $entry->$key = htmlspecialchars($item);
-            }
+        foreach ($entry as $key => $item) {
+            $entry->$key = htmlspecialchars($item);
+        }
 
 
         $response->setBody($view->render(['entry' => $entry]));
-
     }//end show()
 }//end class
