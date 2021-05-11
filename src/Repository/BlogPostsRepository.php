@@ -21,15 +21,40 @@ class BlogPostsRepository extends AbstractRepository
      */
     public function add(BlogPosts $blogPosts): void
     {
+
+
         $query = $this->connection->prepare(
-            'insert into blog_posts (title, url_key, author, text) values (:title, :urlKey, :author, :text); '
+            'insert into blog_posts (title, url_key, author, text, file) values (:title, :urlKey, :author, :text, :file); '
         );
-        $query->bindParam(':title', $blogPosts->title);
-        $query->bindParam(':urlKey', $blogPosts->urlKey);
-        $query->bindParam(':author', $blogPosts->author);
-        $query->bindParam(':text', $blogPosts->text);
-        $query->execute();
-    }
+
+        if($_FILES != null) {
+            $files = $_POST['file']['name'];
+            $temp = $_FILES['file']['tmp_name'];
+
+            $file_to_saved = dirname(dirname(__DIR__)) . $files;
+            move_uploaded_file($temp, $file_to_saved);
+            echo move_uploaded_file($temp, $file_to_saved);
+            echo $file_to_saved;
+            $imageData = file_get_contents($files);
+            $encoded_image = base64_encode($imageData);
+
+            echo $encoded_image;
+            $query = $this->connection->prepare(
+                'insert into blog_posts(file) value ($encoded_image);'
+            );
+        }
+
+
+
+           $query->bindParam(':title', $blogPosts->title);
+            $query->bindParam(':urlKey', $blogPosts->urlKey);
+            $query->bindParam(':author', $blogPosts->author);
+            $query->bindParam(':text', $blogPosts->text);
+            $query->bindParam(':file', $blogPosts->file);
+            $query->execute();
+        }
+
+
 
     /**
      * @param string $urlKey
