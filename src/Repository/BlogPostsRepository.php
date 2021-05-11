@@ -27,26 +27,7 @@ class BlogPostsRepository extends AbstractRepository
             'insert into blog_posts (title, url_key, author, text, file) values (:title, :urlKey, :author, :text, :file); '
         );
 
-        if($_FILES != null) {
-            $files = $_POST['file']['name'];
-            $temp = $_FILES['file']['tmp_name'];
-
-            $file_to_saved = dirname(dirname(__DIR__)) . $files;
-            move_uploaded_file($temp, $file_to_saved);
-            echo move_uploaded_file($temp, $file_to_saved);
-            echo $file_to_saved;
-            $imageData = file_get_contents($files);
-            $encoded_image = base64_encode($imageData);
-
-            echo $encoded_image;
-            $query = $this->connection->prepare(
-                'insert into blog_posts(file) value ($encoded_image);'
-            );
-        }
-
-
-
-           $query->bindParam(':title', $blogPosts->title);
+            $query->bindParam(':title', $blogPosts->title);
             $query->bindParam(':urlKey', $blogPosts->urlKey);
             $query->bindParam(':author', $blogPosts->author);
             $query->bindParam(':text', $blogPosts->text);
@@ -79,6 +60,7 @@ class BlogPostsRepository extends AbstractRepository
         $result->urlKey = $resultData['url_key'];
         $result->author = $resultData['author'];
         $result->text = $resultData['text'];
+        $result->file = $resultData['file'];
         return $result;
     }
 
