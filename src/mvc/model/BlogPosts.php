@@ -4,6 +4,7 @@
 namespace TononT\Webentwicklung\mvc\model;
 
 
+
 class BlogPosts
 {
     // object properties
@@ -13,6 +14,7 @@ class BlogPosts
     public string $urlKey;
     public string $text;
     public string $author;
+    public string $file;
 
 
 }
