@@ -7,9 +7,10 @@ namespace TononT\Webentwicklung\mvc\controller;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
-use TononT\Webentwicklung\mvc\model\PostFile;
+use TononT\Webentwicklung\mvc\model\FilePost;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
+use TononT\Webentwicklung\mvc\view\Blog\AddFile as AddFileView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
@@ -21,20 +22,6 @@ use Respect\Validation\Validator;
 
 class Blog
 {
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     */
-    public function addFile(IRequest $request, IResponse $response): void
-    {
-        if(!$request->hasParameter("file")) {
-            $view = new AddView();
-            $response->setBody($view->render([]));
-        } else {
-
-            $this->add($request,$response);
-        }
-    }
 
     /**
      * @param IRequest $request
@@ -42,11 +29,21 @@ class Blog
      */
     public function add(IRequest $request, IResponse $response): void
     {
+        if($request->hasParameter('file')) {
+            $view = new AddFileView();
+            $response->setBody($view->render([]));
+            Validator::allOf(Validator::notEmpty())->check($request->getParameters()['file']);
+            $filePost = new FilePost();
+            $filePost->file = $request->getParameter('file');
+            $repository = new BlogPostsRepository();
+            $repository->addFile($filePost);
+        }
         if (!$request->hasParameter('title')) {
             // render the form
             $view = new AddView();
             $response->setBody($view->render([]));
-        } else {
+
+    } else {
             // do the validation here
             Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['title']);
             Validator::allOf(
@@ -66,7 +63,6 @@ class Blog
             $blogPost->urlKey = $request->getParameter('urlKey');
             $blogPost->author = $request->getParameter('author');
             $blogPost->text = $request->getParameter('text');
-            //$blogPost->file = $request->getParameter('file');
             $repository = new BlogPostsRepository();
                 $repository->add($blogPost);
                 $response->setBody('great success');
@@ -93,10 +89,9 @@ class Blog
         // get blog entry from database
             $entry = $repository->getByUrlKey($potentialUrlKey);
         if (!$entry) {
-            if($potentialUrlKey == "show") {
-             error_reporting(0);
-             echo "show something or go Back";
-            } else throw new NotFoundException();
+            header("Location: http://tonon.test");
+            echo "go back to tonon.test";
+            die();
         }
             // escaping the entry fields with htmlspecialchars
             // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
