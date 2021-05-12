@@ -7,6 +7,7 @@ namespace TononT\Webentwicklung\mvc\controller;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\model\PostFile;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
 use TononT\Webentwicklung\NotFoundException;
@@ -20,6 +21,21 @@ use Respect\Validation\Validator;
 
 class Blog
 {
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function addFile(IRequest $request, IResponse $response): void
+    {
+        if(!$request->hasParameter("file")) {
+            $view = new AddView();
+            $response->setBody($view->render([]));
+        } else {
+
+            $this->add($request,$response);
+        }
+    }
+
     /**
      * @param IRequest $request
      * @param IResponse $response
@@ -42,7 +58,6 @@ class Blog
                 Validator::stringType()
             )->check($request->getParameters()['author']);
             Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
-            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['file']);
 
 
             // create a database entry
@@ -51,10 +66,11 @@ class Blog
             $blogPost->urlKey = $request->getParameter('urlKey');
             $blogPost->author = $request->getParameter('author');
             $blogPost->text = $request->getParameter('text');
-            $blogPost->file = $request->getParameter('file');
+            //$blogPost->file = $request->getParameter('file');
             $repository = new BlogPostsRepository();
-            $repository->add($blogPost);
-            $response->setBody('great success');
+                $repository->add($blogPost);
+                $response->setBody('great success');
+
         }
     }
 
