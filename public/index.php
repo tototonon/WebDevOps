@@ -19,9 +19,9 @@ $response = new Response();
 $router = new Router();
 $router->addRoute('/blog/show', BlogController::class, 'show');
 $router->addRoute('/blog/add', BlogController::class, 'add');
-if(isset($_FILES["file"]["name"])) {
-    echo "add File somewhere";
-}
+$router->addRoute('/blog/addFile', BlogController::class, 'addFile');
+
+
 
 $router->route($request, $response);
 
