@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Repository;
 
-
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\model\PostFile;
 use TononT\Webentwicklung\mvc\view\Blog\Show;
 
 class BlogPostsRepository extends AbstractRepository
@@ -16,16 +16,37 @@ class BlogPostsRepository extends AbstractRepository
     {
         $this->connectToDb();
     }
+
+    public function addFile(): void {
+
+        $file = $_FILES["file"]["name"];
+        $filetype = $_FILES["file"]["type"];
+        $filesize = $_FILES["file"]["size"];
+        $tempfile = $_FILES["file"]["tmp_name"];
+        $filenameWithDirectory = basename("uploads/" . $file);
+        // Check extension
+        if (move_uploaded_file($tempfile, $filenameWithDirectory)) {
+            echo "<h2>File Uploaded</h2>";
+            echo "<p>You file is uploaded successfully.</p>";
+            echo "<p>File name = <b>$file</b></p>";
+            echo "<p>File type = <b>$filetype</b></p>";
+            echo "<p>File size = <b>$filesize</b></p>";
+
+        } else {
+            echo "Error occurred during file upload!";
+        }
+    }
     /**
      * @param BlogPosts $blogPosts
      */
     public function add(BlogPosts $blogPosts): void
     {
 
-
         $query = $this->connection->prepare(
-            'insert into blog_posts (title, url_key, author, text, file) values (:title, :urlKey, :author, :text, :file); '
+            'insert into blog_posts (title, url_key, author, text, file) values (:title, :urlKey, :author, :text); '
         );
+
+
 
             $query->bindParam(':title', $blogPosts->title);
             $query->bindParam(':urlKey', $blogPosts->urlKey);
@@ -33,8 +54,8 @@ class BlogPostsRepository extends AbstractRepository
             $query->bindParam(':text', $blogPosts->text);
             $query->bindParam(':file', $blogPosts->file);
             $query->execute();
-        }
 
+        }
 
 
     /**
@@ -60,7 +81,6 @@ class BlogPostsRepository extends AbstractRepository
         $result->urlKey = $resultData['url_key'];
         $result->author = $resultData['author'];
         $result->text = $resultData['text'];
-        $result->file = $resultData['file'];
         return $result;
     }
 
