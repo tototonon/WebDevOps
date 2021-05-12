@@ -19,7 +19,12 @@ $response = new Response();
 $router = new Router();
 $router->addRoute('/blog/show', BlogController::class, 'show');
 $router->addRoute('/blog/add', BlogController::class, 'add');
+if(isset($_FILES["file"]["name"])) {
+    echo "add File somewhere";
+}
+
 $router->route($request, $response);
+
 http_response_code($response->getStatusCode());
 echo $response->getBody();
 
