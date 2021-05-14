@@ -13,15 +13,18 @@ require __DIR__ . '/../vendor/autoload.php';
 
 
 $request = new Request();
+
+
 $request->setUrl($_SERVER['REQUEST_URI']);
+if(isset($_FILES["file"]["name"])) {
+    $request->setFile($_FILES["file"]["name"]);
+}
 $request->setParameters($_REQUEST);
+
 $response = new Response();
 $router = new Router();
 $router->addRoute('/blog/show', BlogController::class, 'show');
 $router->addRoute('/blog/add', BlogController::class, 'add');
-$router->addRoute('/blog/addFile', BlogController::class, 'addFile');
-
-
 
 $router->route($request, $response);
 
