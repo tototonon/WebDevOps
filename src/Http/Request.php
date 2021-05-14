@@ -17,6 +17,7 @@ class Request implements IRequest
      */
     protected array $parameters;
 
+    private string $file = "";
 
     /**
      * @return string
@@ -77,6 +78,22 @@ class Request implements IRequest
     public function hasParameter(string $name): bool
     {
         return isset($this->parameters[$name]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFile(): string
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed|string $file
+     */
+    public function setFile(string $file): void
+    {
+        $this->file = $file;
     }
 
 }
