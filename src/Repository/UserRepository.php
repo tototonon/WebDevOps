@@ -14,7 +14,8 @@ class UserRepository extends AbstractRepository
      */
     public function getByUsername(string $username)
     {
-        $query = $this->connection->prepare("select * from users where username=:username");
+        $query = $this->connection->prepare("select * from users
+        where username= username");
         $query->bindParam(':username', $username);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_CLASS, User::class);
@@ -28,7 +29,7 @@ class UserRepository extends AbstractRepository
     public function update(User $user)
     {
         $query = $this->connection->prepare(
-            'update users set username =:username, password = :password where id=:id'
+            'update users set username =:username, password =password where id=id'
         );
         $query->bindParam(':id', $user->id);
         $query->bindParam(':username', $user->username);
