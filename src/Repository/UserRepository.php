@@ -29,11 +29,11 @@ class UserRepository extends AbstractRepository
     public function update(User $user)
     {
         $query = $this->connection->prepare(
-            'update users set username = username, password = password where id= id'
+            "update users set username=:username, password=:password where id=:id"
         );
-        $query->bindParam('id', $user->id);
-        $query->bindParam('username', $user->username);
-        $query->bindParam('password', $user->password);
+        $query->bindParam(':id', $user->id);
+        $query->bindParam(':username', $user->username);
+        $query->bindParam(':password', $user->password);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_CLASS, User::class);
         return $query->fetch();
