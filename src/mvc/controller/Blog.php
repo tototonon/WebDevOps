@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
-use A\B;
+
+use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
@@ -21,15 +22,20 @@ use Respect\Validation\Validator;
  * @package TononT\Webentwicklung\controller
  */
 
-class Blog
+class Blog extends AbstractController
 {
 
     /**
      * @param IRequest $request
      * @param IResponse $response
+     * @throws AuthenticationRequiredException
      */
     public function add(IRequest $request, IResponse $response): void
     {
+        if (!$this->getSession()->isLoggedIn()) {
+            throw new AuthenticationRequiredException();
+        }
+
 
         if (!$request->hasParameter('title')) {
             // render the form
