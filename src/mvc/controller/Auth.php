@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
@@ -20,7 +21,7 @@ class Auth extends AbstractController
      */
     public function login(IRequest $request, IResponse $response): void
     {
-        if (!$request->hasParameter('username')) {
+        if(!$request->hasParameter('username')) {
             // render the form
             $view = new LoginView();
             $response->setBody($view->render([]));
@@ -40,31 +41,33 @@ class Auth extends AbstractController
             $password = $request->getParameter('password'); // coming from our form via $_POST/$_REQUEST
 
             // test if user exists
-            $userRepository = new UserRepository();
-            $user = $userRepository->getByUsername($username);
-            $hash = '';
-            // user testing deferred for timing reasons
-            if ($user instanceof User) {
-                $hash = $user->password;
-            }
-            /// test if the password is correct
-            if (password_verify($password, $hash) && $user instanceof User) {
-                // test if the password needs rehash
-                if (password_needs_rehash($hash, PASSWORD_DEFAULT)) {
-                    $rehashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                    if (!is_string($rehashedPassword)) {
-                        throw new \Exception('Could not update user to rehash password');
-                    }
-                    $user->password = $rehashedPassword;
-                    $userRepository->update($user);
+            if(isset($username)) {
+                $userRepository = new UserRepository();
+                $user = $userRepository->getByUsername($username);
+                $hash = '';
+                // user testing deferred for timing reasons
+                if($user instanceof User) {
+                    $hash = $user->password;
                 }
-                /// login SUCCESSFUL
-                $this->getSession()->login();
-                $response->setBody('great success');
-            } else {
-                // login failed
-                $response->setStatusCode(401);
-                $response->setBody('login failed');
+                /// test if the password is correct
+                if(password_verify($password, $hash) && $user instanceof User) {
+                    // test if the password needs rehash
+                    if(password_needs_rehash($hash, PASSWORD_DEFAULT)) {
+                        $rehashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                        if(!is_string($rehashedPassword)) {
+                            throw new \Exception('Could not update user to rehash password');
+                        }
+                        $user->password = $rehashedPassword;
+                        $userRepository->update($user);
+                    }
+                    /// login SUCCESSFUL
+                    $this->getSession()->login();
+                    $response->setBody('great success');
+                } else {
+                    // login failed
+                    $response->setStatusCode(401);
+                    $response->setBody('login failed');
+                }
             }
         }
     }
