@@ -21,7 +21,20 @@ class UserRepository extends AbstractRepository
         $query->setFetchMode(\PDO::FETCH_CLASS, User::class);
         return $query->fetch();
     }
+    /**
+     * @param User $user
+     * @return User|null
+     */
+    public function addUser(User $user)
+    {
+        $query = $this->connection->prepare(
+            'insert into users(username,password) values (:username,:password)');
+            $query->bindParam(':username', $user->username);
+            $query->bindParam(':password', $user->password);
+            $query->execute();
 
+
+    }
     /**
      * @param User $user
      * @return User|null
