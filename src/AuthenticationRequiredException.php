@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
 
-class AuthenticationRequiredException extends Exception
+namespace TononT\Webentwicklung;
+
+class AuthenticationRequiredException extends \Exception
 {
     /**
      * @var string
