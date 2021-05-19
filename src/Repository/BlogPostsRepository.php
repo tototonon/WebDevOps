@@ -10,13 +10,6 @@ use TononT\Webentwicklung\mvc\view\Blog\Show;
 
 class BlogPostsRepository extends AbstractRepository
 {
-    /**
-     * BlogPostsRepository constructor.
-     */
-    public function __construct()
-    {
-        $this->connectToDb();
-    }
 
     /**
      * @param BlogPosts $blogPosts
