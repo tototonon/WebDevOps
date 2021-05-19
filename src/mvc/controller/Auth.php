@@ -41,18 +41,15 @@ class Auth extends AbstractController
             $password = $request->getParameter('password'); // coming from our form via $_POST/$_REQUEST
 
             // test if user exists
-            if(isset($username)) {
                 $userRepository = new UserRepository();
                 $user = $userRepository->getByUsername($username);
-                $hash = "";
+                $hash = '';
                 // user testing deferred for timing reasons
                 if($user instanceof User) {
                     $hash = $user->password;
-
                 }
-
                 /// test if the password is correct
-                if(password_verify($password, $hash) && $user instanceof User) {
+                if(password_verify($password,$hash) && ($user instanceof User)) {
                     // test if the password needs rehash
                     if(password_needs_rehash($hash, PASSWORD_DEFAULT)) {
                         $rehashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -72,7 +69,7 @@ class Auth extends AbstractController
                 }
             }
         }
-    }
+
 
     /**
      * @param IRequest $request
