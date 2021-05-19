@@ -24,6 +24,7 @@ $request->setParameters($_REQUEST);
 $response = new Response();
 $router = new Router();
 $router->addRoute('/auth/login', AuthController::class, 'login');
+$router->addRoute('/auth/register', AuthController::class, 'register');
 $router->addRoute('/auth/logout', AuthController::class, 'logout');
 $router->addRoute('/blog/show', BlogController::class, 'show');
 $router->addRoute('/blog/add', BlogController::class, 'add');
