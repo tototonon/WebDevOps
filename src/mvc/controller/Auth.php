@@ -44,11 +44,13 @@ class Auth extends AbstractController
             if(isset($username)) {
                 $userRepository = new UserRepository();
                 $user = $userRepository->getByUsername($username);
-                $hash = '';
+                $hash = "";
                 // user testing deferred for timing reasons
                 if($user instanceof User) {
                     $hash = $user->password;
+
                 }
+
                 /// test if the password is correct
                 if(password_verify($password, $hash) && $user instanceof User) {
                     // test if the password needs rehash
