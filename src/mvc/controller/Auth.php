@@ -10,10 +10,38 @@ use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\mvc\model\User;
 use TononT\Webentwicklung\mvc\view\Auth\Login as LoginView;
+use TononT\Webentwicklung\mvc\view\Auth\Register as RegisterView;
 use TononT\Webentwicklung\Repository\UserRepository;
 
 class Auth extends AbstractController
 {
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @throws \Exception
+     */
+    public function register(IRequest $request, IResponse $response): void
+    {
+        if(!$request->hasParameter('username')) {
+            $view = new RegisterView();
+            $response->setBody($view->render([]));
+        } else {
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['username']);
+            Validator::allOf(
+                Validator::notEmpty(),
+                Validator::stringType()
+            )->check($request->getParameters()['password']);
+            $user = new User();
+            $user->username= $request->getParameter('username'); // coming from our form via $_POST/$_REQUEST
+            $user->password = $request->getParameter('password'); // coming from our form via $_POST/$_REQUEST
+
+            $userRepository = new UserRepository();
+            $userRepository->addUser($user);
+            $response->setBody("Welcome".$user->username);
+        }
+    }
+
     /**
      * @param IRequest $request
      * @param IResponse $response
