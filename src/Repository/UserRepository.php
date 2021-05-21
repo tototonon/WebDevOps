@@ -30,7 +30,8 @@ class UserRepository extends AbstractRepository
         $query = $this->connection->prepare(
             'insert into users(username,password) values (:username,:password)');
             $query->bindParam(':username', $user->username);
-            $query->bindParam(':password', $user->password);
+            $password = password_hash($user->password,PASSWORD_DEFAULT);
+            $query->bindParam(':password', $password);
             $query->execute();
 
 
