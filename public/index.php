@@ -18,6 +18,14 @@ $request = new Request();
 $request->setUrl($_SERVER['REQUEST_URI']);
 if(isset($_FILES["file"]["name"])) {
     $request->setFile($_FILES["file"]["name"]);
+    $filename = $_FILES["file"]["name"];
+    $tmpname = $_FILES["file"]["tmp_name"];
+    $folder = "image/".$filename;
+    if (move_uploaded_file($tmpname, $folder))  {
+        echo  "Image uploaded successfully";
+    }else{
+        echo "Failed to upload image";
+    }
 }
 $request->setParameters($_REQUEST);
 
