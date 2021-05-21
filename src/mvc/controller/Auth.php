@@ -37,8 +37,11 @@ class Auth extends AbstractController
             $user->password = $request->getParameter('password'); // coming from our form via $_POST/$_REQUEST
 
             $userRepository = new UserRepository();
+
             $userRepository->addUser($user);
-            $response->setBody("Welcome".$user->username);
+            $this->getSession()->login();
+            $response->setBody("Welcome to my Blog ".$user->username);
+
         }
     }
 
