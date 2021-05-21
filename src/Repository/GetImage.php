@@ -9,7 +9,7 @@ class GetImage extends AbstractRepository
 {
 
 
-    function getImage(BlogPosts $blogPosts): void
+    function getImage(BlogPosts $blogPosts): string
     {
         header('Content-type: image/jpeg');
 
@@ -19,6 +19,7 @@ class GetImage extends AbstractRepository
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
         $query->fetch();
+        return $query->queryString;
 
 
     }
