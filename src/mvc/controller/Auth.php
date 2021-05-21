@@ -109,5 +109,6 @@ class Auth extends AbstractController
     public function logout(IRequest $request, IResponse $response): void
     {
         $this->getSession()->destroy();
+        $response->setBody("logout");
     }
 }
