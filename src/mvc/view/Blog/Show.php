@@ -15,5 +15,14 @@ class Show extends AbstractShow
     {
         return '\view\templates\blog\show.html';
     }
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function render(array $data): string
+    {
+        $data['title'] = $data['entry']->title;
+        return parent::render($data);
+    }
 
 }

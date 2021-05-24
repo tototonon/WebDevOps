@@ -15,5 +15,13 @@ class Add extends AbstractShow
         return '\view\templates\blog\add.html';
     }
 
-
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function render(array $data): string
+    {
+        $data['title'] = 'Blogbeitrag erstellen';
+        return parent::render($data);
+    }
 }

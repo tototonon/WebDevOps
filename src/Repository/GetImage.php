@@ -5,23 +5,21 @@ namespace TononT\Webentwicklung\Repository;
 
 use TononT\Webentwicklung\mvc\model\BlogPosts;
 
-class GetImage extends AbstractRepository
+class GetImage
 {
 
 
-    function getImage(BlogPosts $blogPosts): string
+    function getImage(): void
     {
-        header('Content-type: image/jpeg');
 
-        $id = $_GET["id"];
-        $query = $this->connection->prepare("select file from blog_posts where id= :id");
-        $query->bindParam(':id', $id);
-        $query->execute();
-        $query->setFetchMode(\PDO::FETCH_ASSOC);
-        $query->fetch();
-        return $query->queryString;
-
-
+        $filename = $_FILES["file"]["name"];
+        $tmpname = $_FILES["file"]["tmp_name"];
+        $folder = "image/" . $filename;
+        if(move_uploaded_file($tmpname, $folder)) {
+            echo "Image uploaded successfully";
+        } else {
+            echo "Failed to upload image";
+        }
     }
 }
 

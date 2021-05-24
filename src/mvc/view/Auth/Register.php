@@ -16,5 +16,14 @@ class Register extends AbstractShow
     {
         return '/view/templates/auth/register.html';
     }
+    /**
+     * @param array $data
+     * @return string
+     */
+    public function render(array $data): string
+    {
+        $data['title'] = 'Register';
+        return parent::render($data);
+    }
 
 }
