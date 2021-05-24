@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?= $title?></title>
+    <link rel="stylesheet" media="all" href="/tonon/public/style/stylesheet.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body class="container">
+<div class="header">
+    <h1>My awesome blog</h1>
+</div>
+<div class="menu">
+    <a href="/auth/login">Login</a>
+    <a href="/auth/register">Register</a>
+
+</div>
+<div class="sidebar-left">
+    <a href="https://http.cat/404">Example link here</a>
+    <a href="https://http.cat/404">Example link here</a>
+    <a href="https://http.cat/404">Example link here</a>
+    <a href="https://http.cat/404">Example link here</a>
+</div>
+<div class="main">
+    {{content}}
+</div>
+<div class="footer">
+    <div>Impressum</div>
+    <div>About Me</div>
+</div>
+</body>
+</html>
