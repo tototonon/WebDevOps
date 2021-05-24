@@ -364,3 +364,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,symfony,composer,jetbrains+all,node
+public/image/IMG_20200419_190740.jpg
+public/image/IMG_20200229_181457.jpg
