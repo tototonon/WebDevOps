@@ -99,6 +99,15 @@ class Response implements IResponse
         return isset($this->headers[$name]);
     }
 
+    /**
+     * @param string $url
+     * @param int $statusCode
+     */
 
+    public function redirect($url, $statusCode = 303)
+    {
+        header('Location: ' . $url, true, $statusCode);
+        die();
+    }
 
 }//end class
