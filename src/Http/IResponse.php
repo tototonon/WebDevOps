@@ -56,4 +56,5 @@ interface IResponse
      * @return bool
      */
     public function hasHeader(string $name): bool;
+    public function redirect(string $url, int $statusCode);
 }
