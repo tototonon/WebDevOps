@@ -88,6 +88,7 @@ class Blog extends AbstractController
         // get blog entry from database
             $entry = $repository->getByUrlKey($potentialUrlKey);
         if (!$entry) {
+
            throw new NotFoundException();
 
         }
