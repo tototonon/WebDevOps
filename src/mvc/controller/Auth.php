@@ -93,6 +93,12 @@ class Auth extends AbstractController
                     /// login SUCCESSFUL
                     $this->getSession()->login();
                     $response->setBody('great success');
+                    if($response->getBody() == "great success"){
+                        $response->redirect("https://tonon.test/blog/show",303);
+
+                    }
+
+
                 } else {
                     // login failed
                     $response->setStatusCode(401);
