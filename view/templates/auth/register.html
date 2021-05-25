@@ -6,13 +6,16 @@
 </head>
 <body>
 <form action="/auth/register" method="post">
-    <label for="form_username">choose an username</label>
-    <input type="email" id="form_username" name="username" required>
-    <br/>
-    <label for="form_password">choose a password</label>
-    <input type="password" id="form_password" name="password">
-    <br/>
-    <input type="submit" value="Register">
+    <form class="form-signin">
+        <div class="form-label-group">
+            <input type="email" id="form_username" name="username" class="form-control" placeholder="Email address" required autofocus>
+            <label for="form_username">Username</label>
+            <input type="email" id="form_password" name="password" class="form-control" placeholder="password" required autofocus>
+            <label for="form_password">Password</label>
+            <br>
+            <input type="submit" value="Login">
+        </div>
+    </form>
 </form>
 </body>
 </html>
