@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title><?= $title?></title>
     <link rel="stylesheet" media="all" href="/tonon/public/style/stylesheet.css" />
+    <link href="/tonon/vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body class="container">
@@ -15,11 +16,13 @@
     <a href="/auth/register">Register</a>
 
 </div>
+<button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign in with Facebook</span> </button>
+<button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
 <div class="sidebar-left">
-    <a href="https://http.cat/404">Example link here</a>
-    <a href="https://http.cat/404">Example link here</a>
-    <a href="https://http.cat/404">Example link here</a>
-    <a href="https://http.cat/404">Example link here</a>
+   <button class="btn btn-default" role="button"><a href="https://tonon.test" >Home</a></button>
+    <button class="btn btn-default" role="button"> <a href="https://tonon.test/blog/add">BlogPost</a></button>
+        <button class="btn btn-default" role="button"><a href="https://tonon.test/blog/show">Show</a></button>
+            <button class="btn btn-default" role="button"><a href="https://tonon.test/auth/logout">Logout</a></button>
 </div>
 <div class="main">
     {{content}}
@@ -27,6 +30,7 @@
 <div class="footer">
     <div>Impressum</div>
     <div>About Me</div>
+    <a href="https://tonon.test/auth" id="forgot_pswd">Forgot password?</a>
 </div>
 </body>
 </html>
