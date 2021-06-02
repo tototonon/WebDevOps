@@ -16,9 +16,9 @@ class GetImage
         $tmpname = $_FILES["file"]["tmp_name"];
         $folder = "image/" . $filename;
         if(move_uploaded_file($tmpname, $folder)) {
-            echo "Image uploaded successfully";
+            echo "Image uploaded successfully !";
         } else {
-            echo "Failed to upload image";
+            echo "no file uploaded !";
         }
     }
 }
