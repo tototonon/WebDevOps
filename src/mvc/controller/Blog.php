@@ -57,11 +57,11 @@ class Blog extends AbstractController
 
             // create a database entry
             $blogPost = new BlogPosts();
-            $blogPost->title = $request->getParameter('title');
-            $blogPost->urlKey = $request->getParameter('urlKey');
-            $blogPost->author = $request->getParameter('author');
-            $blogPost->text = $request->getParameter('text');
-            $blogPost->file = $request->getFile();
+            $blogPost->setTitle( $request->getParameter('title'));
+            $blogPost->setUrlKey($request->getParameter('urlKey'));
+            $blogPost->setAuthor($request->getParameter('author'));
+            $blogPost->setText($request->getParameter('text'));
+            $blogPost->setFile($request->getFile());
             $repository = new BlogPostsRepository();
                 $repository->add($blogPost);
                 $response->setBody('great success');
@@ -87,11 +87,16 @@ class Blog extends AbstractController
 
         // get blog entry from database
             $entry = $repository->getByUrlKey($potentialUrlKey);
+
+
+
         if (!$entry) {
 
-           throw new NotFoundException();
+           //$entry = $repository->getAllFiles(2);
+                throw new NotFoundException();
 
-        }
+            }
+
             // escaping the entry fields with htmlspecialchars
             // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
         foreach ($entry as $key => $item) {
