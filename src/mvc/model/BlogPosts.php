@@ -5,16 +5,57 @@ namespace TononT\Webentwicklung\mvc\model;
 
 
 
-class BlogPosts
+class BlogPosts implements \JsonSerializable
 {
     // object properties
 
-    public string $id;
+    protected string $id;
     public string $title;
     public string $urlKey;
     public string $text;
     public string $author;
     public string $file;
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlKey(): string
+    {
+        return $this->urlKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor(): string
+    {
+        return $this->author;
+    }
+
 
     /**
      * @return string
@@ -25,6 +66,46 @@ class BlogPosts
     }
 
     /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @param string $urlKey
+     */
+    public function setUrlKey(string $urlKey): void
+    {
+        $this->urlKey = $urlKey;
+    }
+
+    /**
+     * @param string $text
+     */
+    public function setText(string $text): void
+    {
+        $this->text = $text;
+    }
+
+    /**
+     * @param string $author
+     */
+    public function setAuthor(string $author): void
+    {
+        $this->author = $author;
+    }
+
+    /**
      * @param string $file
      */
     public function setFile(string $file): void
@@ -32,7 +113,17 @@ class BlogPosts
         $this->file = $file;
     }
 
+    /**
+     * @return mixed \stdClass
+     */
 
-
-
+    public function jsonSerialize()
+    {
+        $result = new \stdClass();
+        $result->author = $this->getAuthor();
+        $result->title = $this->getTitle();
+        $result->text = $this->getText();
+        $result->file = $this->getFile();
+        return $result;
+    }
 }
