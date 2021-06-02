@@ -7,7 +7,7 @@ namespace TononT\Webentwicklung;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
 
-class Router
+class Router implements IRouter
 {
 
     /**
@@ -34,9 +34,9 @@ class Router
     /**
      * @param IRequest $request
      * @param IResponse $response
-     * @throws NotFoundException
+     * @return bool
      */
-    public function route(IRequest $request, IResponse $response)
+    public function route(IRequest $request, IResponse $response) :bool
     {
         $url = strtolower($request->getUrl());
         foreach ($this->routes as $route => $controllerArray) {
@@ -44,13 +44,13 @@ class Router
                 $controller = new $controllerArray['controller']();
                 $action = $controllerArray['action'];
                 $controller->$action($request, $response);
-                return;
+                return true;
             }
 
 
         }
 
-        throw new NotFoundException();
+        return false;
 
 
     }//end class
