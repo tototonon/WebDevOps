@@ -10,7 +10,7 @@ class Request implements IRequest
     /**
      * @var string
      */
-    private string $url = '';
+    protected string $url = '';
 
     /**
      * @var array
@@ -18,6 +18,26 @@ class Request implements IRequest
     protected array $parameters;
 
     private string $file = "";
+    /**
+     * @var string
+     */
+    protected string $method = '';
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
+
+    /**
+     * @param string $method
+     */
+    public function setMethod(string $method): void
+    {
+        $this->method = $method;
+    }
 
     /**
      * @return string
