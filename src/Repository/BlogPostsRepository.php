@@ -10,20 +10,31 @@ use TononT\Webentwicklung\mvc\view\Blog\Show;
 
 class BlogPostsRepository extends AbstractRepository
 {
+    
 
     /**
      * @param BlogPosts $blogPosts
      */
     public function add(BlogPosts $blogPosts): void
     {
+        //$json = $blogPosts->jsonSerialize();
+
+        $title = $blogPosts->getTitle();
+        $url = $blogPosts->getUrlKey();
+        $author = $blogPosts->getAuthor();
+        $text = $blogPosts->getText();
+        $file = $blogPosts->getFile();
+
+
 
         $query = $this->connection->prepare
         ('insert into blog_posts (title, url_key, author,text,file) values (:title, :urlKey, :author, :text, :file); ');
-        $query->bindParam(':title', $blogPosts->title);
-        $query->bindParam(':urlKey', $blogPosts->urlKey);
-        $query->bindParam(':author', $blogPosts->author);
-        $query->bindParam(':file', $blogPosts->file);
-        $query->bindParam(':text', $blogPosts->text);
+        $query->bindParam(':title', $title);
+        $query->bindParam(':urlKey', $url);
+        $query->bindParam(':author', $author);
+        $query->bindParam(':text', $text);
+        $query->bindParam(':file', $file);
+
         $query->execute();
     }
 
@@ -45,12 +56,31 @@ class BlogPostsRepository extends AbstractRepository
 
         // INFO This clearly shows how bad this solution scales. But it is very
         $result = new BlogPosts();
-        $result->id = $resultData['id'];
-        $result->title = $resultData['title'];
-        $result->urlKey = $resultData['url_key'];
-        $result->author = $resultData['author'];
-        $result->text = $resultData['text'];
-        $result->file = $resultData['file'];
+        $result->setId($resultData['id']);
+        $result->setTitle($resultData['title']);
+        $result->setUrlKey($resultData['url_key']);
+        $result->setAuthor($resultData['author']);
+        $result->setText($resultData['text']);
+        $result->setFile($resultData['file']);
+        return $result;
+    }
+
+    /**
+     * @return BlogPosts|null
+     */
+    public function getAllFiles(int $id) {
+        $query = $this->connection->prepare("select * from blog_posts where id=:id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $query->setFetchMode(\PDO::FETCH_ASSOC);
+        $resultData = $query->fetch();
+        $result = new BlogPosts();
+        $result->setId($resultData['id']);
+        $result->setTitle($resultData['title']);
+        $result->setUrlKey($resultData['url_key']);
+        $result->setAuthor($resultData['author']);
+        $result->setText($resultData['text']);
+        $result->setFile($resultData['file']);
         return $result;
     }
 }
