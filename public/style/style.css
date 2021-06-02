@@ -1,6 +1,7 @@
 div {
     border-style: solid;
     padding: 20px;
+
 }
 
 .container {
@@ -19,6 +20,7 @@ div {
     flex-wrap: wrap;
     padding: 20px;
 }
+
 
 .menu {
     grid-area: menu;
@@ -42,6 +44,8 @@ div {
 
 .main {
     grid-area: main;
+
+
 }
 
 .footer {

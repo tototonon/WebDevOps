@@ -6,6 +6,8 @@ use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\Request;
 use TononT\Webentwicklung\Http\Response;
 use TononT\Webentwicklung\NotFoundException;
+use TononT\Webentwicklung\RestRouter;
+use TononT\Webentwicklung\mvc\controller\Rest\BlogPosts as BlogPostsRestController;
 use TononT\Webentwicklung\Router;
 use TononT\Webentwicklung\mvc\controller\Blog as BlogController;
 use TononT\Webentwicklung\mvc\controller\Auth as AuthController;
@@ -14,9 +16,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 
 $request = new Request();
-
-
 $request->setUrl($_SERVER['REQUEST_URI']);
+$request->setMethod($_SERVER['REQUEST_METHOD']);
+
 if(isset($_FILES["file"]["name"])) {
     $request->setFile($_FILES["file"]["name"]);
     $image = new Image();
@@ -25,7 +27,15 @@ if(isset($_FILES["file"]["name"])) {
 $request->setParameters($_REQUEST);
 
 $response = new Response();
+
+$routers = [];
+
+$restRouter = new RestRouter();
+$routers[] = $restRouter;
+$restRouter->addRoute('\/blogposts\/(\S+)', BlogPostsRestController::class, 'getByUrlKey', 'GET');
+
 $router = new Router();
+
 $router->addRoute('/auth/login', AuthController::class, 'login');
 $router->addRoute('/auth/register', AuthController::class, 'register');
 $router->addRoute('/auth/logout', AuthController::class, 'logout');
