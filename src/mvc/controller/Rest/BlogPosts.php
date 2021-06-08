@@ -32,9 +32,6 @@ class BlogPosts extends AbstractController
             throw new NotFoundException();
         }
         $view = new JsonView();
-
-
-
         $response->setBody($view->render($entry));
     }
 
