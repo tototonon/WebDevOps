@@ -8,33 +8,40 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
+
 <body class="container">
 
 <div class="header">
     <h1>NATURE BLOG</h1>
+
 </div>
 <div class="menu">
+    <nav class="nav nav-pills flex-column flex-sm-row" style="background-color: #F2FDE3;">
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/home">Home</a>
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/blog/add">Add Post</a>
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/blog/show">Show Post</a>
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/login">Login</a>
+    </nav>
 
-    <a style="color: black" href="/auth/login">Login</a>
-    <a style="color: black" href="/auth/register">Register</a>
+
+</div>
+
+
 
 </div>
 <div class="sidebar-left">
-    <nav class="nav nav-pills flex-column flex-sm-row" style="background-color: #F2FDE3;">
-        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test">Home</a>
-        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/blog/add">BlogPost</a>
-        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/blog/show">Show</a>
-        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/logout">Logout</a>
-    </nav>
-</div>
 
+</div>
 <div class="main">
     {{content}}
 </div>
+
 <div class="footer">
-    <div>Impressum</div>
-    <div>About Me</div>
-    <a href="https://tonon.test/auth" id="forgot_pswd">Forgot password?</a>
+    <a>Impressum</a>
+    <a>About Me</a>
+    <a style="color: black" href="/auth/login">Login</a>
+    <a style="color: black" href="/auth/register">Register</a>
+    <a style="color: black" href="https://tonon.test/auth" id="forgot_pswd">Forgot password?</a>
 </div>
 </body>
 </html>
