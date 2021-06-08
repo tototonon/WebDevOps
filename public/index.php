@@ -34,14 +34,17 @@ $routers = [];
 $restRouter = new RestRouter();
 $routers[] = $restRouter;
 $restRouter->addRoute('\/blogposts\/(\S+)', BlogPostsRestController::class, 'getByUrlKey', 'GET');
+//$restRouter->addRoute('\/blogposts\/(\S+)', BlogPostsRestController::class, 'getAll', 'GET');
 
 $router = new Router();
 $routers[] = $router;
 $router->addRoute('/auth/login', AuthController::class, 'login');
+$router->addRoute('/home', BlogController::class, 'home');
 $router->addRoute('/auth/register', AuthController::class, 'register');
 $router->addRoute('/auth/logout', AuthController::class, 'logout');
 $router->addRoute('/blog/show', BlogController::class, 'show');
 $router->addRoute('/blog/add', BlogController::class, 'add');
+$router->addRoute('/blog/delete', BlogController::class, 'delete');
 
 $routers[] = new NotFoundRouter();
 
