@@ -6,6 +6,7 @@ use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\Request;
 use TononT\Webentwicklung\Http\Response;
 use TononT\Webentwicklung\NotFoundException;
+use TononT\Webentwicklung\NotFoundRouter;
 use TononT\Webentwicklung\RestRouter;
 use TononT\Webentwicklung\mvc\controller\Rest\BlogPosts as BlogPostsRestController;
 use TononT\Webentwicklung\Router;
@@ -35,15 +36,22 @@ $routers[] = $restRouter;
 $restRouter->addRoute('\/blogposts\/(\S+)', BlogPostsRestController::class, 'getByUrlKey', 'GET');
 
 $router = new Router();
-
+$routers[] = $router;
 $router->addRoute('/auth/login', AuthController::class, 'login');
 $router->addRoute('/auth/register', AuthController::class, 'register');
 $router->addRoute('/auth/logout', AuthController::class, 'logout');
 $router->addRoute('/blog/show', BlogController::class, 'show');
 $router->addRoute('/blog/add', BlogController::class, 'add');
 
+$routers[] = new NotFoundRouter();
+
 try {
-    $router->route($request, $response);
+    // do the actual routing
+    foreach ($routers as $router) {
+        if ($router->route($request, $response)) {
+            break;
+        }
+    }
 } catch (NotFoundException $exception) {
     // react on content that cannot be found
     $response->setStatusCode($exception->getCode());
@@ -55,7 +63,6 @@ try {
 } catch (\Exception $exception) {
     // react on any exception which we do not catch elsewhere to not expose exception messages
     $response->setStatusCode(500);
-    echo $exception;
     $response->setBody('Uh Oh ...');
 }
 
