@@ -12,10 +12,11 @@ use TononT\Webentwicklung\mvc\model\BlogPosts;
 use TononT\Webentwicklung\mvc\model\FilePost;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
-use TononT\Webentwicklung\mvc\view\Blog\AddFile as AddFileView;
+use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
+use function Amp\ByteStream\getStdin;
 
 /**
  * Class Blog
@@ -68,6 +69,36 @@ class Blog extends AbstractController
 
         }
     }
+    public function home(IRequest $request, IResponse $response): void
+    {
+        $repository = new BlogPostsRepository();
+        $view = new HomeView();
+        // extract URL key from call
+        $lastSlash = strripos($request->getUrl(), '/') ?: 0;
+        $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
+        $entry = $repository->getAllFiles();
+
+        // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
+        foreach ($entry as $key => $item) {
+            $entry->$key = htmlspecialchars($item);
+        }
+        $response->setBody($view->render(['entry' => $entry]));
+
+
+    }
+    public function delete(IRequest $request, IResponse $response): void
+    {
+        if(!$this->getSession()->isLoggedIn()) {
+            throw new AuthenticationRequiredException();
+        } else {
+            $blogPost = new BlogPosts();
+
+            $repository = new BlogPostsRepository();
+            $repository->delete($blogPost);
+            $response->setBody('great success');
+
+        }
+    }
 
 
 
@@ -88,12 +119,17 @@ class Blog extends AbstractController
         // get blog entry from database
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
+                $potential= substr($request->getUrl(), $lastSlash + 2);
+
         if (!$entry) {
-
-
+            if($potential = "blog/show/") {
+                $entry = $repository->getAllFiles();
+            }
+            else {
                 throw new NotFoundException();
 
             }
+        }
 
             // escaping the entry fields with htmlspecialchars
             // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library

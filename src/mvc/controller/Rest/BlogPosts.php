@@ -14,7 +14,18 @@ use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 class BlogPosts extends AbstractController
 {
+    public function getAll(IRestAware $request, IResponse $response): void
+    {
+        $repository = new BlogPostsRepository();
+        $entry = $repository->getAllFiles(current($request->getIdentifiers()));
+        // TODO: error handling needs to be different for webservices!
+        if (!$entry) {
+            throw new NotFoundException();
+        }
+        $view = new JsonView();
+        $response->setBody($view->render($entry));
 
+    }
     /**
      * @param IRestAware $request
      * @param IResponse $response

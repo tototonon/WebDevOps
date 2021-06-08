@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\Repository;
 
 use TononT\Webentwicklung\mvc\model\BlogPosts;
-use TononT\Webentwicklung\mvc\model\FilePost;
-use TononT\Webentwicklung\mvc\view\Blog\Show;
+
 
 class BlogPostsRepository extends AbstractRepository
 {
@@ -17,7 +16,6 @@ class BlogPostsRepository extends AbstractRepository
      */
     public function add(BlogPosts $blogPosts): void
     {
-        //$json = $blogPosts->jsonSerialize();
 
         $title = $blogPosts->getTitle();
         $url = $blogPosts->getUrlKey();
@@ -69,21 +67,40 @@ class BlogPostsRepository extends AbstractRepository
      * @return BlogPosts|null
      */
     public function getAllFiles() {
-        $query = $this->connection->prepare("select * from blog_posts");
+        $query = $this->connection->prepare("select * from blog_posts where id = 2 ");
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
-        $resultData = $query->fetchAll();
+        $resultData = $query->fetch();
         if (!$resultData) {
             return null;
         }
 
         $result = new BlogPosts();
-        $result->setId($resultData['id']);
-        $result->setTitle($resultData['title']);
-        $result->setUrlKey($resultData['url_key']);
-        $result->setAuthor($resultData['author']);
-        $result->setText($resultData['text']);
-        $result->setFile($resultData['file']);
+            $result->setId($resultData['id']);
+            $result->setTitle($resultData['title']);
+            $result->setUrlKey($resultData['url_key']);
+            $result->setAuthor($resultData['author']);
+            $result->setText($resultData['text']);
+            $result->setFile($resultData['file']);
+
         return $result;
+    }
+
+    /**
+     * @param BlogPosts $blogPosts
+     */
+    public function delete(BlogPosts $blogPosts) {
+
+        $title = $blogPosts->getTitle();
+        $query = $this->connection->prepare("delete from blog_posts where title=:title");
+        $query->bindParam(':title', $title);
+        $query->execute();
+        if($query == true) {
+            echo "deleted successfully";
+        } else {
+            echo "not deleted";
+        }
+
+
     }
 }
