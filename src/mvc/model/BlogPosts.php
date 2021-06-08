@@ -114,16 +114,15 @@ class BlogPosts implements \JsonSerializable
     }
 
     /**
-     * @return mixed \stdClass
+     * @return object
      */
-
     public function jsonSerialize()
     {
         $result = new \stdClass();
-        $result->author = $this->getAuthor();
-        $result->title = $this->getTitle();
-        $result->text = $this->getText();
-        $result->file = $this->getFile();
+        $result->author = $this->author;
+        $result->title = $this->title;
+        $result->text = $this->text;
+        $result->file = $this->file;
         return $result;
     }
 }
