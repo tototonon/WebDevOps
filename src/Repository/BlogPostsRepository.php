@@ -68,12 +68,15 @@ class BlogPostsRepository extends AbstractRepository
     /**
      * @return BlogPosts|null
      */
-    public function getAllFiles(int $id) {
-        $query = $this->connection->prepare("select * from blog_posts where id=:id");
-        $query->bindParam(':id', $id);
+    public function getAllFiles() {
+        $query = $this->connection->prepare("select * from blog_posts");
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
-        $resultData = $query->fetch();
+        $resultData = $query->fetchAll();
+        if (!$resultData) {
+            return null;
+        }
+
         $result = new BlogPosts();
         $result->setId($resultData['id']);
         $result->setTitle($resultData['title']);
