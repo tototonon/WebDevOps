@@ -13,7 +13,7 @@ class Router implements IRouter
     /**
      * @var array
      */
-    private array $routes = [];
+    protected array $routes = [];
 
     /**
      * @param string $route
