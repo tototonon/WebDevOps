@@ -34,7 +34,6 @@ $routers = [];
 $restRouter = new RestRouter();
 $routers[] = $restRouter;
 $restRouter->addRoute('\/blogposts\/(\S+)', BlogPostsRestController::class, 'getByUrlKey', 'GET');
-//$restRouter->addRoute('\/blogposts\/all', BlogPostsRestController::class, 'getAll', 'GET');
 
 $router = new Router();
 $routers[] = $router;
