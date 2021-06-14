@@ -133,8 +133,8 @@ class Blog extends AbstractController
             $potential= substr($request->getUrl(), $lastSlash + 2);
             if($potential = "blog/show/") {
                 $entry = $repository->getAllFiles();
-            }
-            else {
+                $view = new HomeView();
+            } else {
                 throw new NotFoundException();
 
             }

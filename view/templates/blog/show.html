@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title><?= $entry->title?></title>
-</head>
-<body>
-<h1><?= $entry->title?></h1>
-<h3>by: <?= $entry->author?></h3>
-<p><?= $entry->text?></p>
-<img src="/image/$entry->text?"  alt="..." height="333" width="222" >
-</body>
-</html>
+<script src="/js/async_blogposts.js"></script>
+<style>
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+<div id="content-container">
+
+</div>
+
+<template>
+    <h1></h1>
+    <h3>by: </h3>
+    <img src="/image/8424683.jpg" alt=".." >
+    <p></p>
+
+</template>

@@ -68,32 +68,22 @@ class BlogPostsRepository extends AbstractRepository
      */
     public function getAllFiles() {
         $query = $this->connection->prepare("select * from blog_posts ");
-        $count = $query->rowCount();
         $query->execute();
-        $query->setFetchMode(\PDO::FETCH_ASSOC);
-        $resultData = $query->fetch();
+        $resultData = $query->fetchAll();
+        foreach ($resultData as $results) {
+           echo "<tr>
+    <td>{$results['title']}</td>
+    <td>{$results['author']}</td>
+    <td>{$results['date']}</td>
+   </tr>";
+       }
+           $result = new BlogPosts();
+           $result->setTitle($results['title']);
+           $result->setAuthor($results['author']);
+           $result->setText($results['text']);
 
-        echo "<table>";
-        for ($i=0; $i<$count; $i++)
-        {
-            echo "<table><tr><td>".($resultData['id'])."</td></tr>";
-        }
-        echo "</table>";
-
-        if (!$resultData) {
-            return null;
-        }
-
-        $result = new BlogPosts();
-            $result->setId($resultData['id']);
-            $result->setTitle($resultData['title']);
-            $result->setUrlKey($resultData['url_key']);
-            $result->setAuthor($resultData['author']);
-            $result->setText($resultData['text']);
-            $result->setFile($resultData['file']);
-
-        return $result;
-    }
+           return $result;
+       }
 
     /**
      * @param string $urlKey
