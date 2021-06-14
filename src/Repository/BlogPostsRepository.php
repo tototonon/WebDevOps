@@ -67,10 +67,19 @@ class BlogPostsRepository extends AbstractRepository
      * @return BlogPosts|null
      */
     public function getAllFiles() {
-        $query = $this->connection->prepare("select * from blog_posts where id = 2 ");
+        $query = $this->connection->prepare("select * from blog_posts ");
+        $count = $query->rowCount();
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
         $resultData = $query->fetch();
+
+        echo "<table>";
+        for ($i=0; $i<$count; $i++)
+        {
+            echo "<table><tr><td>".($resultData['id'])."</td></tr>";
+        }
+        echo "</table>";
+
         if (!$resultData) {
             return null;
         }
@@ -87,16 +96,16 @@ class BlogPostsRepository extends AbstractRepository
     }
 
     /**
-     * @param BlogPosts $blogPosts
+     * @param string $urlKey
+     * Delete BlogPost with urlKey
      */
-    public function delete(BlogPosts $blogPosts) {
+    public function delete(string $urlKey) {
 
-        $title = $blogPosts->getTitle();
-        $query = $this->connection->prepare("delete from blog_posts where title=:title");
-        $query->bindParam(':title', $title);
+        $query = $this->connection->prepare("delete from blog_posts where url_key=:urlKey");
+        $query->bindParam(':urlKey', $urlKey);
         $query->execute();
         if($query == true) {
-            echo "deleted successfully";
+            echo "deleted";
         } else {
             echo "not deleted";
         }
