@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\mvc\view\Blog;
 
 
-class Home extends AbstractShow
+class Search extends AbstractShow
 {
     protected function getTemplatePath(): string
     {
-        return '\view\templates\home\home.html';
+        return '\view\templates\home\search.html';
     }
     /**
      * @param array $data
