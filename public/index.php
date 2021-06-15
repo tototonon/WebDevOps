@@ -39,6 +39,7 @@ $router = new Router();
 $routers[] = $router;
 $router->addRoute('/auth/login', AuthController::class, 'login');
 $router->addRoute('/home', BlogController::class, 'home');
+$router->addRoute('/search', BlogController::class, 'search');
 $router->addRoute('/auth/register', AuthController::class, 'register');
 $router->addRoute('/auth/logout', AuthController::class, 'logout');
 $router->addRoute('/blog/show', BlogController::class, 'show');
@@ -57,11 +58,13 @@ try {
 } catch (NotFoundException $exception) {
     // react on content that cannot be found
     $response->setStatusCode($exception->getCode());
-    $response->setBody('Sorry, 404');
+    $response->redirect("https://tonon.test/home");
+    $response->setBody('redirect');
 } catch (AuthenticationRequiredException $exception) {
     // react on missing login
     $response->setStatusCode($exception->getCode());
     $response->setBody('Ein Login wird benötigt');
+    $response->redirect("https://tonon.test/auth/login");
 } catch (\Exception $exception) {
     // react on any exception which we do not catch elsewhere to not expose exception messages
     $response->setStatusCode(500);
