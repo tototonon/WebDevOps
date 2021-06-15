@@ -6,10 +6,9 @@ namespace TononT\Webentwicklung\Repository;
 
 use TononT\Webentwicklung\mvc\model\BlogPosts;
 
-
 class BlogPostsRepository extends AbstractRepository
 {
-    
+
 
     /**
      * @param BlogPosts $blogPosts
@@ -25,8 +24,7 @@ class BlogPostsRepository extends AbstractRepository
 
 
 
-        $query = $this->connection->prepare
-        ('insert into blog_posts (title, url_key, author,text,file) values (:title, :urlKey, :author, :text, :file); ');
+        $query = $this->connection->prepare('insert into blog_posts (title, url_key, author,text,file) values (:title, :urlKey, :author, :text, :file); ');
         $query->bindParam(':title', $title);
         $query->bindParam(':urlKey', $url);
         $query->bindParam(':author', $author);
@@ -66,40 +64,45 @@ class BlogPostsRepository extends AbstractRepository
     /**
      * @return BlogPosts|null
      */
-    public function getAllFiles() {
+    public function getAllFiles()
+    {
         $query = $this->connection->prepare("select * from blog_posts ");
         $query->execute();
         $resultData = $query->fetchAll();
-        foreach ($resultData as $results) {
-           echo "<tr>
-    <td>{$results['title']}</td>
-    <td>{$results['author']}</td>
-    <td>{$results['date']}</td>
-   </tr>";
-       }
-           $result = new BlogPosts();
-           $result->setTitle($results['title']);
-           $result->setAuthor($results['author']);
-           $result->setText($results['text']);
 
-           return $result;
-       }
+        foreach ($resultData as $results) {
+            echo "<tr>
+    <td>{$results['title']}</td>
+   </tr>";
+
+//TODO last title is set.Overwrite !
+            $result = new BlogPosts();
+            $result->setTitle($results['title']);
+            $result->setUrlKey($results['url_key']);
+            $result->setAuthor($results['author']);
+            $result->setText($results['text']);
+            $result->setFile($results['file']);
+           // return $result;
+        }
+
+        return $result;
+
+    }
 
     /**
      * @param string $urlKey
      * Delete BlogPost with urlKey
      */
-    public function delete(string $urlKey) {
+    public function delete(string $urlKey)
+    {
 
         $query = $this->connection->prepare("delete from blog_posts where url_key=:urlKey");
         $query->bindParam(':urlKey', $urlKey);
         $query->execute();
-        if($query == true) {
+        if ($query == true) {
             echo "deleted";
         } else {
             echo "not deleted";
         }
-
-
     }
 }
