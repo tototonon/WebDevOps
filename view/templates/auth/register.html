@@ -8,12 +8,15 @@
 <form action="/auth/register" method="post">
     <form class="form-signin">
         <div class="form-label-group">
+
+            <label for="form_username">Email</label>
             <input type="email" id="form_username" name="username" class="form-control" placeholder="Email address" required autofocus>
-            <label for="form_username">Username</label>
-            <input type="email" id="form_password" name="password" class="form-control" placeholder="password" required autofocus>
-            <label for="form_password">Password</label>
-            <br>
-            <input type="submit" value="Login">
+            <label for="form_password">Select a Password</label>
+            <input type="password" id="form_password" name="password" class="form-control" placeholder="password" required autofocus>
+            <label for="again_password">Retype Password</label>
+            <input type="password" id="again_password" name="password" class="form-control" placeholder="password" required autofocus>
+
+            <input type="submit" value="Register">
         </div>
     </form>
 </form>
