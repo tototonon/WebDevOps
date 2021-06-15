@@ -1,8 +1,10 @@
 div {
+
     border-style: solid;
     padding: 20px;
 
 }
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -48,6 +50,7 @@ li a:hover {
 
 .menu {
     grid-area: menu;
+    border-color: #111111;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;;
@@ -68,6 +71,7 @@ li a:hover {
 
 .main {
     grid-area: main;
+
 
 
 }
