@@ -5,7 +5,7 @@ function showContent(data) {
 
     // fill the template
     template.content.querySelector("h1").innerHTML = data.title;
-    template.content.querySelector("h3").innerHTML += data.author;
+    template.content.querySelector("h4").innerHTML += data.author;
     template.content.querySelector("p").innerHTML = data.text;
 
 
