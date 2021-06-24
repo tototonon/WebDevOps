@@ -9,21 +9,22 @@ use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRestAware;
 use TononT\Webentwicklung\mvc\controller\AbstractController;
 use TononT\Webentwicklung\mvc\view\JsonView;
+use TononT\Webentwicklung\mvc\view\RssFeed as RSS;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 class BlogPosts extends AbstractController
 {
-    public function getAll(IRestAware $request, IResponse $response): void
+    public function getFeed(IRestAware $request, IResponse $response): void
     {
-        $repository = new BlogPostsRepository();
-        $entry = $repository->getAllFiles(current($request->getIdentifiers()));
+        $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
+        $feedlist = $feedlist->display(2,"FeedList of Photos");
         // TODO: error handling needs to be different for webservices!
-        if (!$entry) {
+        if (!$feedlist) {
             throw new NotFoundException();
         }
         $view = new JsonView();
-        $response->setBody($view->render($entry));
+        $response->setBody($view->render($feedlist));
 
     }
     /**

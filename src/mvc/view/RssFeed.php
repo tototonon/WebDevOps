@@ -18,62 +18,49 @@ class RssFeed
         $this->feed = $feed;
     }
 
-
+    /**
+     * @return array
+     */
     function parse()
 
     {
-        $rss = simplexml_load_file($this->feed);
-
-        $rss_split = array();
-
-
-        foreach ($rss->channel->item as $item) {
-
-            $title = (string) $item->title; // Title
-            $link   = (string) $item->link; // Url Link
-            $description = (string) $item->description; //Description
-
-            $rss_split[] = '
-
-          <div>
-        <a href="'.$link.'" target="_blank" title=""  >
-             '.$title.' 
-             '.$description.'
-             <br>
-           
-        </a>
-			<hr>
-          </div>
-';
+        if(!$xml = simplexml_load_file($this->feed)) {
+            die("Error reading xml file");
         }
 
-        return $rss_split;
-    }
+// Ausgabe Array
+        $out = array();
 
+// auszulesende Datensaetze
+        $i = 5;
 
-
-    function display($numrows,$head)
-    {
-        $rss_split = $this->parse();
-        $i = 0;
-        $rss_data = '<div class="vas">
-           <div class="title-head">
-         '.$head.'
-           </div>
-         <div class="feeds-links">';
-
-        while ( $i < $numrows )
-        {
-            $rss_data .= $rss_split[$i];
-            $i++;
+// Items vorhanden?
+        if( !isset($xml->channel[0]->item) ) {
+            die('Keine Items vorhanden!');
         }
-        $trim = str_replace('', '',$this->feed);
-        $user = str_replace('&lang=en-us&format=rss_200','',$trim);
+
+// Items holen
+        foreach($xml->channel[0]->item as $item) {
+            if( $i-- == 0 ) {
+                break;
+            }
+
+            $out[] = array(
+                'title'        => (string) $item->title,
+                'description'  => (string) $item->description,
+                'link'         => (string) $item->link,
+            );
+        }
 
 
-        $rss_data.='</div></div>';
+// Eintraege ausgeben
+        foreach ($out as $value) {
+            echo $value['title'];
+            echo $value['description'];
+            echo $value['link'];
 
-        return $rss_data;
+        }
+
     }
 
 

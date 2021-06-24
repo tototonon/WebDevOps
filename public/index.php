@@ -16,11 +16,6 @@ use TononT\Webentwicklung\Repository\GetImage as Image;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-
-
-
-
-
 $request = new Request();
 $request->setUrl($_SERVER['REQUEST_URI']);
 $request->setMethod($_SERVER['REQUEST_METHOD']);
@@ -39,6 +34,7 @@ $routers = [];
 $restRouter = new RestRouter();
 $routers[] = $restRouter;
 $restRouter->addRoute('\/blogposts\/(\S+)', BlogPostsRestController::class, 'getByUrlKey', 'GET');
+$restRouter->addRoute('\/blogposts\/getFeed)', BlogPostsRestController::class, 'getFeed', 'GET');
 
 $router = new Router();
 $routers[] = $router;

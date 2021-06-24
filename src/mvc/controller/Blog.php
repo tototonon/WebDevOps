@@ -77,12 +77,17 @@ class Blog extends AbstractController
      */
     public function home(IRequest $request, IResponse $response): void
     {
-        $view = new HomeView();
+
 
         $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
-        $feedlist = $feedlist->display(2,"FeedList of Photos");
-        
-        $response->setBody($feedlist);
+        $feedlist = $feedlist->parse();
+        $object = json_decode(json_encode($feedlist));
+
+        $view = new HomeView();
+
+        $response->setBody($view->render(['entry' => $object]));
+        //$response->setBody($object);
+
     }
 
     /**
