@@ -18,7 +18,7 @@ use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
-use function Amp\ByteStream\getStdin;
+use TononT\Webentwicklung\mvc\view\RssFeed as RSS;
 
 /**
  * Class Blog
@@ -79,7 +79,9 @@ class Blog extends AbstractController
     {
         $view = new HomeView();
 
-        $response->setBody("Home");
+        $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
+        $feedlist = $feedlist->display(10,"FeedList of Photos");
+        $response->setBody($feedlist);
     }
 
     /**
@@ -101,7 +103,8 @@ class Blog extends AbstractController
         foreach ($object as $key => $item) {
             $object->$key = htmlspecialchars($item);
         }
-        $response->setBody($view->render(['entry' => $entry]));
+        $response->setBody($view->render(['entry' => $object]));
+
 
 
     }
