@@ -10,7 +10,6 @@ use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
-use TononT\Webentwicklung\mvc\model\FilePost;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
 use TononT\Webentwicklung\mvc\view\Blog\Search as SearchView;
@@ -18,7 +17,7 @@ use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
-use TononT\Webentwicklung\mvc\view\RssFeed as RSS;
+use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
 
 /**
  * Class Blog
@@ -68,24 +67,20 @@ class Blog extends AbstractController
             $repository = new BlogPostsRepository();
                 $repository->add($blogPost);
                 $response->setBody('great success');
-
         }
     }
+
     /**
      * @param IRequest $request
      * @param IResponse $response
      */
     public function home(IRequest $request, IResponse $response): void
     {
-
-
+        $view = new HomeView();
         $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
         $feedlist = $feedlist->parse();
-        $object = json_decode(json_encode($feedlist));
-
-        $view = new HomeView();
-
-        $response->setBody($view->render(['entry' => $object]));
+        //$object = json_decode(json_encode($feedlist));
+        $response->setBody($view->render(['entry' => $feedlist]));
         //$response->setBody($object);
 
     }
