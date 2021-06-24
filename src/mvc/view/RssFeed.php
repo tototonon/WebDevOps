@@ -36,8 +36,11 @@ class RssFeed
             $rss_split[] = '
 
           <div>
-        <a href="'.$link.'" target="_blank" title="" >
-            '.$title.' 
+        <a href="'.$link.'" target="_blank" title=""  >
+             '.$title.' 
+             '.$description.'
+             <br>
+           
         </a>
 			<hr>
           </div>
@@ -53,7 +56,7 @@ class RssFeed
     {
         $rss_split = $this->parse();
         $i = 0;
-        $rss_data = '
+        $rss_data = '<div class="vas">
            <div class="title-head">
          '.$head.'
            </div>

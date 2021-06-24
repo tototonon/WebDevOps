@@ -80,7 +80,8 @@ class Blog extends AbstractController
         $view = new HomeView();
 
         $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
-        $feedlist = $feedlist->display(10,"FeedList of Photos");
+        $feedlist = $feedlist->display(2,"FeedList of Photos");
+        
         $response->setBody($feedlist);
     }
 
