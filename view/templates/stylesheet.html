@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?= $title?></title>
+    <link rel="style" media="all" href="/tonon/public/style/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+    a:hover {
+    background-color: darkgray;
+}
+body {
+    background-color: ivory;
+}
+
+a{border-style: groove;}
+</style>
+</head>
+
+
+
+<div class="header" style="color:darkolivegreen" >
+    <h1><i>TIMONS BLOG</i></h1>
+
+</div>
+
+
+<div class="menu">
+
+    <nav class="nav nav-pills flex-column flex-sm-row" style="background-color: darkolivegreen;">
+
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/home"><i class="fa fa-fw fa-home"></i>Home</a>
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/search"><i class="fa fa-fw fa-search"></i>Search Post</a>
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/blog/add"><i class="fa fa-fw fa-pencil"></i>Add Post</a>
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/login"><i class="fa fa-fw fa-user"></i>Login</a>
+
+
+    </nav>
+
+
+</div>
+
+<div class="sidebar-left">
+
+</div>
+<div class="main">
+    {{content}}
+</div>
+<body class=".container-fluid">
+<br>
+<div class="footer">
+    <a style="color: black" href="/auth/login">Login</a>
+
+    <a style="color: black" href="https://tonon.test/auth/register" id="register">Want write a blogpost?</a>
+    <a>Impressum</a>
+    <a>About Me</a>
+</div>
+</body>
+</html>

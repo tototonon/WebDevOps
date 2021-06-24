@@ -7,13 +7,13 @@ namespace TononT\Webentwicklung;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
 
-class Router
+class Router implements IRouter
 {
 
     /**
      * @var array
      */
-   private array $routes = [];
+    protected array $routes = [];
 
     /**
      * @param string $route
@@ -32,10 +32,11 @@ class Router
 
 
     /**
-     * @param IRequest  $request
+     * @param IRequest $request
      * @param IResponse $response
+     * @return bool
      */
-    public function route(IRequest $request, IResponse $response)
+    public function route(IRequest $request, IResponse $response) :bool
     {
         $url = strtolower($request->getUrl());
         foreach ($this->routes as $route => $controllerArray) {
@@ -43,12 +44,14 @@ class Router
                 $controller = new $controllerArray['controller']();
                 $action = $controllerArray['action'];
                 $controller->$action($request, $response);
-                return;
+                return true;
             }
+
 
         }
 
-        $response->setBody('Hello there!');
-    }
+        return false;
 
-}//end class
+
+    }//end class
+}

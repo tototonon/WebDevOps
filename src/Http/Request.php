@@ -10,13 +10,34 @@ class Request implements IRequest
     /**
      * @var string
      */
-    private string $url = '';
+    protected string $url = '';
 
     /**
      * @var array
      */
     protected array $parameters;
 
+    private string $file = "";
+    /**
+     * @var string
+     */
+    protected string $method = '';
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
+    }
+
+    /**
+     * @param string $method
+     */
+    public function setMethod(string $method): void
+    {
+        $this->method = $method;
+    }
 
     /**
      * @return string
@@ -77,6 +98,22 @@ class Request implements IRequest
     public function hasParameter(string $name): bool
     {
         return isset($this->parameters[$name]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFile(): string
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed|string $file
+     */
+    public function setFile(string $file): void
+    {
+        $this->file = $file;
     }
 
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Login</title>
+    <style>body {background-color: ivory;}</style>
+</head>
+<body>
+<form action="/auth/login" method="post">
+    <form class="form-signin">
+        <div class="form-label-group">
+            <label for="form_username">Username/Email</label>
+            <input type="email" id="form_username" name="username" class="form-control" placeholder="Email address" required autofocus>
+
+            <label for="form_password">Password</label>
+            <input type="password" id="form_password" name="password" class="form-control" placeholder="Password" required autofocus>
+
+            <br>
+            <input type="submit" value="Login">
+        </div>
+    </form>
+</form>
+</body>
+</html>

@@ -1,0 +1,115 @@
+div {
+
+    border-style: solid;
+    padding: 20px;
+
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 15% 60% 25%;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "header header menu"
+    "left main main"
+    "footer footer footer";
+}
+
+.header {
+    grid-area: header;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+
+}
+
+
+.menu {
+    grid-area: menu;
+    border-color: #111111;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;;
+    justify-content: center;
+    padding: 30px;
+}
+
+.sidebar-left {
+    grid-area: left;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.sidebar-left a {
+    padding: 30px 0;
+}
+
+.main {
+    grid-area: main;
+
+
+
+}
+
+.footer {
+    grid-area: footer;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 0;
+}
+
+.footer div {
+    padding: 20px;
+}
+
+@media only screen and (max-width: 800px) {
+    .container {
+        display: grid;
+        grid-template-columns: 15% 60% 25%;
+        grid-template-rows: auto;
+        grid-template-areas:
+    "header header menu"
+    "left left left"
+    "main main main"
+    "footer footer footer";
+    }
+
+    .sidebar-left {
+        grid-area: left;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+    .sidebar-left a {
+        padding: 0 5px;
+    }
+
+}

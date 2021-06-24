@@ -4,8 +4,26 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\view\Blog;
 
-class AbstractShow
+abstract class AbstractShow
 {
+
+    /**
+     *
+     */
+    protected const TEMPLATE_PLACEHOLDER_CONTENT = '{{content}}';
+
+    /**
+     * @return string
+     */
+    abstract protected function getTemplatePath(): string;
+
+    /**
+     * @return string
+     */
+    protected function getBaseTemplatePath(): string
+    {
+        return '/view/templates/stylesheet.html';
+    }
 
     /**
      * @param array $data
@@ -15,7 +33,12 @@ class AbstractShow
     {
         extract($data);
         ob_start();
-        require dirname(dirname(dirname(dirname(__DIR__)))) . '/View/templates/blog/show.html';
-        return ob_get_clean();
+        require dirname(dirname(dirname(dirname(__DIR__)))) . $this->getBaseTemplatePath();
+        $baseTemplate = ob_get_clean();
+        ob_start();
+        require dirname(dirname(dirname(dirname(__DIR__)))) . $this->getTemplatePath();
+        $contentTemplate = ob_get_clean();
+
+        return str_replace(static::TEMPLATE_PLACEHOLDER_CONTENT, $contentTemplate, $baseTemplate);
     }
 }

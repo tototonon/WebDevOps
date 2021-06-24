@@ -5,23 +5,134 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\mvc\controller;
 
 
+use A\B;
+use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
-use TononT\Webentwicklung\mvc\view\Blog\AbstractShow;
-use TononT\Webentwicklung\mvc\view\Blog\ShowBlog;
+use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
+use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
+use TononT\Webentwicklung\mvc\view\Blog\Search as SearchView;
+use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
+use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
+use Respect\Validation\Validator;
+use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
 
 /**
  * Class Blog
  * @package TononT\Webentwicklung\controller
  */
 
-class Blog
+class Blog extends AbstractController
 {
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @throws AuthenticationRequiredException
+     */
     public function add(IRequest $request, IResponse $response): void
     {
+        if (!$this->getSession()->isLoggedIn()) {
+            throw new AuthenticationRequiredException();
+        }
+
+
+        if (!$request->hasParameter('title')) {
+            // render the form
+            $view = new AddView();
+            $response->setBody($view->render([]));
+    } else {
+            // do the validation here
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['title']);
+            Validator::allOf(
+                Validator::notEmpty(),
+                Validator::stringType()
+            )->check($request->getParameters()['urlKey']);
+            Validator::allOf(
+                Validator::notEmpty(),
+                Validator::stringType()
+            )->check($request->getParameters()['author']);
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
+            //Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['file']);
+
+            // create a database entry
+            $blogPost = new BlogPosts();
+            $blogPost->setTitle( $request->getParameter('title'));
+            $blogPost->setUrlKey($request->getParameter('urlKey'));
+            $blogPost->setAuthor($request->getParameter('author'));
+            $blogPost->setText($request->getParameter('text'));
+            $blogPost->setFile($request->getFile());
+            $repository = new BlogPostsRepository();
+                $repository->add($blogPost);
+                $response->setBody('great success');
+        }
+    }
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function home(IRequest $request, IResponse $response): void
+    {
+        $view = new HomeView();
+        $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
+        $feedlist = $feedlist->parse();
+        //$object = json_decode(json_encode($feedlist));
+        $response->setBody($view->render(['entry' => $feedlist]));
+        //$response->setBody($object);
 
     }
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function search(IRequest $request, IResponse $response): void
+    {
+        $repository = new BlogPostsRepository();
+        $view = new SearchView();
+        // extract URL key from call
+        $lastSlash = strripos($request->getUrl(), '/') ?: 0;
+        $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
+        $entry = $repository->getAllFiles();
+
+        $object = json_decode(json_encode($entry));
+
+        // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
+        foreach ($object as $key => $item) {
+            $object->$key = htmlspecialchars($item);
+        }
+        $response->setBody($view->render(['entry' => $object]));
+
+
+
+    }
+    public function delete(IRequest $request, IResponse $response): void
+    {
+        if(!$this->getSession()->isLoggedIn()) {
+
+            throw new AuthenticationRequiredException();
+
+        } else {
+            $repository = new BlogPostsRepository();
+        }
+            $lastSlash = strripos($request->getUrl(), '/') ?: 0;
+            $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
+            $entry = $repository->getByUrlKey($potentialUrlKey);
+
+            if (!$entry) {
+
+                throw new NotFoundException();
+
+                } else {
+                    $repository->delete($potentialUrlKey);
+                    $response->setBody('great success');
+                }
+    }
+
+
 
     /**
      * @param IRequest  $request
@@ -29,49 +140,35 @@ class Blog
      */
     public function show(IRequest $request, IResponse $response): void
     {
-        /**
-        $blogEntryFixture1 = new \stdClass();
-        $blogEntryFixture1->title = 'How to blog';
-        $blogEntryFixture1->author = 'Ernie';
-        $blogEntryFixture1->text = 'Lorem ipsum dolor sit amet, anim id est laborum.';
-
-        $blogEntryFixture2 = new \stdClass();
-        $blogEntryFixture2->title = 'MVC made easy';
-        $blogEntryFixture2->author = 'Bert';
-        $blogEntryFixture2->text = 'Pulvinar fames non phasellus dignissim imperdiet sociosqu magna dictum gravida.';
-
-        $view = new Show();
-
-        $response->setBody($view->render(['entry' => $blogEntryFixture1]));
-
-        if (preg_match('/\/mvc(\?|$)/', $request->getUrl()) === 1) {
-            $response->setBody($view->render(['entry' => $blogEntryFixture2]));
-        }
-
-    }
-         * */
 
         $repository = new BlogPostsRepository();
-        $view = new AbstractShow();
+        $view = new ShowView();
 
         // extract URL key from call
         $lastSlash = strripos($request->getUrl(), '/') ?: 0;
         $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
 
         // get blog entry from database
-        try {
             $entry = $repository->getByUrlKey($potentialUrlKey);
-            if($entry == null) {
-                 $view = new ShowBlog();
+
+            if (!$entry) {
+            $potential= substr($request->getUrl(), $lastSlash + 2);
+            if($potential = "blog/show/") {
+                $entry = $repository->getAllFiles();
+                $view = new HomeView();
+            } else {
+                throw new NotFoundException();
 
             }
-            // TODO here we would need error handling for our 404 handling
-        } catch (\Exception $e) {
-            $view = new ShowBlog();
-            http_response_code($response->getStatusCode());
-            echo $response->getBody();
         }
-        $response->setBody($view->render(['entry' => $entry]));
 
+            // escaping the entry fields with htmlspecialchars
+            // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
+        foreach ($entry as $key => $item) {
+            $entry->$key = htmlspecialchars($item);
+        }
+
+
+        $response->setBody($view->render(['entry' => $entry]));
     }//end show()
 }//end class

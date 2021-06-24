@@ -9,6 +9,17 @@ interface IRequest
     /**
      * @return string
      */
+    public function getMethod(): string;
+
+    /**
+     * @param string $method
+     */
+    public function setMethod(string $method): void;
+
+
+    /**
+     * @return string
+     */
     public function getUrl(): string;
 
     /**

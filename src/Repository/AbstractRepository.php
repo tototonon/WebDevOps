@@ -14,6 +14,15 @@ abstract class AbstractRepository
     protected \PDO $connection;
 
     /**
+     * BlogPostRepository constructor.
+     */
+    public function __construct()
+    {
+        $this->connectToDb();
+    }
+
+
+    /**
      * @return \PDO
      */
     protected function getConnection(): \PDO

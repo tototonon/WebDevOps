@@ -10,6 +10,8 @@ RewriteBase /
 # Deliver the folder or file directly if it exists on the server
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
- 
+
+#RewriteCond $1 !^(index\.php|resources|robots\.txt)
 # Push every request to index.php
 RewriteRule ^(.*)$ index.php [QSA]
+#RewriteRule ^(.*)$ index.php/$1 [L,QSA]
