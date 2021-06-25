@@ -77,11 +77,18 @@ class Blog extends AbstractController
     public function home(IRequest $request, IResponse $response): void
     {
         $view = new HomeView();
-        $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
-        $feedlist = $feedlist->parse();
-        //$object = json_decode(json_encode($feedlist));
-        $response->setBody($view->render(['entry' => $feedlist]));
-        //$response->setBody($object);
+        $feedlist = new RSS();
+
+        if($feedlist != null) {
+            $feed = $feedlist->dom();
+            //$object = json_decode(json_encode($feedlist));
+
+        } else {
+            throw new NotFoundException();
+        }
+
+        $response->setBody($view->render(['entry' => $feed]));
+
 
     }
 
@@ -161,13 +168,11 @@ class Blog extends AbstractController
 
             }
         }
-
             // escaping the entry fields with htmlspecialchars
             // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
         foreach ($entry as $key => $item) {
             $entry->$key = htmlspecialchars($item);
         }
-
 
         $response->setBody($view->render(['entry' => $entry]));
     }//end show()

@@ -46,7 +46,11 @@ li a:hover {
     padding: 20px;
 
 }
+img {
+    vertical-align: text-bottom;
+    border-style: groove;
 
+}
 
 .menu {
     grid-area: menu;

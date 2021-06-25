@@ -5,23 +5,35 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\mvc\controller;
 
 
+use DOMDocument;
+use TononT\Webentwicklung\mvc\view\Blog\Home;
+
 class RssFeed
 {
 
-    private string $feed;
 
-    /**
-     * RssFeed constructor.
-     * @param $feed
-     */
-    public function __construct($feed) {
-        $this->feed = $feed;
+    public function dom() {
+        $domOBJ = new DOMDocument();
+        $domOBJ->load("http://www.outdoorphotographer.com/blog/feed/");//XML page URL
+
+        $content = $domOBJ->getElementsByTagName("item");
+        $i = 2;
+        foreach( $content as $data ) {
+            if($i-- == 0) {
+                break;
+            }
+     $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
+     $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
+     echo "$title";
+     echo "$description";
+        }
     }
 
     /**
-     * @return array
-     */
-    function parse() {
+     * @return array $out
+
+    function parse() : array
+    {
 
         if(!$xml = simplexml_load_file($this->feed)) {
             die("Error reading xml file");
@@ -47,18 +59,25 @@ class RssFeed
                 'description' => (string)$item->description,
                 'link' => (string)$item->link,
             );
+            $this->out($out);
         }
+        return $out;
+    }
 
-        //var_dump($out);
 
-        foreach ($out as $value) {
+
+
+     * @param array $out
+
+        public function out(array $out) {
+
+            foreach ($out as $value) {
             echo $value['title'];
             echo $value['description'];
             echo $value['link'];
 
 
         }
-
-
-    }
+        }
+*/
 }
