@@ -12,7 +12,7 @@ class RssFeed
 {
 
 
-    public function dom() {
+    public function dom() :array{
         $domOBJ = new DOMDocument();
         $domOBJ->load("http://www.outdoorphotographer.com/blog/feed/");//XML page URL
 
@@ -26,7 +26,14 @@ class RssFeed
      $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
      echo "$title";
      echo "$description";
+
         }
+        $out[] = array(
+            'title' => $title,
+            'description' => $description,
+        );
+        return $out;
+
     }
 
     /**

@@ -80,14 +80,16 @@ class Blog extends AbstractController
         $feedlist = new RSS();
 
         if($feedlist != null) {
-            $feed = $feedlist->dom();
+            $feedlist = $feedlist->dom();
+
             //$object = json_decode(json_encode($feedlist));
 
         } else {
             throw new NotFoundException();
         }
 
-        $response->setBody($view->render(['entry' => $feed]));
+        //$response->setBody($view->xmlRender($feedlist));
+        $response->setBody($view->render(['entry' => $feedlist]));
 
 
     }
