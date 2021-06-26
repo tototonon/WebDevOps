@@ -12,29 +12,29 @@ class RssFeed
 {
 
 
-    public function dom() :array{
+    public function dom()
+    {
         $domOBJ = new DOMDocument();
         $domOBJ->load("http://www.outdoorphotographer.com/blog/feed/");//XML page URL
 
         $content = $domOBJ->getElementsByTagName("item");
-        $i = 2;
-        foreach( $content as $data ) {
+        $i = 1;
+        foreach ($content as $data) {
             if($i-- == 0) {
                 break;
             }
-     $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
-     $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
-     echo "$title";
-     echo "$description";
+            $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
+            $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
 
+            echo "$title";
+            echo "$description";
         }
-        $out[] = array(
-            'title' => $title,
-            'description' => $description,
-        );
-        return $out;
-
-    }
+            $out[] = array(
+                'title' => $title,
+                'description' => $description,
+            );
+            return $out;
+        }
 
     /**
      * @return array $out

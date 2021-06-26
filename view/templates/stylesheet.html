@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?= $title?></title>
+
     <link rel="style" media="all" href="/tonon/public/style/style.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <style>
+    * {
+        box-sizing: border-box;
+    }
     a:hover {
     background-color: darkgray;
 }
@@ -20,13 +23,17 @@ img{
     border-radius: 4px;
 
 }
-p{
+.header{
+    text-align: center;
+    padding: 30px;
+    font-size: 40px;
 
 }
 a{border-style: groove;}
 </style>
 </head>
-<div class="header" style="color:darkolivegreen" >
+
+<div class="header" style="color:darkolivegreen"  >
     <h1><i>TIMONS BLOG</i></h1>
 
 </div>
@@ -37,7 +44,7 @@ a{border-style: groove;}
     <nav class="nav nav-pills flex-column flex-sm-row" style="background-color: darkolivegreen;">
 
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/home"><i class="fa fa-fw fa-home"></i>Home</a>
-        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/search"><i class="fa fa-fw fa-search"></i>Search Post</a>
+        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/feed"><i class="fa fa-fw fa-search"></i>RSS feed</a>
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/blog/add"><i class="fa fa-fw fa-pencil"></i>Add Post</a>
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/login"><i class="fa fa-fw fa-user"></i>Login</a>
 
@@ -46,6 +53,8 @@ a{border-style: groove;}
 
 
 </div>
+
+<body class="container">
 
 <div class="sidebar-left">
 

@@ -40,6 +40,7 @@ li a:hover {
 }
 
 .header {
+    text-align: center;
     grid-area: header;
     display: flex;
     flex-wrap: wrap;
@@ -49,6 +50,10 @@ li a:hover {
 img {
     vertical-align: text-bottom;
     border-style: groove;
+
+}
+p{
+    text-align: center;
 
 }
 

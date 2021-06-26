@@ -15,6 +15,7 @@ class BlogPosts implements \JsonSerializable
     public string $text;
     public string $author;
     public string $file;
+    public string $date;
 
     /**
      * @return string
@@ -64,6 +65,15 @@ class BlogPosts implements \JsonSerializable
     {
         return $this->file;
     }
+
+    /**
+     * @return string
+     */
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
 
     /**
      * @param string $id
