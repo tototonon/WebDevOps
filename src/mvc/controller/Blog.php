@@ -78,18 +78,18 @@ class Blog extends AbstractController
     public function feed(IRequest $request, IResponse $response): void
     {
         $view = new FeedView();
-        $feedlist = new RSS();
+        $feedlist = new RSS("http://www.outdoorphotographer.com/blog/feed/");
 
         if($feedlist != null) {
-            $feedlist = $feedlist->dom();
-
+            //$feedlist = $feedlist->dom();
+            $response->setBody($view->render(['entry' => $feedlist]));
             //$object = json_decode(json_encode($feedlist));
 
         } else {
             throw new NotFoundException();
         }
         //$response->setBody($view->xmlRender($feedlist));
-        $response->setBody($view->render(['entry' => $feedlist]));
+
 
 
     }

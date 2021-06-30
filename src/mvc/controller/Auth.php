@@ -117,6 +117,7 @@ class Auth extends AbstractController
         $this->getSession()->destroy();
         $response->setBody("logout");
         if($response->getBody() == "logout") {
+            $response->setBody("logout");
             $response->redirect("https://tonon.test", 303);
         }
     }

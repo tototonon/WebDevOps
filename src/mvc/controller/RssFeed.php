@@ -10,7 +10,23 @@ use TononT\Webentwicklung\mvc\view\Blog\Home;
 
 class RssFeed
 {
+    private string $data;
 
+    /**
+     * RssFeed constructor.
+     * @param string $data
+     */
+    public function __construct(string $data)
+    {
+        $this->data = $data;
+        $this->parse($data);
+    }
+
+
+    /**
+     * parse xml data into html
+     * @return array
+     */
 
     public function dom()
     {
@@ -18,12 +34,13 @@ class RssFeed
         $domOBJ->load("http://www.outdoorphotographer.com/blog/feed/");//XML page URL
 
         $content = $domOBJ->getElementsByTagName("item");
-        $i = 1;
+        $i = 3;
         foreach ($content as $data) {
             if($i-- == 0) {
                 break;
             }
             $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
+            $text = $data->getElementsByTagName("text");
             $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
 
             echo "$title";
@@ -32,24 +49,26 @@ class RssFeed
             $out[] = array(
                 'title' => $title,
                 'description' => $description,
+                'text' => $text,
             );
             return $out;
         }
 
     /**
      * @return array $out
+     */
 
-    function parse() : array
+    function parse($data) : array
     {
 
-        if(!$xml = simplexml_load_file($this->feed)) {
+        if(!$xml = simplexml_load_file($data)) {
             die("Error reading xml file");
         }
 
         $out = array();
 
         // auszulesende Datensaetze
-        $i = 1;
+        $i = 4;
 
         if(!isset($xml->channel[0]->item)) {
             die('Keine Items vorhanden!');
@@ -72,19 +91,15 @@ class RssFeed
     }
 
 
-
-
-     * @param array $out
-
-        public function out(array $out) {
+        public function out(array $out)
+        {
 
             foreach ($out as $value) {
-            echo $value['title'];
-            echo $value['description'];
-            echo $value['link'];
+                echo $value['title'];
+                echo $value['description'];
+                echo $value['link'];
 
 
+            }
         }
-        }
-*/
 }

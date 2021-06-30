@@ -9,35 +9,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
+
     a:hover {
     background-color: darkgray;
 }
 body {
     background-color: ivory;
+
+    padding-top: 200px; /* This should be equal to the height of your header */
 }
 img{
     border-style: groove;
     border-radius: 4px;
 
 }
-.header{
-    text-align: center;
-    padding: 30px;
-    font-size: 40px;
 
-}
 a{border-style: groove;}
+
+     .dropbtn {
+         background-color: darkolivegreen;
+         color: black;
+         padding: 19px;
+         font-size: 17px;
+         cursor: pointer;
+         border-style: groove;
+     }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: darkolivegreen;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {background-color: #f1f1f1}
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+
 </style>
 </head>
 
 <div class="header" style="color:darkolivegreen"  >
     <h1><i>TIMONS BLOG</i></h1>
-
-</div>
-
 
 <div class="menu">
 
@@ -46,15 +80,20 @@ a{border-style: groove;}
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/home"><i class="fa fa-fw fa-home"></i>Home</a>
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/feed"><i class="fa fa-fw fa-search"></i>RSS feed</a>
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/blog/add"><i class="fa fa-fw fa-pencil"></i>Add Post</a>
-        <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/login"><i class="fa fa-fw fa-user"></i>Login</a>
 
-
+        <div class="dropdown">
+            <button class="dropbtn" style="color: black"><i class="fa fa-fw fa-user"></i></button>
+            <div class="dropdown-content">
+                <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/login"><i class="fa fa-fw fa-user"></i>Login</a>
+                <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/logout"><i class="fa fa-fw fa-user"></i>Logout</a>
+            </div>
+        </div>
     </nav>
-
-
+</div>
 </div>
 
 <body class="container">
+
 
 <div class="sidebar-left">
 

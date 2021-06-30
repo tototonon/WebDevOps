@@ -24,8 +24,8 @@ fetch('/rest/blogposts/' + urlKey)
 
         if (!response.ok) {
 
-            // TODO: proper error handling! An alert is the wort idea ever ^^
-            alert('Could not load blog post with URL key "' + urlKey + '"');
+            // TODO: proper error handling!
+            console.log('Could not load blog post with URL key "' + urlKey + '"');
         }
         return response.json();
     })
