@@ -7,6 +7,8 @@ function showContent(data) {
     template.content.querySelector("h1").innerHTML = data.title;
     template.content.querySelector("h4").innerHTML += data.author;
     template.content.querySelector("p").innerHTML = data.text;
+    let img = template.content.querySelector("img").innerHTML = data.file;
+
 
 
     // append a clone to the container
@@ -30,3 +32,11 @@ fetch('/rest/blogposts/' + urlKey)
         return response.json();
     })
     .then(data => showContent(data));
+
+function img(file) {
+    var img = new Image();
+    img.src =
+        '/image/'+file;
+    document.getElementById('body').appendChild(img);
+    down.innerHTML = "Image Element Added.";
+}

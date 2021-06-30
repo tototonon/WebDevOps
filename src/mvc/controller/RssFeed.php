@@ -10,18 +10,6 @@ use TononT\Webentwicklung\mvc\view\Blog\Home;
 
 class RssFeed
 {
-    private string $data;
-
-    /**
-     * RssFeed constructor.
-     * @param string $data
-     */
-    public function __construct(string $data)
-    {
-        $this->data = $data;
-        $this->parse($data);
-    }
-
 
     /**
      * parse xml data into html
@@ -35,17 +23,34 @@ class RssFeed
 
         $content = $domOBJ->getElementsByTagName("item");
         $i = 3;
-        foreach ($content as $data) {
-            if($i-- == 0) {
-                break;
-            }
-            $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
-            $text = $data->getElementsByTagName("text");
-            $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
 
-            echo "$title";
-            echo "$description";
-        }
+        $hasImg = $domOBJ->getElementById("img");
+
+            foreach ($content as $data) {
+
+                if($i-- == 0) {
+                    break;
+                }
+                $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
+                $text = $data->getElementsByTagName("text");
+                $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
+
+
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<h3>$title</h3>";
+                echo "<br>";
+                echo "<p>$description</p>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+
+
+            }
+
             $out[] = array(
                 'title' => $title,
                 'description' => $description,
@@ -68,7 +73,7 @@ class RssFeed
         $out = array();
 
         // auszulesende Datensaetze
-        $i = 4;
+        $i = 3;
 
         if(!isset($xml->channel[0]->item)) {
             die('Keine Items vorhanden!');
