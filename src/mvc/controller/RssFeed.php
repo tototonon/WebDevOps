@@ -5,32 +5,75 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\mvc\controller;
 
 
+use DOMDocument;
+use TononT\Webentwicklung\mvc\view\Blog\Home;
+
 class RssFeed
 {
 
-    private string $feed;
-
     /**
-     * RssFeed constructor.
-     * @param $feed
-     */
-    public function __construct($feed) {
-        $this->feed = $feed;
-    }
-
-    /**
+     * parse xml data into html
      * @return array
      */
-    function parse() {
 
-        if(!$xml = simplexml_load_file($this->feed)) {
+    public function dom()
+    {
+        $domOBJ = new DOMDocument();
+        $domOBJ->load("http://www.outdoorphotographer.com/blog/feed/");//XML page URL
+
+        $content = $domOBJ->getElementsByTagName("item");
+        $i = 3;
+
+        $hasImg = $domOBJ->getElementById("img");
+
+            foreach ($content as $data) {
+
+                if($i-- == 0) {
+                    break;
+                }
+                $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
+                $text = $data->getElementsByTagName("text");
+                $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
+
+
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<h3>$title</h3>";
+                echo "<br>";
+                echo "<p>$description</p>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+
+
+            }
+
+            $out[] = array(
+                'title' => $title,
+                'description' => $description,
+                'text' => $text,
+            );
+            return $out;
+        }
+
+    /**
+     * @return array $out
+     */
+
+    function parse($data) : array
+    {
+
+        if(!$xml = simplexml_load_file($data)) {
             die("Error reading xml file");
         }
 
         $out = array();
 
         // auszulesende Datensaetze
-        $i = 1;
+        $i = 3;
 
         if(!isset($xml->channel[0]->item)) {
             die('Keine Items vorhanden!');
@@ -47,18 +90,21 @@ class RssFeed
                 'description' => (string)$item->description,
                 'link' => (string)$item->link,
             );
+            $this->out($out);
         }
-
-        //var_dump($out);
-
-        foreach ($out as $value) {
-            echo $value['title'];
-            echo $value['description'];
-            echo $value['link'];
-
-
-        }
-
-
+        return $out;
     }
+
+
+        public function out(array $out)
+        {
+
+            foreach ($out as $value) {
+                echo $value['title'];
+                echo $value['description'];
+                echo $value['link'];
+
+
+            }
+        }
 }

@@ -13,6 +13,7 @@ use TononT\Webentwicklung\mvc\model\BlogPosts;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
 use TononT\Webentwicklung\mvc\view\Blog\Search as SearchView;
+use TononT\Webentwicklung\mvc\view\Blog\Feed as FeedView;
 use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
@@ -74,16 +75,51 @@ class Blog extends AbstractController
      * @param IRequest $request
      * @param IResponse $response
      */
-    public function home(IRequest $request, IResponse $response): void
+    public function feed(IRequest $request, IResponse $response): void
     {
-        $view = new HomeView();
-        $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
-        $feedlist = $feedlist->parse();
-        //$object = json_decode(json_encode($feedlist));
-        $response->setBody($view->render(['entry' => $feedlist]));
-        //$response->setBody($object);
+
+        //$rssFeed = "http://www.outdoorphotographer.com/blog/feed/";
+        $feedlist = new RSS();
+
+       // $feedlist->parse($rssFeed);
+        if($feedlist != null) {
+            $view = new FeedView();
+            $feedlist = $feedlist->dom();
+            $response->setBody($view->render(['entry' => $feedlist]));
+            //$object = json_decode(json_encode($feedlist));
+
+        } else {
+            throw new NotFoundException();
+        }
+        //$response->setBody($view->xmlRender($feedlist));
+
+
 
     }
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function home(IRequest $request, IResponse $response): void
+    {
+        $repository = new BlogPostsRepository();
+        $view = new HomeView();
+        // extract URL key from call
+        $lastSlash = strripos($request->getUrl(), '/') ?: 0;
+        $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
+        $entry = $repository->getAllFiles();
+
+        $object = json_decode(json_encode($entry));
+
+        // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
+        foreach ($object as $key => $item) {
+            $object->$key = htmlspecialchars($item);
+        }
+        $response->setBody($view->render(['entry' => $object]));
+
+
+    }
+
 
     /**
      * @param IRequest $request
@@ -154,20 +190,17 @@ class Blog extends AbstractController
             if (!$entry) {
             $potential= substr($request->getUrl(), $lastSlash + 2);
             if($potential = "blog/show/") {
-                $entry = $repository->getAllFiles();
-                $view = new HomeView();
+               $response->redirect("https://tonon.test/home",300);
             } else {
                 throw new NotFoundException();
 
             }
         }
-
             // escaping the entry fields with htmlspecialchars
             // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
         foreach ($entry as $key => $item) {
             $entry->$key = htmlspecialchars($item);
         }
-
 
         $response->setBody($view->render(['entry' => $entry]));
     }//end show()

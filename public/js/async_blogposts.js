@@ -7,6 +7,8 @@ function showContent(data) {
     template.content.querySelector("h1").innerHTML = data.title;
     template.content.querySelector("h4").innerHTML += data.author;
     template.content.querySelector("p").innerHTML = data.text;
+    let img = template.content.querySelector("img").innerHTML = data.file;
+
 
 
     // append a clone to the container
@@ -24,9 +26,17 @@ fetch('/rest/blogposts/' + urlKey)
 
         if (!response.ok) {
 
-            // TODO: proper error handling! An alert is the wort idea ever ^^
-            alert('Could not load blog post with URL key "' + urlKey + '"');
+            // TODO: proper error handling!
+            console.log('Could not load blog post with URL key "' + urlKey + '"');
         }
         return response.json();
     })
     .then(data => showContent(data));
+
+function img(file) {
+    var img = new Image();
+    img.src =
+        '/image/'+file;
+    document.getElementById('body').appendChild(img);
+    down.innerHTML = "Image Element Added.";
+}

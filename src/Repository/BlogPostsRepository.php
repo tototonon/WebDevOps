@@ -74,6 +74,10 @@ class BlogPostsRepository extends AbstractRepository
             echo "<tr>
     <td>{$results['title']}</td>
    </tr>";
+            $results[] = array(
+                'title' => $results['title'],
+            );
+
 
 //TODO last title is set.Overwrite !
             $result = new BlogPosts();
@@ -82,6 +86,7 @@ class BlogPostsRepository extends AbstractRepository
             $result->setAuthor($results['author']);
             $result->setText($results['text']);
             $result->setFile($results['file']);
+
            // return $result;
         }
 

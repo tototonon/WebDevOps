@@ -40,13 +40,23 @@ li a:hover {
 }
 
 .header {
+    text-align: center;
     grid-area: header;
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
 
-}
 
+}
+img {
+    vertical-align: text-bottom;
+    border-style: groove;
+
+}
+p{
+    text-align: center;
+
+}
 
 .menu {
     grid-area: menu;
@@ -56,6 +66,7 @@ li a:hover {
     flex-direction: row;;
     justify-content: center;
     padding: 30px;
+
 }
 
 .sidebar-left {
