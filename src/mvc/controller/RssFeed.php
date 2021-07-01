@@ -22,7 +22,7 @@ class RssFeed
         $domOBJ->load("http://www.outdoorphotographer.com/blog/feed/");//XML page URL
 
         $content = $domOBJ->getElementsByTagName("item");
-        $i = 3;
+        $i = 4;
 
         $hasImg = $domOBJ->getElementById("img");
 
@@ -36,12 +36,18 @@ class RssFeed
                 $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
 
 
-                echo "<br>";
+
                 echo "<br>";
                 echo "<br>";
                 echo "<h3>$title</h3>";
                 echo "<br>";
                 echo "<p>$description</p>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
+                echo "<br>";
                 echo "<br>";
                 echo "<br>";
                 echo "<br>";

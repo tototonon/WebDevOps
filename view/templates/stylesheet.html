@@ -12,6 +12,11 @@
 .header{
     text-align: center;
 }
+.dropdown {
+    text-align: left;
+    position: fixed;
+    top: 0; left: 0;
+}
     a:hover {
     background-color: darkgray;
 }
@@ -37,10 +42,7 @@ a{border-style: groove;}
          border-style: groove;
      }
 
-    .dropdown {
-        position: relative;
-        display: inline-block;
-    }
+
 
     .dropdown-content {
         display: none;
@@ -76,22 +78,22 @@ a{border-style: groove;}
     <h1><i>TIMONS BLOG</i></h1>
 </div>
 <div class="menu">
-
+    <div class="dropdown">
+        <button class="dropbtn" style="color: black"><i class="fa fa-fw fa-home"></i></button>
+        <div class="dropdown-content">
     <nav class="nav nav-pills flex-column flex-sm-row" style="background-color: darkolivegreen;">
 
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/home"><i class="fa fa-fw fa-home"></i>Home</a>
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/feed"><i class="fa fa-fw fa-search"></i>RSS feed</a>
         <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/blog/add"><i class="fa fa-fw fa-pencil"></i>Add Post</a>
+                <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/login"><i class="fa fa-fw fa-user"></i>login</a>
+                <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/logout"><i class="fa fa-fw fa-sign-out"></i>logout</a>
 
-        <div class="dropdown">
-            <button class="dropbtn" style="color: black"><i class="fa fa-fw fa-user"></i></button>
-            <div class="dropdown-content">
-                <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/login"><i class="fa fa-fw fa-user"></i>Login</a>
-                <a class="flex-sm-fill text-sm-center nav-link" style="color: black" href="https://tonon.test/auth/logout"><i class="fa fa-fw fa-user"></i>Logout</a>
-            </div>
-        </div>
     </nav>
-</div>
+        </div>
+    </div>
+    </div>
+
 
 
 <body class="container">
@@ -107,9 +109,9 @@ a{border-style: groove;}
 
 <br>
 <div class="footer">
-    <a style="color: black" href="/auth/login">Login</a>
+    <a style="color: black" href="/auth/login">login</a>
 
-    <a style="color: black" href="https://tonon.test/auth/register" id="register">Want write a blogpost?</a>
+    <a style="color: black" href="https://tonon.test/auth/register" id="register">register</a>
     <a>Impressum</a>
     <a>About Me</a>
 </div>

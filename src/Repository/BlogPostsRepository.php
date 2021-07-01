@@ -79,6 +79,7 @@ class BlogPostsRepository extends AbstractRepository
             );
 
 
+
 //TODO last title is set.Overwrite !
             $result = new BlogPosts();
             $result->setTitle($results['title']);
@@ -89,6 +90,7 @@ class BlogPostsRepository extends AbstractRepository
 
            // return $result;
         }
+
 
         return $result;
 

@@ -104,18 +104,17 @@ class Blog extends AbstractController
     {
         $repository = new BlogPostsRepository();
         $view = new HomeView();
-        // extract URL key from call
-        $lastSlash = strripos($request->getUrl(), '/') ?: 0;
-        $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
-        $entry = $repository->getAllFiles();
 
-        $object = json_decode(json_encode($entry));
+        $entry = $repository->getAllFiles();
+        //$object = json_decode(json_encode($entry));
 
         // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
-        foreach ($object as $key => $item) {
-            $object->$key = htmlspecialchars($item);
+        foreach ($entry as $key => $item) {
+            $entry->$key = htmlspecialchars($item);
         }
-        $response->setBody($view->render(['entry' => $object]));
+
+
+        $response->setBody($view->render(['entry' => $entry]));
 
 
     }

@@ -135,4 +135,10 @@ class BlogPosts implements \JsonSerializable
         $result->file = $this->file;
         return $result;
     }
+
+    public function __toString()
+    {
+       return $this->getTitle().$this->getText();
+    }
+
 }
