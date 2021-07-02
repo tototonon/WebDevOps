@@ -25,16 +25,16 @@ class Auth extends AbstractController
         if(!$request->hasParameter('role')) {
             $view = new LoginView();
             $response->setBody($view->render([]));
-        }
-        $user = new User();
-
-        if($user->getRole() == 1) {
-            echo "role 1 admin";
         } else {
-            echo "role 0 user";
+            $userRepository = new UserRepository();
+            if($userRepository->getAdminRole() == true) {
+                echo "admin";
+        } else {
+                throw new \Exception();
+            }
         }
-    }
 
+    }
     /**
      * @param IRequest $request
      * @param IResponse $response

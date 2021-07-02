@@ -22,7 +22,6 @@ class UserRepository extends AbstractRepository
         $query->setFetchMode(\PDO::FETCH_CLASS, User::class);
         return $query->fetch();
     }
-
     /**
      * @param string $username
      * @return User|null
