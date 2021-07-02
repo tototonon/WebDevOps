@@ -45,6 +45,7 @@ $router->addRoute('/auth/register', AuthController::class, 'register');
 $router->addRoute('/auth/logout', AuthController::class, 'logout');
 $router->addRoute('/blog/show', BlogController::class, 'show');
 $router->addRoute('/blog/add', BlogController::class, 'add');
+$router->addRoute('/about/me', BlogController::class, 'info');
 $router->addRoute('/blog/delete', BlogController::class, 'delete');
 
 $routers[] = new NotFoundRouter();

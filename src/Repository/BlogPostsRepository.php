@@ -72,7 +72,7 @@ class BlogPostsRepository extends AbstractRepository
 
         foreach ($resultData as $results) {
             echo "<tr>
-    <td>{$results['title']}</td>
+    <li>{$results['title']}</li>
    </tr>";
             $results[] = array(
                 'title' => $results['title'],

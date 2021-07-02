@@ -16,10 +16,10 @@ class RssFeed
      * @return array
      */
 
-    public function dom()
+    public function dom($file)
     {
         $domOBJ = new DOMDocument();
-        $domOBJ->load("http://www.outdoorphotographer.com/blog/feed/");//XML page URL
+        $domOBJ->load($file);//XML page URL
 
         $content = $domOBJ->getElementsByTagName("item");
         $i = 4;
@@ -32,14 +32,17 @@ class RssFeed
                     break;
                 }
                 $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
-                $text = $data->getElementsByTagName("text");
+                $date = $data->getElementsByTagName("pubDate")->item(0)->nodeValue;
                 $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
+
+
 
 
 
                 echo "<br>";
                 echo "<br>";
                 echo "<h3>$title</h3>";
+                echo "<i>$date</i>";
                 echo "<br>";
                 echo "<p>$description</p>";
                 echo "<br>";
@@ -60,57 +63,9 @@ class RssFeed
             $out[] = array(
                 'title' => $title,
                 'description' => $description,
-                'text' => $text,
             );
             return $out;
         }
 
-    /**
-     * @return array $out
-     */
 
-    function parse($data) : array
-    {
-
-        if(!$xml = simplexml_load_file($data)) {
-            die("Error reading xml file");
-        }
-
-        $out = array();
-
-        // auszulesende Datensaetze
-        $i = 3;
-
-        if(!isset($xml->channel[0]->item)) {
-            die('Keine Items vorhanden!');
-        }
-
-        // Items holen
-        foreach ($xml->channel[0]->item as $item) {
-            if($i-- == 0) {
-                break;
-            }
-
-            $out[] = array(
-                'title' => (string)$item->title,
-                'description' => (string)$item->description,
-                'link' => (string)$item->link,
-            );
-            $this->out($out);
-        }
-        return $out;
-    }
-
-
-        public function out(array $out)
-        {
-
-            foreach ($out as $value) {
-                echo $value['title'];
-                echo $value['description'];
-                echo $value['link'];
-
-
-            }
-        }
 }

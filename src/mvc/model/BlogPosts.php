@@ -123,6 +123,7 @@ class BlogPosts implements \JsonSerializable
         $this->file = $file;
     }
 
+
     /**
      * @return object
      */
