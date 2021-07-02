@@ -15,6 +15,25 @@ use TononT\Webentwicklung\Repository\UserRepository;
 
 class Auth extends AbstractController
 {
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @throws \Exception
+     */
+    public function role(IRequest $request, IResponse $response): void
+    {
+        if(!$request->hasParameter('role')) {
+            $view = new LoginView();
+            $response->setBody($view->render([]));
+        }
+        $user = new User();
+
+        if($user->getRole() == 1) {
+            echo "role 1 admin";
+        } else {
+            echo "role 0 user";
+        }
+    }
 
     /**
      * @param IRequest $request
