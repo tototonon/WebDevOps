@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
-
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
@@ -22,18 +21,17 @@ class Auth extends AbstractController
      */
     public function role(IRequest $request, IResponse $response): void
     {
-        if(!$request->hasParameter('role')) {
+        if (!$request->hasParameter('role')) {
             $view = new LoginView();
             $response->setBody($view->render([]));
         } else {
             $userRepository = new UserRepository();
-            if($userRepository->getAdminRole() == true) {
+            if ($userRepository->getAdminRole() == true) {
                 echo "admin";
-        } else {
+            } else {
                 throw new \Exception();
             }
         }
-
     }
     /**
      * @param IRequest $request
@@ -42,7 +40,7 @@ class Auth extends AbstractController
      */
     public function register(IRequest $request, IResponse $response): void
     {
-        if(!$request->hasParameter('username')) {
+        if (!$request->hasParameter('username')) {
             $view = new RegisterView();
             $response->setBody($view->render([]));
         } else {
@@ -52,15 +50,14 @@ class Auth extends AbstractController
                 Validator::stringType()
             )->check($request->getParameters()['password']);
             $user = new User();
-            $user->username= $request->getParameter('username'); // coming from our form via $_POST/$_REQUEST
+            $user->username = $request->getParameter('username'); // coming from our form via $_POST/$_REQUEST
             $user->password = $request->getParameter('password'); // coming from our form via $_POST/$_REQUEST
 
             $userRepository = new UserRepository();
 
             $userRepository->addUser($user);
             $this->getSession()->login();
-            $response->setBody("Welcome to my Blog ".$user->username);
-
+            $response->setBody("Welcome to my Blog " . $user->username);
         }
     }
 
@@ -71,7 +68,7 @@ class Auth extends AbstractController
      */
     public function login(IRequest $request, IResponse $response): void
     {
-        if(!$request->hasParameter('username')) {
+        if (!$request->hasParameter('username')) {
             // render the form
             $view = new LoginView();
             $response->setBody($view->render([]));
@@ -95,36 +92,33 @@ class Auth extends AbstractController
                 $user = $userRepository->getByUsername($username);
                 $hash = '';
                 // user testing deferred for timing reasons
-                if($user instanceof User) {
-                    $hash = $user->password;
-                }
+            if ($user instanceof User) {
+                $hash = $user->password;
+            }
                 /// test if the password is correct
-                if(password_verify($password,$hash) && ($user instanceof User)) {
-                    // test if the password needs rehash
-                    if(password_needs_rehash($hash, PASSWORD_DEFAULT)) {
-                        $rehashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                        if(!is_string($rehashedPassword)) {
-                            throw new \Exception('Could not update user to rehash password');
-                        }
-                        $user->password = $rehashedPassword;
-                        $userRepository->update($user);
+            if (password_verify($password, $hash) && ($user instanceof User)) {
+                // test if the password needs rehash
+                if (password_needs_rehash($hash, PASSWORD_DEFAULT)) {
+                    $rehashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                    if (!is_string($rehashedPassword)) {
+                        throw new \Exception('Could not update user to rehash password');
                     }
-                    /// login SUCCESSFUL
-                    $this->getSession()->login();
-                    $response->setBody('great success');
-                    if($response->getBody() == "great success"){
-                        $response->redirect("https://tonon.test/blog/show",303);
-
-                    }
-
-
-                } else {
-                    // login failed
-                    $response->setStatusCode(401);
-                    $response->setBody('login failed');
+                    $user->password = $rehashedPassword;
+                    $userRepository->update($user);
                 }
+                /// login SUCCESSFUL
+                $this->getSession()->login();
+                $response->setBody('great success');
+                if ($response->getBody() == "great success") {
+                    $response->redirect("https://tonon.test/blog/show", 303);
+                }
+            } else {
+                // login failed
+                $response->setStatusCode(401);
+                $response->setBody('login failed');
             }
         }
+    }
 
 
     /**
@@ -135,7 +129,7 @@ class Auth extends AbstractController
     {
         $this->getSession()->destroy();
         $response->setBody("logout");
-        if($response->getBody() == "logout") {
+        if ($response->getBody() == "logout") {
             $response->setBody("logout");
             $response->redirect("https://tonon.test", 303);
         }
