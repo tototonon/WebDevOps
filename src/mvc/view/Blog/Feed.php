@@ -19,13 +19,15 @@ class Feed extends AbstractShow
     {
         $data['title'] = $data['entry'];
         $data['description'] = $data['entry'];
-        $data['link'] = $data['entry'];
+        $data['pubDate'] = $data['entry'];
         return parent::render($data);
     }
+
     public function show($data): string
     {
         return json_encode($data);
     }
+
     public function xmlRender($data)
     {
         return simplexml_load_file($data);

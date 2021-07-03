@@ -72,11 +72,12 @@ class BlogPostsRepository extends AbstractRepository
 
         foreach ($resultData as $results) {
             echo "<tr>
-    <td>{$results['title']}</td>
+    <li>{$results['title']}</li>
    </tr>";
             $results[] = array(
                 'title' => $results['title'],
             );
+
 
 
 //TODO last title is set.Overwrite !
@@ -89,6 +90,7 @@ class BlogPostsRepository extends AbstractRepository
 
            // return $result;
         }
+
 
         return $result;
 

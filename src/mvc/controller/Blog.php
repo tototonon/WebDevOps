@@ -10,15 +10,17 @@ use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\model\User;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
-use TononT\Webentwicklung\mvc\view\Blog\Search as SearchView;
+use TononT\Webentwicklung\mvc\view\Blog\Info as InfoView;
 use TononT\Webentwicklung\mvc\view\Blog\Feed as FeedView;
 use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
+use TononT\Webentwicklung\Repository\UserRepository;
 
 /**
  * Class Blog
@@ -70,7 +72,16 @@ class Blog extends AbstractController
                 $response->setBody('great success');
         }
     }
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function info(IRequest $request, IResponse $response): void
+    {
+        $view = new InfoView();
+        $response->setBody($view->render([]));
 
+    }
     /**
      * @param IRequest $request
      * @param IResponse $response
@@ -78,21 +89,19 @@ class Blog extends AbstractController
     public function feed(IRequest $request, IResponse $response): void
     {
 
-        //$rssFeed = "http://www.outdoorphotographer.com/blog/feed/";
         $feedlist = new RSS();
 
-       // $feedlist->parse($rssFeed);
+        $feed1 =  "http://www.outdoorphotographer.com/tips-techniques/sports-adventures/feed/";
+        $feed2 =  "http://www.outdoorphotographer.com/blog/feed";
         if($feedlist != null) {
             $view = new FeedView();
-            $feedlist = $feedlist->dom();
+            $feedlist = $feedlist->dom($feed2);
             $response->setBody($view->render(['entry' => $feedlist]));
-            //$object = json_decode(json_encode($feedlist));
+
 
         } else {
             throw new NotFoundException();
         }
-        //$response->setBody($view->xmlRender($feedlist));
-
 
 
     }
@@ -104,47 +113,21 @@ class Blog extends AbstractController
     {
         $repository = new BlogPostsRepository();
         $view = new HomeView();
-        // extract URL key from call
-        $lastSlash = strripos($request->getUrl(), '/') ?: 0;
-        $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
-        $entry = $repository->getAllFiles();
 
-        $object = json_decode(json_encode($entry));
+        $entry = $repository->getAllFiles();
+        //$object = json_decode(json_encode($entry));
 
         // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
-        foreach ($object as $key => $item) {
-            $object->$key = htmlspecialchars($item);
+        foreach ($entry as $key => $item) {
+            $entry->$key = htmlspecialchars($item);
         }
-        $response->setBody($view->render(['entry' => $object]));
+
+
+        $response->setBody($view->render(['entry' => $entry]));
 
 
     }
 
-
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     */
-    public function search(IRequest $request, IResponse $response): void
-    {
-        $repository = new BlogPostsRepository();
-        $view = new SearchView();
-        // extract URL key from call
-        $lastSlash = strripos($request->getUrl(), '/') ?: 0;
-        $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
-        $entry = $repository->getAllFiles();
-
-        $object = json_decode(json_encode($entry));
-
-        // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
-        foreach ($object as $key => $item) {
-            $object->$key = htmlspecialchars($item);
-        }
-        $response->setBody($view->render(['entry' => $object]));
-
-
-
-    }
     public function delete(IRequest $request, IResponse $response): void
     {
         if(!$this->getSession()->isLoggedIn()) {
@@ -153,20 +136,27 @@ class Blog extends AbstractController
 
         } else {
             $repository = new BlogPostsRepository();
+            $user = new UserRepository();
         }
             $lastSlash = strripos($request->getUrl(), '/') ?: 0;
             $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
+
+        if($user->getAdminRole() == 1) {
+            $repository->delete($potentialUrlKey);
+            $response->setBody('great success');
+        } else {
+            echo "can't delete as user";
+        }
             if (!$entry) {
 
                 throw new NotFoundException();
 
-                } else {
-                    $repository->delete($potentialUrlKey);
-                    $response->setBody('great success');
                 }
-    }
+
+            }
+
 
 
 
