@@ -15,7 +15,7 @@ use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 class BlogPosts extends AbstractController
 {
-  
+
     /**
      * @param IRestAware $request
      * @param IResponse $response

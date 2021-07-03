@@ -66,7 +66,7 @@ class Blog extends AbstractController
             $blogPost->setUrlKey($request->getParameter('urlKey'));
             $blogPost->setAuthor($request->getParameter('author'));
             $blogPost->setText($request->getParameter('text'));
-            $blogPost->setFile($request->getFile());
+            $blogPost->setFile($request->getParameter('file'));
             $repository = new BlogPostsRepository();
                 $repository->add($blogPost);
                 $response->setBody('great success');
@@ -93,15 +93,9 @@ class Blog extends AbstractController
 
         $feed1 =  "http://www.outdoorphotographer.com/tips-techniques/sports-adventures/feed/";
         $feed2 =  "http://www.outdoorphotographer.com/blog/feed";
-        if($feedlist != null) {
             $view = new FeedView();
             $feedlist = $feedlist->dom($feed2);
             $response->setBody($view->render(['entry' => $feedlist]));
-
-
-        } else {
-            throw new NotFoundException();
-        }
 
 
     }
