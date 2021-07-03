@@ -56,5 +56,11 @@ interface IResponse
      * @return bool
      */
     public function hasHeader(string $name): bool;
+
+    /**
+     * @param string $url
+     * @param int $statusCode
+     * @return mixed
+     */
     public function redirect(string $url, int $statusCode);
 }
