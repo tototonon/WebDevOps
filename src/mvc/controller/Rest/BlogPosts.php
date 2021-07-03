@@ -15,18 +15,7 @@ use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
 class BlogPosts extends AbstractController
 {
-    public function getFeed(IRestAware $request, IResponse $response): void
-    {
-        $feedlist = new RSS('http://www.outdoorphotographer.com/blog/feed/');
-        $feedlist = $feedlist->display(2,"FeedList of Photos");
-        // TODO: error handling needs to be different for webservices!
-        if (!$feedlist) {
-            throw new NotFoundException();
-        }
-        $view = new JsonView();
-        $response->setBody($view->render($feedlist));
 
-    }
     /**
      * @param IRestAware $request
      * @param IResponse $response
