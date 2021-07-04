@@ -18,7 +18,7 @@ class Comments extends AbstractShow
      */
     public function render(array $data): string
     {
-        $data['title'] = 'Blogbeitrag erstellen';
+        $data['title'] = 'Comments';
         return parent::render($data);
     }
 }

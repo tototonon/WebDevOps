@@ -6,6 +6,7 @@ function showContent(data) {
     // fill the template
     template.content.querySelector("h1").innerHTML = data.title;
     template.content.querySelector("h4").innerHTML += data.author;
+    //template.content.querySelector("h5").innerHTML = ;
     template.content.querySelector("p").innerHTML = data.text;
     let img = template.content.querySelector("img").innerHTML = data.file;
 

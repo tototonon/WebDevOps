@@ -9,7 +9,9 @@ class Comments
 {
     protected int $id;
     public string $text;
+    public string $name;
     public string $date;
+
 
     /**
      * @return int
@@ -36,4 +38,21 @@ class Comments
     {
         $this->text = $text;
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
 }

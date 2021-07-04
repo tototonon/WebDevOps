@@ -24,6 +24,7 @@ use Respect\Validation\Validator;
 use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
 use TononT\Webentwicklung\Repository\CommentsRepository;
 use TononT\Webentwicklung\Repository\UserRepository;
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * Class Blog
@@ -108,18 +109,15 @@ class Blog extends AbstractController
      */
     public function home(IRequest $request, IResponse $response): void
     {
-        $repository = new BlogPostsRepository();
+        $repository = new CommentsRepository();
         $view = new HomeView();
 
-        $entry = $repository->getAllFiles();
+        $entry = $repository->getAllComments();
         //$object = json_decode(json_encode($entry));
-
         // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
         foreach ($entry as $key => $item) {
             $entry->$key = htmlspecialchars($item);
         }
-
-
         $response->setBody($view->render(['entry' => $entry]));
 
 
@@ -144,6 +142,7 @@ class Blog extends AbstractController
             Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
             $comment = new Comments();
             $comment->setText($request->getParameter('text'));
+            $comment->setName($request->getParameter('name'));
             $repository = new CommentsRepository();
             $repository->addComment($comment);
             $response->setBody('great success');
