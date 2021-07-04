@@ -45,6 +45,7 @@ class CommentsRepository extends AbstractRepository
     <i><h8>published: {$results['date']}</h8></i><br>
     <p>{$results['text']}</p>
    </tr>";
+
                 echo "</div>";
                 $results[] = array(
                     'name' => $results['name'],
