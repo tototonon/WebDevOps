@@ -4,8 +4,34 @@
 <style>
     .btn {
         background-color: darkolivegreen;
+
     }
+    .comment-box h4{
+
+         font-size:20px;
+         line-height:16px;
+         color:black;
+         font-weight:200;
+     }
+    .comment-box p{
+
+         font-size:14px;
+         line-height:16px;
+         color:#282828;
+         font-weight:100;
+     }
+    .comment-box{
+
+        background-color:darkolivegreen;
+        border-radius:4px;
+        /*Will position the comment box relative to its inner div, which should be placed as absolute*/
+        position: relative;
+
+
+    }
+
 </style>
+<a href="https://tonon.test/comment/add" class="btn btn-primary" >leave a comment</a>
 <div id="content-container">
 
 </div>
@@ -17,6 +43,5 @@
     <br>
     <p></p>
     <h5></h5>
-    <a href="https://tonon.test/comment/add" class="btn btn-primary" >leave a comment</a>
 
 </template>

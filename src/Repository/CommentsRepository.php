@@ -34,13 +34,17 @@ class CommentsRepository extends AbstractRepository
 
         $query = $this->connection->prepare('select * from comments; ');
         $query->execute();
+        $query->setFetchMode(\PDO::FETCH_ASSOC);
         $resultData = $query->fetchAll();
 
         foreach ($resultData as $results) {
+            echo "<div class='comment-box'>";
             echo "<tr>
-    <h4>Name: {$results['name']}</h4>
+    <h4>by: {$results['name']}</h4>
     <p>{$results['text']}</p>
    </tr>";
+            echo "</div>";
+
             $results[] = array(
                 'name' => $results['name'],
                 'text' => $results['text'],
@@ -49,6 +53,7 @@ class CommentsRepository extends AbstractRepository
             $result = new Comments();
             $result->setName($results['name']);
             $result->setText($results['text']);
+
 
 
         }

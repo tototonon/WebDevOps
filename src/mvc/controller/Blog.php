@@ -146,6 +146,7 @@ class Blog extends AbstractController
             $repository = new CommentsRepository();
             $repository->addComment($comment);
             $response->setBody('great success');
+            //$response->redirect("")
         }
     }
 
