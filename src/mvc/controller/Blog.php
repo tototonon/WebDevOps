@@ -10,16 +10,19 @@ use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\model\Comments;
 use TononT\Webentwicklung\mvc\model\User;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
 use TononT\Webentwicklung\mvc\view\Blog\Info as InfoView;
 use TononT\Webentwicklung\mvc\view\Blog\Feed as FeedView;
 use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
+use TononT\Webentwicklung\mvc\view\Blog\Comments as CommentsView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
+use TononT\Webentwicklung\Repository\CommentsRepository;
 use TononT\Webentwicklung\Repository\UserRepository;
 
 /**
@@ -120,6 +123,31 @@ class Blog extends AbstractController
         $response->setBody($view->render(['entry' => $entry]));
 
 
+    }
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @throws AuthenticationRequiredException
+     */
+    public function comment(IRequest $request, IResponse $response): void
+    {
+        if(!$this->getSession()->isLoggedIn()) {
+            throw new AuthenticationRequiredException();
+        }
+
+
+        if(!$request->hasParameter('text')) {
+            // render the form
+            $view = new CommentsView();
+            $response->setBody($view->render([]));
+        } else {
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
+            $comment = new Comments();
+            $comment->setText($request->getParameter('text'));
+            $repository = new CommentsRepository();
+            $repository->addComment($comment);
+            $response->setBody('great success');
+        }
     }
 
     public function delete(IRequest $request, IResponse $response): void
