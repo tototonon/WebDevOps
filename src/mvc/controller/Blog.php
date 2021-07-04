@@ -70,10 +70,14 @@ class Blog extends AbstractController
             $blogPost->setUrlKey($request->getParameter('urlKey'));
             $blogPost->setAuthor($request->getParameter('author'));
             $blogPost->setText($request->getParameter('text'));
-            $blogPost->setFile($request->getParameter('file'));
+            $blogPost->setFile($request->getFile());
             $repository = new BlogPostsRepository();
                 $repository->add($blogPost);
                 $response->setBody('great success');
+                if($response->getBody() == "great success"){
+
+                    $response->redirect("https://tonon.test/blog/show",303);
+                }
         }
     }
     /**
@@ -112,6 +116,9 @@ class Blog extends AbstractController
         $repository = new BlogPostsRepository();
         $view = new HomeView();
 
+
+        //$id = "1";;
+        //$entry = $repository->getById($id);
         $entry = $repository->getAllFiles();
         //$object = json_decode(json_encode($entry));
         // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
@@ -163,6 +170,12 @@ class Blog extends AbstractController
         }
     }
 
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @throws AuthenticationRequiredException
+     * @throws NotFoundException
+     */
     public function delete(IRequest $request, IResponse $response): void
     {
         if(!$this->getSession()->isLoggedIn()) {
@@ -170,22 +183,25 @@ class Blog extends AbstractController
             throw new AuthenticationRequiredException();
 
         } else {
+
             $repository = new BlogPostsRepository();
-            $user = new UserRepository();
-        }
+
             $lastSlash = strripos($request->getUrl(), '/') ?: 0;
             $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
+            if(!$entry) {
 
-        if($user->getAdminRole() == 1) {
-            //$repository->delete($potentialUrlKey);
-            $response->setBody('great success');
-        } else {
-            $response->setBody("Error");
-        }
+                throw new NotFoundException();
 
+            } else {
+                //if isAdmin()
+                $repository->delete($potentialUrlKey);
+                $response->setBody('great success');
+                $response->redirect("https://tonon.test/home",303);
             }
+        }
+    }
 
 
 
@@ -207,13 +223,11 @@ class Blog extends AbstractController
         // get blog entry from database
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
-            //TODO
+            //TODO connect with id of blogposts
         $commentsRepo = new CommentsRepository();
-            if(isset($commentsRepo)) {
-                $commentsRepo->getAllComments();
-
-            }
-
+        if(isset($commentsRepo)) {
+            $commentsRepo->getAllComments();
+        }
             if (!$entry) {
             $potential= substr($request->getUrl(), $lastSlash + 2);
             if($potential = "blog/show/") {

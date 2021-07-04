@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\mvc\controller;
 
 use Respect\Validation\Validator;
+use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\mvc\model\User;
@@ -14,25 +15,7 @@ use TononT\Webentwicklung\Repository\UserRepository;
 
 class Auth extends AbstractController
 {
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     * @throws \Exception
-     */
-    public function role(IRequest $request, IResponse $response): void
-    {
-        if (!$request->hasParameter('role')) {
-            $view = new LoginView();
-            $response->setBody($view->render([]));
-        } else {
-            $userRepository = new UserRepository();
-            if ($userRepository->getAdminRole() == 1) {
-                $response->setBody("Welcome admin");
-            } else {
-                $response->setBody("Welcome user");
-            }
-        }
-    }
+
     /**
      * @param IRequest $request
      * @param IResponse $response
