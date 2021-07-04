@@ -11,7 +11,6 @@ use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
 use TononT\Webentwicklung\mvc\model\Comments;
-use TononT\Webentwicklung\mvc\model\User;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
 use TononT\Webentwicklung\mvc\view\Blog\Info as InfoView;
@@ -23,8 +22,7 @@ use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
 use TononT\Webentwicklung\Repository\CommentsRepository;
-use TononT\Webentwicklung\Repository\UserRepository;
-use function PHPUnit\Framework\isEmpty;
+
 
 /**
  * Class Blog
@@ -107,6 +105,8 @@ class Blog extends AbstractController
 
 
     }
+
+
     /**
      * @param IRequest $request
      * @param IResponse $response
@@ -225,9 +225,7 @@ class Blog extends AbstractController
 
             //TODO connect with id of blogposts
         $commentsRepo = new CommentsRepository();
-        if(isset($commentsRepo)) {
-            $commentsRepo->getAllComments();
-        }
+        $commentsRepo->getAllComments();
             if (!$entry) {
             $potential= substr($request->getUrl(), $lastSlash + 2);
             if($potential = "blog/show/") {

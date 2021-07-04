@@ -54,4 +54,9 @@ interface IRequest
      * @return bool
      */
     public function hasParameter(string $name): bool;
+
+    /**
+     * @return string
+     */
+    public function getFile(): string;
 }

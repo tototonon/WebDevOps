@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Repository;
-
+use PDO;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
-use TononT\Webentwicklung\mvc\model\User;
+
 
 class BlogPostsRepository extends AbstractRepository
 {
