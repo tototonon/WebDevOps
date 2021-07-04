@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\Repository;
 
 use Dotenv\Dotenv;
+use PDO;
 
 abstract class AbstractRepository
 {
 
     /**
-     * @var \PDO
+     * @var PDO
      */
-    protected \PDO $connection;
+    protected PDO $connection;
 
     /**
      * BlogPostRepository constructor.
@@ -23,9 +24,9 @@ abstract class AbstractRepository
 
 
     /**
-     * @return \PDO
+     * @return PDO
      */
-    protected function getConnection(): \PDO
+    protected function getConnection(): PDO
     {
         return $this->connection;
     }
@@ -39,13 +40,13 @@ abstract class AbstractRepository
         $dotenv->load();
 
         try {
-            $connection = new \PDO(
+            $connection = new PDO(
                 $_ENV['DB_DSN'],
                 $_ENV['DB_USER'],
                 $_ENV['DB_PASSWORD']
             );
             // set the PDO error mode to exception
-            $connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection = $connection;
         } catch (\PDOException $e) {
             echo "Connection failed: " . $e->getMessage();

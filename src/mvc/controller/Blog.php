@@ -108,31 +108,6 @@ class Blog extends AbstractController
 
     }
 
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     * @throws AuthenticationRequiredException
-     */
-    public function comment(IRequest $request, IResponse $response): void
-    {
-        if(!$this->getSession()->isLoggedIn()) {
-            throw new AuthenticationRequiredException();
-        }
-
-
-        if(!$request->hasParameter('text')) {
-            // render the form
-            $view = new CommentsView();
-            $response->setBody($view->render([]));
-        } else {
-            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
-            $comment = new Comments();
-            $comment->setText($request->getParameter('text'));
-            $repository = new CommentsRepository();
-            $repository->addComment($comment);
-            $response->setBody('great success');
-        }
-    }
 
     /**
      * @param IRequest $request
@@ -252,9 +227,7 @@ class Blog extends AbstractController
 
             //TODO connect with id of blogposts
         $commentsRepo = new CommentsRepository();
-        if(isset($commentsRepo)) {
-            $commentsRepo->getAllComments();
-        }
+        $commentsRepo->getAllComments();
             if (!$entry) {
             $potential= substr($request->getUrl(), $lastSlash + 2);
             if($potential = "blog/show/") {
