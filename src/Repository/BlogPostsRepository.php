@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\Repository;
 
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\model\User;
 
 class BlogPostsRepository extends AbstractRepository
 {
@@ -71,14 +72,16 @@ class BlogPostsRepository extends AbstractRepository
         $resultData = $query->fetchAll();
 
         foreach ($resultData as $results) {
+            echo "<div class='file-box'>";
             echo "<tr>
-    <li>{$results['title']}</li>
+    <h5>Author: {$results['author']}</h5>
+    <p>{$results['title']}</p>
    </tr>";
+            echo "</div>";
             $results[] = array(
                 'title' => $results['title'],
+                'author' => $results['author'],
             );
-
-
 
 //TODO last title is set.Overwrite !
             $result = new BlogPosts();
@@ -93,6 +96,25 @@ class BlogPostsRepository extends AbstractRepository
 
 
         return $result;
+
+    }
+
+    /**
+     * @param BlogPosts $blogPosts
+     * @return mixed
+     */
+    public function update(BlogPosts $blogPosts)
+    {
+        $query = $this->connection->prepare(
+            "update blog_posts set text=:text, file=:file where id=:id"
+        );
+        $id = $blogPosts->getId();
+        $file = $blogPosts->getFile();
+        $query->bindParam(':id',$id );
+        $query->bindParam(':username',$file ,PDO::PARAM_STR);
+        $query->execute();
+        $query->setFetchMode(\PDO::FETCH_CLASS, BlogPosts::class);
+        return $query->fetch();
 
     }
 
