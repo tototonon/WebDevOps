@@ -35,7 +35,34 @@ class BlogPostsRepository extends AbstractRepository
         $query->execute();
     }
 
+    /**
+     * @param string $id
+     * @return BlogPosts|null
+     */
+    public function getById(string $id)
+    {
 
+        $query = $this->connection->prepare("select * from blog_posts where id=:id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+        $query->setFetchMode(\PDO::FETCH_ASSOC);
+        $resultData = $query->fetch();
+        if (!$resultData) {
+            return null;
+        }
+
+        // INFO This clearly shows how bad this solution scales. But it is very
+        $result = new BlogPosts();
+        $result->setId($resultData['id']);
+        $result->setTitle($resultData['title']);
+        $result->setUrlKey($resultData['url_key']);
+        $result->setAuthor($resultData['author']);
+        $result->setText($resultData['text']);
+        $result->setFile($resultData['file']);
+
+        return $result;
+
+    }
     /**
      * @param string $urlKey
      * @return BlogPosts|null

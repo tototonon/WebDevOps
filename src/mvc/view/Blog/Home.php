@@ -18,7 +18,7 @@ class Home extends AbstractShow
      */
     public function render(array $data): string
     {
-        $data['title'] = $data['entry'];
+        $data['id'] = $data['entry'];
         return parent::render($data);
     }
 
