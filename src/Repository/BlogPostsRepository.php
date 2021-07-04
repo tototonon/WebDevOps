@@ -72,13 +72,13 @@ class BlogPostsRepository extends AbstractRepository
 
         foreach ($resultData as $results) {
             echo "<tr>
-    <li>{$results['title']}</li>
+    <h5>Author: {$results['author']}</h5>
+    <p>{$results['title']}</p>
    </tr>";
             $results[] = array(
                 'title' => $results['title'],
+                'author' => $results['author'],
             );
-
-
 
 //TODO last title is set.Overwrite !
             $result = new BlogPosts();

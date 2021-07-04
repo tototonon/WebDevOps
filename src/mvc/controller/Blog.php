@@ -109,10 +109,10 @@ class Blog extends AbstractController
      */
     public function home(IRequest $request, IResponse $response): void
     {
-        $repository = new CommentsRepository();
+        $repository = new BlogPostsRepository();
         $view = new HomeView();
 
-        $entry = $repository->getAllComments();
+        $entry = $repository->getAllFiles();
         //$object = json_decode(json_encode($entry));
         // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
         foreach ($entry as $key => $item) {
@@ -193,6 +193,13 @@ class Blog extends AbstractController
         // get blog entry from database
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
+            //TODO
+        $commentsRepo = new CommentsRepository();
+            if(isset($commentsRepo)) {
+                $commentsRepo->getAllComments();
+
+            }
+
             if (!$entry) {
             $potential= substr($request->getUrl(), $lastSlash + 2);
             if($potential = "blog/show/") {
@@ -207,6 +214,7 @@ class Blog extends AbstractController
         foreach ($entry as $key => $item) {
             $entry->$key = htmlspecialchars($item);
         }
+
 
         $response->setBody($view->render(['entry' => $entry]));
     }//end show()
