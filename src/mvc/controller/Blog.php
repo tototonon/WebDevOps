@@ -10,17 +10,21 @@ use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\model\Comments;
 use TononT\Webentwicklung\mvc\model\User;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
 use TononT\Webentwicklung\mvc\view\Blog\Info as InfoView;
 use TononT\Webentwicklung\mvc\view\Blog\Feed as FeedView;
 use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
+use TononT\Webentwicklung\mvc\view\Blog\Comments as CommentsView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
+use TononT\Webentwicklung\Repository\CommentsRepository;
 use TononT\Webentwicklung\Repository\UserRepository;
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * Class Blog
@@ -105,21 +109,44 @@ class Blog extends AbstractController
      */
     public function home(IRequest $request, IResponse $response): void
     {
-        $repository = new BlogPostsRepository();
+        $repository = new CommentsRepository();
         $view = new HomeView();
 
-        $entry = $repository->getAllFiles();
+        $entry = $repository->getAllComments();
         //$object = json_decode(json_encode($entry));
-
         // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
         foreach ($entry as $key => $item) {
             $entry->$key = htmlspecialchars($item);
         }
-
-
         $response->setBody($view->render(['entry' => $entry]));
 
 
+    }
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @throws AuthenticationRequiredException
+     */
+    public function comment(IRequest $request, IResponse $response): void
+    {
+        if(!$this->getSession()->isLoggedIn()) {
+            throw new AuthenticationRequiredException();
+        }
+
+
+        if(!$request->hasParameter('text')) {
+            // render the form
+            $view = new CommentsView();
+            $response->setBody($view->render([]));
+        } else {
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
+            $comment = new Comments();
+            $comment->setText($request->getParameter('text'));
+            $comment->setName($request->getParameter('name'));
+            $repository = new CommentsRepository();
+            $repository->addComment($comment);
+            $response->setBody('great success');
+        }
     }
 
     public function delete(IRequest $request, IResponse $response): void
@@ -138,16 +165,11 @@ class Blog extends AbstractController
 
 
         if($user->getAdminRole() == 1) {
-            $repository->delete($potentialUrlKey);
+            //$repository->delete($potentialUrlKey);
             $response->setBody('great success');
         } else {
-            echo "can't delete as user";
+            $response->setBody("Error");
         }
-            if (!$entry) {
-
-                throw new NotFoundException();
-
-                }
 
             }
 

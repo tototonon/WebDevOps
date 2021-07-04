@@ -16,7 +16,7 @@ class UserRepository extends AbstractRepository
      */
     public function getAdminRole()
     {
-        $query = $this->connection->prepare('select * from users where role=1');
+        $query = $this->connection->prepare('select * from users');
         $query->bindParam(':role', $role);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_CLASS, User::class);
