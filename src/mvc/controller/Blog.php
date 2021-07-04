@@ -207,13 +207,11 @@ class Blog extends AbstractController
         // get blog entry from database
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
-            //TODO
+            //TODO connect with id of blogposts
         $commentsRepo = new CommentsRepository();
-            if(isset($commentsRepo)) {
-                $commentsRepo->getAllComments();
-
-            }
-
+        if(isset($commentsRepo)) {
+            $commentsRepo->getAllComments();
+        }
             if (!$entry) {
             $potential= substr($request->getUrl(), $lastSlash + 2);
             if($potential = "blog/show/") {
