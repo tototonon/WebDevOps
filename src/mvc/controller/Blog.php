@@ -138,16 +138,11 @@ class Blog extends AbstractController
 
 
         if($user->getAdminRole() == 1) {
-            $repository->delete($potentialUrlKey);
+            //$repository->delete($potentialUrlKey);
             $response->setBody('great success');
         } else {
-            echo "can't delete as user";
+            $response->setBody("Error");
         }
-            if (!$entry) {
-
-                throw new NotFoundException();
-
-                }
 
             }
 

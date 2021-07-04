@@ -26,10 +26,10 @@ class Auth extends AbstractController
             $response->setBody($view->render([]));
         } else {
             $userRepository = new UserRepository();
-            if ($userRepository->getAdminRole() == true) {
-                echo "admin";
+            if ($userRepository->getAdminRole() == 1) {
+                $response->setBody("Welcome admin");
             } else {
-                throw new \Exception();
+                $response->setBody("Welcome user");
             }
         }
     }
