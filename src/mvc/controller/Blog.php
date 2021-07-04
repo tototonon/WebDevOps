@@ -121,6 +121,19 @@ class Blog extends AbstractController
         $response->setBody($view->render(['entry' => $entry]));
 
 
+    } /**
+ * @param IRequest $request
+ * @param IResponse $response
+ * @throws AuthenticationRequiredException
+ */
+    public function updatePost(IRequest $request, IResponse $response): void
+    {
+
+        if(!$this->getSession()->isLoggedIn()) {
+            throw new AuthenticationRequiredException();
+        }
+
+
     }
     /**
      * @param IRequest $request
