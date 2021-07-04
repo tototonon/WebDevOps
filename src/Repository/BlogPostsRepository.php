@@ -71,10 +71,12 @@ class BlogPostsRepository extends AbstractRepository
         $resultData = $query->fetchAll();
 
         foreach ($resultData as $results) {
+            echo "<div class='file-box'>";
             echo "<tr>
     <h5>Author: {$results['author']}</h5>
     <p>{$results['title']}</p>
    </tr>";
+            echo "</div>";
             $results[] = array(
                 'title' => $results['title'],
                 'author' => $results['author'],

@@ -9,7 +9,7 @@
     .comment-box h4{
 
          font-size:20px;
-         line-height:16px;
+         line-height:10px;
          color:black;
          font-weight:200;
      }
@@ -19,20 +19,31 @@
          line-height:16px;
          color:#282828;
          font-weight:100;
+
      }
+
     .comment-box{
-
+        border-style: groove;
+        grid-area: left;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
         background-color:darkolivegreen;
-        border-radius:4px;
+        border-radius:2px;
         /*Will position the comment box relative to its inner div, which should be placed as absolute*/
-        position: relative;
-
+    }
+    .content-container{
+       margin-top: 3px;
 
     }
-
+.btn:hover
+{
+    background-color: forestgreen;
+}
 </style>
-<a href="https://tonon.test/comment/add" class="btn btn-primary" >leave a comment</a>
-<div id="content-container">
+<br>
+<a href="https://tonon.test/comment/add" class="btn btn-primary" >comment</a>
+<div id="content-container" class="content-container">
 
 </div>
 

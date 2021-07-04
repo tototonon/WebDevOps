@@ -146,7 +146,7 @@ class Blog extends AbstractController
             $repository = new CommentsRepository();
             $repository->addComment($comment);
             $response->setBody('great success');
-            //$response->redirect("")
+            $response->redirect("https://tonon.test/blog/show/how-to-blog",303);
         }
     }
 
