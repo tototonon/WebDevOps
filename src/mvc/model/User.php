@@ -11,6 +11,15 @@ class User
     public string $password;
     public int $role;
 
+    /**
+     * @return int
+     */
+    public function getRole(): int
+    {
+        return $this->role;
+    }
+
+
 
 
 }

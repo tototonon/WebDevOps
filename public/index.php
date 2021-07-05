@@ -46,6 +46,8 @@ $router->addRoute('/auth/logout', AuthController::class, 'logout');
 $router->addRoute('/blog/show', BlogController::class, 'show');
 $router->addRoute('/blog/add', BlogController::class, 'add');
 $router->addRoute('/about/me', BlogController::class, 'info');
+$router->addRoute('/popular/post', BlogController::class, 'popular');
+$router->addRoute('/impressum', BlogController::class, 'impressum');
 $router->addRoute('/comment/add', BlogController::class, 'comment');
 $router->addRoute('/blog/delete', BlogController::class, 'delete');
 

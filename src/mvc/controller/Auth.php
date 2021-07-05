@@ -78,6 +78,7 @@ class Auth extends AbstractController
             if ($user instanceof User) {
                 $hash = $user->password;
             }
+
                 /// test if the password is correct
             if (password_verify($password, $hash) && ($user instanceof User)) {
                 // test if the password needs rehash
@@ -91,7 +92,14 @@ class Auth extends AbstractController
                 }
                 /// login SUCCESSFUL
                 $this->getSession()->login();
+                $userRepo = new UserRepository();
+
+                //$user = $userRepo->getByUsername($this->session->getEntry('username'));
+               // if(!$user instanceof User || !$user->getRole() == $userRepo->isAdmin()){
+                  //  throw new AuthenticationRequiredException();
+                  //  }
                 $response->setBody('great success');
+
                 if ($response->getBody() == "great success") {
                     $response->redirect("https://tonon.test/blog/show", 303);
                 }
