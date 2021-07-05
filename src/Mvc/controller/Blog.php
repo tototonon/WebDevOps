@@ -234,10 +234,6 @@ class Blog extends AbstractController
 
             } else {
                 $userRepository = new UserRepository();
-
-                if(!$auth->admin($admin)) {
-                    throw new ForbiddenException();
-                } else {
                     $repository->delete($potentialUrlKey);
                     $response->setBody('great success');
                     $response->redirect("https://tonon.test/popular/post", 303);
@@ -245,7 +241,7 @@ class Blog extends AbstractController
             }
 
         }
-    }
+
         /**
          * @param IRequest $request
          * @param IResponse $response
