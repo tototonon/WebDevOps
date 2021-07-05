@@ -216,7 +216,36 @@ class Blog extends AbstractController
                 //if isAdmin()
                 $repository->delete($potentialUrlKey);
                 $response->setBody('great success');
-                $response->redirect("https://tonon.test/home",303);
+                $response->redirect("https://tonon.test/popular/post", 303);
+            }
+
+        }
+    }
+        /**
+         * @param IRequest $request
+         * @param IResponse $response
+         * @throws AuthenticationRequiredException
+         * @throws NotFoundException
+         */
+        public function deleteComment(IRequest $request, IResponse $response): void
+    {
+        if(!$this->getSession()->isLoggedIn()) {
+
+            throw new AuthenticationRequiredException();
+
+        } else {
+
+            $repository = new CommentsRepository();
+
+            if(!$id= $request->getParameter("id")) {
+
+                throw new NotFoundException();
+
+            } else {
+                //if isAdmin()
+                $repository->deleteComment($id);
+                $response->setBody('great success');
+                $response->redirect("https://tonon.test/popular/post",303);
             }
         }
     }
