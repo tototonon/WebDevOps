@@ -34,19 +34,18 @@ class RssFeed
                 $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
                 $date = $data->getElementsByTagName("pubDate")->item(0)->nodeValue;
                 $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
+                $link = $data->getElementsByTagName("link")->item(0)->nodeValue;
 
 
 
 
 
                 echo "<div class='feed-box'>";
-                echo "<br>";
-                echo "<br>";
                 echo "<h3>$title</h3>";
                 echo "<i>$date</i>";
                 echo "<br>";
                 echo "<p>$description</p>";
-                echo "<br>";
+                echo "<p>$link</p>";
                 echo "<br>";
                 echo "<br>";
                 echo "</div>";
