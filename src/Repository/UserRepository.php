@@ -6,7 +6,7 @@ namespace TononT\Webentwicklung\Repository;
 
 
 use PDO;
-use TononT\Webentwicklung\mvc\model\User;
+use TononT\Webentwicklung\Mvc\model\User;
 
 class UserRepository extends AbstractRepository
 {

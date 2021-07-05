@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\Repository;
 
 use TononT\Webentwicklung\mvc\model\BlogPosts;
+use TononT\Webentwicklung\mvc\model\Comments;
 
 class GetImage extends AbstractRepository
 {
