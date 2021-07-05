@@ -37,9 +37,6 @@ class RssFeed
                 $link = $data->getElementsByTagName("link")->item(0)->nodeValue;
 
 
-
-
-
                 echo "<div class='feed-box'>";
                 echo "<h3>$title</h3>";
                 echo "<i>$date</i>";
@@ -55,6 +52,7 @@ class RssFeed
 
             $out[] = array(
                 'title' => $title,
+                'date' => $date,
                 'description' => $description,
             );
             return $out;

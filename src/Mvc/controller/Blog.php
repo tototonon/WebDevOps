@@ -7,6 +7,7 @@ namespace TononT\Webentwicklung\mvc\controller;
 
 use A\B;
 use TononT\Webentwicklung\AuthenticationRequiredException;
+use TononT\Webentwicklung\ForbiddenException;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
@@ -24,6 +25,7 @@ use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
 use TononT\Webentwicklung\Repository\CommentsRepository;
+use TononT\Webentwicklung\Repository\UserRepository;
 
 
 /**
@@ -127,23 +129,21 @@ class Blog extends AbstractController
         $feedlist = new RSS();
 
         $feed1 =  "http://www.outdoorphotographer.com/tips-techniques/sports-adventures/feed/";
-        $feed2 =  "http://www.outdoorphotographer.com/blog/feed";
-        $feed3 =  "https://rss.dw.com/xml/rss-de-news";
-        $feed4 =  "https://gescheitmedien.de/category/news/feed/";
-        $feed5 = "https://www.oliverjanich.de/feed";
-        $feed6 = "https://dushanwegner.com/feed/";
+        $feed2 =  "https://rss.dw.com/xml/rss-de-news";
+        $feed3 =  "https://gescheitmedien.de/category/news/feed/";
+        $feed4 = "https://www.oliverjanich.de/feed";
+
         $feedArray = array(
             $feed1,
             $feed2,
             $feed3,
             $feed4,
-            $feed5,
-            $feed6,
+
 
         );
 
             $view = new FeedView();
-            $i = 1 * rand(0,6);
+            $i = 1 * rand(0,3);
             $feed = $feedArray[$i];
             $feedlist = $feedlist->dom($feed);
             $response->setBody($view->render(['entry' => $feedlist]));
@@ -229,7 +229,11 @@ class Blog extends AbstractController
                 throw new NotFoundException();
 
             } else {
-                //if isAdmin()
+                $userRepository = new UserRepository();
+                $admin = $userRepository->getByUsername('username');
+                if(!$admin->isAdmin()) {
+                    throw new ForbiddenException();
+                }
                 $repository->delete($potentialUrlKey);
                 $response->setBody('great success');
                 $response->redirect("https://tonon.test/popular/post", 303);
