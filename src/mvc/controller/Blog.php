@@ -197,7 +197,7 @@ class Blog extends AbstractController
             if (!$entry) {
                 throw new NotFoundException();
             } else {
-               
+
                 //TODO ONLY IF ADMIN
                 $view = new DeleteView();
                 $userRepository = new UserRepository();
