@@ -19,6 +19,16 @@ class User
         return $this->role;
     }
 
+    /**
+     * @param string $role
+     */
+    public function setRole(string $role): void
+    {
+        $this->role = $role;
+    }
+
+
+
 
 
 

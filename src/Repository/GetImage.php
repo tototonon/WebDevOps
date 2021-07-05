@@ -9,8 +9,11 @@ class GetImage extends AbstractRepository
 {
 
 
+    /**
+     * @return BlogPosts
+     */
 
-    function getImage(): void
+    function getImage(): BlogPosts
     {
 
         if(isset($_POST['post'])) {
@@ -18,7 +21,7 @@ class GetImage extends AbstractRepository
             $tmpname = $_FILES["file"]["tmp_name"];
             $folder = "image/" . $filename;
             if(move_uploaded_file($tmpname, $folder)) {
-                echo "Image uploaded successfully !";
+                echo "Image uploaded !";
             } else {
                 echo "no file uploaded !";
             }
@@ -28,11 +31,24 @@ class GetImage extends AbstractRepository
         $query->setFetchMode(\PDO::FETCH_ASSOC);
         $resultData = $query->fetchAll();
 
+
+        echo "<h3>Newest Images</h3>";
         foreach ($resultData as $results) {
             echo "<div id='img_div'>";
-            echo "<img src='image/" . $results['file'] . "' >";
+            echo "<img src='/image/". $results['file'] ."' alt='..'>";
             echo "</div>";
+
+            $results[] = array(
+                'file' => $results['file'],
+
+            );
+
+            $result = new BlogPosts();
+            $result->setFile($results['file']);
+
         }
-    }
+        return $result;
+        }
+
 }
 

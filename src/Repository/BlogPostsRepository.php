@@ -98,6 +98,7 @@ class BlogPostsRepository extends AbstractRepository
         $query->execute();
         $resultData = $query->fetchAll();
 
+        echo "<h3>Newest Posts</h3><br>";
         foreach ($resultData as $results) {
             echo "<div class='file-box'>";
             echo "<tr>
