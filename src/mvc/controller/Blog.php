@@ -201,12 +201,19 @@ class Blog extends AbstractController
                 //TODO ONLY IF ADMIN
                 $view = new DeleteView();
                 $userRepository = new UserRepository();
+
+                $admin = new Admin();
+                if(!$admin->admin()) {
+                    throw new ForbiddenException();
+                } else {
                     $repository->delete($potentialUrlKey);
                     $response->setBody('great success');
                     $response->redirect("https://tonon.test/popular/post", 303);
+                }
             }
         }
     }
+
 
         /**
          * @param IRequest $request

@@ -78,6 +78,7 @@ class Auth extends AbstractController
                 // user testing deferred for timing reasons
             if ($user instanceof User) {
                 $hash = $user->password;
+
             }
 
                 /// test if the password is correct
@@ -90,15 +91,15 @@ class Auth extends AbstractController
                     }
                     $user->password = $rehashedPassword;
                     $userRepository->update($user);
+
                 }
                 /// login SUCCESSFUL
                 $this->getSession()->login();
-
-                //TODO ADMIN USER SECTIONS
-                $admin = $userRepository->isAdmin($user->getRole());
-                $this->admin($admin);
                 $response->setBody('great success');
-                //$response->redirect("https://tonon.test/blog/show", 303);
+                //check if is admin
+                $blog = new  Admin();
+                $blog->admin($user);
+
 
             } else {
                 // login failed
@@ -108,23 +109,6 @@ class Auth extends AbstractController
         }
     }
 
-    /**
-     * @param $admin
-     */
-    public function admin($admin)
-    {
-
-        //TODO HERE IS ADMIN LOGIN :)
-        if ($admin->role == "1") {
-            echo "<h1>Hello Admin</h1>";
-
-
-        } else {
-            echo "<h1>Hello User</h1>";
-            return false;
-        }
-    }
-    
     /**
      * @param IRequest $request
      * @param IResponse $response
