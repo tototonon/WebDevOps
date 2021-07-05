@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TononT\Webentwicklung\Mvc\controller;
+namespace TononT\Webentwicklung\mvc\controller;
 
 
 
@@ -233,6 +233,7 @@ class Blog extends AbstractController
                 throw new NotFoundException();
 
             } else {
+                //TODO ONLY IF ADMIN
                 $userRepository = new UserRepository();
                     $repository->delete($potentialUrlKey);
                     $response->setBody('great success');
@@ -263,7 +264,7 @@ class Blog extends AbstractController
                 throw new NotFoundException();
 
             } else {
-                //if isAdmin()
+                //TODO ADMIN & USER
                 $repository->deleteComment($id);
                 $response->setBody('great success');
                 $response->redirect("https://tonon.test/popular/post",303);

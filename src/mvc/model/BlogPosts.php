@@ -1,7 +1,7 @@
 <?php
 
 
-namespace TononT\Webentwicklung\Mvc\model;
+namespace TononT\Webentwicklung\mvc\model;
 
 
 

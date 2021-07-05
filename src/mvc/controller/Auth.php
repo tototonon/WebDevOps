@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TononT\Webentwicklung\Mvc\controller;
+namespace TononT\Webentwicklung\mvc\controller;
 
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\AuthenticationRequiredException;
@@ -93,8 +93,9 @@ class Auth extends AbstractController
                 }
                 /// login SUCCESSFUL
                 $this->getSession()->login();
-                $admin = $userRepository->isAdmin($user->getRole());
 
+                //TODO ADMIN USER SECTIONS
+                $admin = $userRepository->isAdmin($user->getRole());
                 $this->admin($admin);
                 $response->setBody('great success');
                 //$response->redirect("https://tonon.test/blog/show", 303);
@@ -106,6 +107,7 @@ class Auth extends AbstractController
             }
         }
     }
+
     /**
      * @param $admin
      */
@@ -115,7 +117,8 @@ class Auth extends AbstractController
         //TODO HERE IS ADMIN LOGIN :)
         if ($admin->role == "1") {
             echo "<h1>Hello Admin</h1>";
-            return true;
+
+
         } else {
             echo "<h1>Hello User</h1>";
             return false;
