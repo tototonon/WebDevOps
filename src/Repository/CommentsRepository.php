@@ -19,7 +19,7 @@ class CommentsRepository extends AbstractRepository
         $query = $this->connection->prepare("delete from blog_posts where id=:id");
         $query->bindParam(':id', $id);
         $query->execute();
-     
+
     }
     /**
      * @param Comments $comments

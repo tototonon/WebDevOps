@@ -39,6 +39,7 @@ class RssFeed
 
 
 
+                echo "<div class='feed-box'>";
                 echo "<br>";
                 echo "<br>";
                 echo "<h3>$title</h3>";
@@ -56,6 +57,7 @@ class RssFeed
                 echo "<br>";
                 echo "<br>";
                 echo "<br>";
+                echo "</div>";
 
 
             }
