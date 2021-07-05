@@ -96,22 +96,30 @@ class Auth extends AbstractController
 
                 $admin = $userRepository->isAdmin($user->getRole());
 
-                //TODO HERE IS ADMIN LOGIN :)
-                if($admin->role == "1") {
-                    echo "true";
-                } else {
-                    echo "false";
-                }
+                $this->admin($admin);
                 $response->setBody('great success');
+                //$response->redirect("https://tonon.test/blog/show", 303);
 
-                if ($response->getBody() == "great success") {
-                    $response->redirect("https://tonon.test/blog/show", 303);
-                }
             } else {
                 // login failed
                 $response->setStatusCode(401);
                 $response->setBody('login failed');
             }
+        }
+    }
+    /**
+     * @param $admin
+     */
+    public function admin($admin)
+    {
+
+        //TODO HERE IS ADMIN LOGIN :)
+        if ($admin->role == "1") {
+            echo "<h1>Hello Admin</h1>";
+            return true;
+        } else {
+            echo "<h1>Hello User</h1>";
+            return false;
         }
     }
 

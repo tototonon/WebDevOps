@@ -92,16 +92,19 @@ class Blog extends AbstractController
         $response->setBody($view->render([]));
 
     }
+
     /**
      * @param IRequest $request
      * @param IResponse $response
      */
+
     public function impressum(IRequest $request, IResponse $response): void
     {
         $view = new ImpressumView();
         $response->setBody($view->render([]));
 
     }
+
     /**
      * @param IRequest $request
      * @param IResponse $response
@@ -230,13 +233,14 @@ class Blog extends AbstractController
 
             } else {
                 $userRepository = new UserRepository();
-                $admin = $userRepository->getByUsername('username');
-                if(!$admin->isAdmin()) {
+
+                if(!$auth->admin($admin)) {
                     throw new ForbiddenException();
+                } else {
+                    $repository->delete($potentialUrlKey);
+                    $response->setBody('great success');
+                    $response->redirect("https://tonon.test/popular/post", 303);
                 }
-                $repository->delete($potentialUrlKey);
-                $response->setBody('great success');
-                $response->redirect("https://tonon.test/popular/post", 303);
             }
 
         }
