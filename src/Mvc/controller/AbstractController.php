@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TononT\Webentwicklung\mvc\controller;
+namespace TononT\Webentwicklung\Mvc\controller;
 
 
 use TononT\Webentwicklung\Http\Session;

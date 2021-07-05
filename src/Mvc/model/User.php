@@ -9,15 +9,16 @@ class User
     public string $id;
     public string $username;
     public string $password;
-    public int $role;
+    public string $role;
 
     /**
-     * @return int
+     * @return array
      */
-    public function getRole(): int
+    public function getRole(): string
     {
         return $this->role;
     }
+
 
 
 

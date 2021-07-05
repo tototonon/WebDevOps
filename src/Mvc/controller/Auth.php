@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace TononT\Webentwicklung\mvc\controller;
+namespace TononT\Webentwicklung\Mvc\controller;
 
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\AuthenticationRequiredException;
+use TononT\Webentwicklung\ForbiddenException;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\mvc\model\User;
@@ -92,12 +93,15 @@ class Auth extends AbstractController
                 }
                 /// login SUCCESSFUL
                 $this->getSession()->login();
-                $userRepo = new UserRepository();
 
-                //$user = $userRepo->getByUsername($this->session->getEntry('username'));
-               // if(!$user instanceof User || !$user->getRole() == $userRepo->isAdmin()){
-                  //  throw new AuthenticationRequiredException();
-                  //  }
+                $admin = $userRepository->isAdmin($user->getRole());
+
+                //TODO HERE IS ADMIN LOGIN :)
+                if($admin->role == "1") {
+                    echo "true";
+                } else {
+                    echo "false";
+                }
                 $response->setBody('great success');
 
                 if ($response->getBody() == "great success") {

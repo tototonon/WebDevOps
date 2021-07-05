@@ -22,7 +22,7 @@ class RssFeed
         $domOBJ->load($file);//XML page URL
 
         $content = $domOBJ->getElementsByTagName("item");
-        $i = 4;
+        $i = 10;
 
         $hasImg = $domOBJ->getElementById("img");
 
@@ -34,34 +34,25 @@ class RssFeed
                 $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
                 $date = $data->getElementsByTagName("pubDate")->item(0)->nodeValue;
                 $description = $data->getElementsByTagName("description")->item(0)->nodeValue;
+                $link = $data->getElementsByTagName("link")->item(0)->nodeValue;
 
 
-
-
-
-                echo "<br>";
-                echo "<br>";
+                echo "<div class='feed-box'>";
                 echo "<h3>$title</h3>";
                 echo "<i>$date</i>";
                 echo "<br>";
                 echo "<p>$description</p>";
+                echo "<p>$link</p>";
                 echo "<br>";
                 echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
+                echo "</div>";
 
 
             }
 
             $out[] = array(
                 'title' => $title,
+                'date' => $date,
                 'description' => $description,
             );
             return $out;

@@ -10,7 +10,17 @@ use TononT\Webentwicklung\NotFoundException;
 
 class CommentsRepository extends AbstractRepository
 {
+    /**
+     * @param string $id
+     */
+    public function deleteComment(string $id): void
+    {
 
+        $query = $this->connection->prepare("delete from blog_posts where id=:id");
+        $query->bindParam(':id', $id);
+        $query->execute();
+
+    }
     /**
      * @param Comments $comments
      */
