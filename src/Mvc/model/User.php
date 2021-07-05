@@ -12,7 +12,7 @@ class User
     public string $role;
 
     /**
-     * @return array
+     * @return string
      */
     public function getRole(): string
     {
