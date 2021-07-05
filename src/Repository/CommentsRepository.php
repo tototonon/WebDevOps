@@ -41,7 +41,6 @@ class CommentsRepository extends AbstractRepository
      */
     public function getAllComments()
     {
-
             $query = $this->connection->prepare('select * from comments ');
             $query->execute();
             $query->setFetchMode(\PDO::FETCH_ASSOC);
@@ -49,6 +48,7 @@ class CommentsRepository extends AbstractRepository
 
         foreach ($resultData as $results) {
 
+            echo "<h3>Newest comments</h3><br>";
             echo "<div class='comment-box' id='comment-box'>";
             echo "<tr> 
     <h4><bold>by: {$results['name']}</bold></h4>

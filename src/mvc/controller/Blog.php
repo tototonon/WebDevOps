@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
-
-
 use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\ForbiddenException;
 use TononT\Webentwicklung\Http\IResponse;
@@ -21,6 +19,7 @@ use TononT\Webentwicklung\mvc\view\Blog\PopularPost as PopularView;
 use TononT\Webentwicklung\mvc\view\Blog\Feed as FeedView;
 use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
 use TononT\Webentwicklung\mvc\view\Blog\Comments as CommentsView;
+use TononT\Webentwicklung\mvc\view\Auth\Delete as DeleteView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
@@ -29,7 +28,6 @@ use TononT\Webentwicklung\Repository\CommentsRepository;
 use TononT\Webentwicklung\Repository\GetImage;
 use TononT\Webentwicklung\Repository\UserRepository;
 
-
 /**
  * Class Blog
  * @package TononT\Webentwicklung\controller
@@ -37,6 +35,15 @@ use TononT\Webentwicklung\Repository\UserRepository;
 
 class Blog extends AbstractController
 {
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function home(IRequest $request, IResponse $response): void
+    {
+        $view = new HomeView();
+        $response->setBody($view->render([]));
+    }
 
     /**
      * @param IRequest $request
@@ -48,13 +55,11 @@ class Blog extends AbstractController
         if (!$this->getSession()->isLoggedIn()) {
             throw new AuthenticationRequiredException();
         }
-
-
         if (!$request->hasParameter('title')) {
             // render the form
             $view = new AddView();
             $response->setBody($view->render([]));
-    } else {
+        } else {
             // do the validation here
             Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['title']);
             Validator::allOf(
@@ -66,46 +71,24 @@ class Blog extends AbstractController
                 Validator::stringType()
             )->check($request->getParameters()['author']);
             Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
-            //Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['file']);
 
             // create a database entry
             $blogPost = new BlogPosts();
-            $blogPost->setTitle( $request->getParameter('title'));
+            $blogPost->setTitle($request->getParameter('title'));
             $blogPost->setUrlKey($request->getParameter('urlKey'));
             $blogPost->setAuthor($request->getParameter('author'));
             $blogPost->setText($request->getParameter('text'));
             $blogPost->setFile($request->getFile());
             $repository = new BlogPostsRepository();
-                $repository->add($blogPost);
-                $response->setBody('great success');
-                if($response->getBody() == "great success"){
-
-                    $response->redirect("https://tonon.test/blog/show",303);
-                }
+            $repository->add($blogPost);
+            $response->setBody('great success');
+            if ($response->getBody() == "great success") {
+                $response->redirect("https://tonon.test/blog/show", 303);
+            }
         }
     }
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     */
-    public function info(IRequest $request, IResponse $response): void
-    {
-        $view = new InfoView();
-        $response->setBody($view->render([]));
 
-    }
 
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     */
-
-    public function impressum(IRequest $request, IResponse $response): void
-    {
-        $view = new ImpressumView();
-        $response->setBody($view->render([]));
-
-    }
 
     /**
      * @param IRequest $request
@@ -124,7 +107,6 @@ class Blog extends AbstractController
             $entry->$key = htmlspecialchars($item);
         }
         $response->setBody($view->render(['entry' => $entry]));
-
     }
     /**
      * @param IRequest $request
@@ -145,43 +127,28 @@ class Blog extends AbstractController
             $feed2,
             $feed3,
             $feed4,
-
-
         );
 
-            $view = new FeedView();
-            $i = 1 * rand(0,3);
+           $view = new FeedView();
+            $i = 1 * rand(0, 3);
             $feed = $feedArray[$i];
             $feedlist = $feedlist->dom($feed);
             $response->setBody($view->render(['entry' => $feedlist]));
-
-
     }
+
+
 
 
     /**
      * @param IRequest $request
      * @param IResponse $response
+     * @throws AuthenticationRequiredException
      */
-    public function home(IRequest $request, IResponse $response): void
-    {
-        $view = new HomeView();
-        $response->setBody($view->render([]));
-
-
-    } /**
- * @param IRequest $request
- * @param IResponse $response
- * @throws AuthenticationRequiredException
- */
     public function updatePost(IRequest $request, IResponse $response): void
     {
-
-        if(!$this->getSession()->isLoggedIn()) {
+        if (!$this->getSession()->isLoggedIn()) {
             throw new AuthenticationRequiredException();
         }
-
-
     }
     /**
      * @param IRequest $request
@@ -190,12 +157,11 @@ class Blog extends AbstractController
      */
     public function comment(IRequest $request, IResponse $response): void
     {
-        if(!$this->getSession()->isLoggedIn()) {
+        if (!$this->getSession()->isLoggedIn()) {
             throw new AuthenticationRequiredException();
         }
 
-
-        if(!$request->hasParameter('text')) {
+        if (!$request->hasParameter('text')) {
             // render the form
             $view = new CommentsView();
             $response->setBody($view->render([]));
@@ -207,7 +173,7 @@ class Blog extends AbstractController
             $repository = new CommentsRepository();
             $repository->addComment($comment);
             $response->setBody('great success');
-            $response->redirect("https://tonon.test/blog/show/how-to-blog",303);
+            $response->redirect("https://tonon.test/blog/show/how-to-blog", 303);
         }
     }
 
@@ -219,32 +185,28 @@ class Blog extends AbstractController
      */
     public function delete(IRequest $request, IResponse $response): void
     {
-        if(!$this->getSession()->isLoggedIn()) {
-
+        if (!$this->getSession()->isLoggedIn()) {
             throw new AuthenticationRequiredException();
-
         } else {
-
             $repository = new BlogPostsRepository();
 
             $lastSlash = strripos($request->getUrl(), '/') ?: 0;
             $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
-            if(!$entry) {
-
+            if (!$entry) {
                 throw new NotFoundException();
-
             } else {
+               
                 //TODO ONLY IF ADMIN
+                $view = new DeleteView();
                 $userRepository = new UserRepository();
                     $repository->delete($potentialUrlKey);
                     $response->setBody('great success');
                     $response->redirect("https://tonon.test/popular/post", 303);
-                }
             }
-
         }
+    }
 
         /**
          * @param IRequest $request
@@ -252,30 +214,23 @@ class Blog extends AbstractController
          * @throws AuthenticationRequiredException
          * @throws NotFoundException
          */
-        public function deleteComment(IRequest $request, IResponse $response): void
+    public function deleteComment(IRequest $request, IResponse $response): void
     {
-        if(!$this->getSession()->isLoggedIn()) {
-
+        if (!$this->getSession()->isLoggedIn()) {
             throw new AuthenticationRequiredException();
-
         } else {
-
             $repository = new CommentsRepository();
 
-            if(!$id= $request->getParameter("id")) {
-
+            if (!$id = $request->getParameter("id")) {
                 throw new NotFoundException();
-
             } else {
                 //TODO ADMIN & USER
                 $repository->deleteComment($id);
                 $response->setBody('great success');
-                $response->redirect("https://tonon.test/popular/post",303);
+                $response->redirect("https://tonon.test/popular/post", 303);
             }
         }
     }
-
-
 
 
     /**
@@ -298,13 +253,12 @@ class Blog extends AbstractController
             //TODO connect with id of blogposts
         $commentsRepo = new CommentsRepository();
         $commentsRepo->getAllComments();
-            if (!$entry) {
-            $potential= substr($request->getUrl(), $lastSlash + 2);
-            if($potential = "blog/show/") {
-               $response->redirect("https://tonon.test/home",300);
+        if (!$entry) {
+            $potential = substr($request->getUrl(), $lastSlash + 2);
+            if ($potential = "blog/show/") {
+                $response->redirect("https://tonon.test/home", 300);
             } else {
                 throw new NotFoundException();
-
             }
         }
             // escaping the entry fields with htmlspecialchars
@@ -316,4 +270,25 @@ class Blog extends AbstractController
 
         $response->setBody($view->render(['entry' => $entry]));
     }//end show()
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function info(IRequest $request, IResponse $response): void
+    {
+        $view = new InfoView();
+        $response->setBody($view->render([]));
+    }
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+
+    public function impressum(IRequest $request, IResponse $response): void
+    {
+        $view = new ImpressumView();
+        $response->setBody($view->render([]));
+    }
 }//end class
