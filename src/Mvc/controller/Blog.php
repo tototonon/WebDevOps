@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace TononT\Webentwicklung\mvc\controller;
+namespace TononT\Webentwicklung\Mvc\controller;
 
 
-use A\B;
+
 use TononT\Webentwicklung\AuthenticationRequiredException;
 use TononT\Webentwicklung\ForbiddenException;
 use TononT\Webentwicklung\Http\IResponse;
