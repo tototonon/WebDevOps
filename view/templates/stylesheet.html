@@ -11,7 +11,7 @@
 <style>
 
 .header{
-    position: fixed;
+    position: absolute;
     top: 0; right: 0;
 }
 .dropdown {
@@ -32,8 +32,15 @@ img{
     border-radius: 4px;
 
 }
+/* Footer */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: darkolivegreen;
+    margin-top: 20px;
+}
 
-a{border-style: groove;}
+a{border-style: none;}
 
      .dropbtn {
          background-color: darkolivegreen;
@@ -76,9 +83,13 @@ a{border-style: groove;}
 </style>
 </head>
 
-<div class="header" style="color:darkolivegreen"  >
-    <h1><img src="/image/Komponente 1 – 1.png" alt=".." ></h1>
+<div class="header">
+    <a href="https://tonon.test/home">
+  <h1><img src="/image/Komponente 1 – 1.png" alt=".." ></h1>
+</a>
 </div>
+
+
 <div class="menu">
     <div class="dropdown">
         <button class="dropbtn" style="color: black"><i class="fa fa-fw fa-home"></i></button>

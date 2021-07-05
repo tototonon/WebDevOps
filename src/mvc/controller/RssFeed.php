@@ -22,7 +22,7 @@ class RssFeed
         $domOBJ->load($file);//XML page URL
 
         $content = $domOBJ->getElementsByTagName("item");
-        $i = 4;
+        $i = 10;
 
         $hasImg = $domOBJ->getElementById("img");
 
@@ -46,14 +46,6 @@ class RssFeed
                 echo "<i>$date</i>";
                 echo "<br>";
                 echo "<p>$description</p>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
                 echo "<br>";
                 echo "<br>";
                 echo "<br>";

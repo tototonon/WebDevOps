@@ -128,8 +128,12 @@ class Blog extends AbstractController
 
         $feed1 =  "http://www.outdoorphotographer.com/tips-techniques/sports-adventures/feed/";
         $feed2 =  "http://www.outdoorphotographer.com/blog/feed";
+        $feed3 =  "https://rss.dw.com/xml/rss-de-news";
+        $feed4 =  "https://gescheitmedien.de/category/news/feed/";
+        $feed5 = "https://www.oliverjanich.de/feed";
+        $feed6 = "https://dushanwegner.com/feed/";
             $view = new FeedView();
-            $feedlist = $feedlist->dom($feed2);
+            $feedlist = $feedlist->dom($feed4);
             $response->setBody($view->render(['entry' => $feedlist]));
 
 
