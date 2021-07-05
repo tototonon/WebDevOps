@@ -132,8 +132,20 @@ class Blog extends AbstractController
         $feed4 =  "https://gescheitmedien.de/category/news/feed/";
         $feed5 = "https://www.oliverjanich.de/feed";
         $feed6 = "https://dushanwegner.com/feed/";
+        $feedArray = array(
+            $feed1,
+            $feed2,
+            $feed3,
+            $feed4,
+            $feed5,
+            $feed6,
+
+        );
+
             $view = new FeedView();
-            $feedlist = $feedlist->dom($feed4);
+            $i = 1 * rand(0,6);
+            $feed = $feedArray[$i];
+            $feedlist = $feedlist->dom($feed);
             $response->setBody($view->render(['entry' => $feedlist]));
 
 
