@@ -17,6 +17,8 @@ class BlogPosts implements \JsonSerializable
     public string $file;
     public string $date;
 
+
+
     /**
      * @return string
      */

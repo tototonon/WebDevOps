@@ -11,14 +11,12 @@ use TononT\Webentwicklung\mvc\model\User;
 class UserRepository extends AbstractRepository
 {
     /**
-     * @param User $user
      * @return mixed
      */
-    public function getRole(User $user)
+    public function isAdmin()
     {
-
         $query = $this->connection->prepare("select * from users where role=1");
-        $query->bindParam(':role', $user->role);
+        $query->bindParam(':role', $role);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_CLASS, User::class);
         return $query->fetch();

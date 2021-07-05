@@ -34,6 +34,7 @@ fetch('/rest/blogposts/' + urlKey)
     })
     .then(data => showContent(data));
 
+
 function img(file) {
     var img = new Image();
     img.src =

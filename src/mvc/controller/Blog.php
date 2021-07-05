@@ -14,6 +14,8 @@ use TononT\Webentwicklung\mvc\model\Comments;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
 use TononT\Webentwicklung\mvc\view\Blog\Info as InfoView;
+use TononT\Webentwicklung\mvc\view\Blog\Impressum as ImpressumView;
+use TononT\Webentwicklung\mvc\view\Blog\PopularPost as PopularView;
 use TononT\Webentwicklung\mvc\view\Blog\Feed as FeedView;
 use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
 use TononT\Webentwicklung\mvc\view\Blog\Comments as CommentsView;
@@ -92,6 +94,33 @@ class Blog extends AbstractController
      * @param IRequest $request
      * @param IResponse $response
      */
+    public function impressum(IRequest $request, IResponse $response): void
+    {
+        $view = new ImpressumView();
+        $response->setBody($view->render([]));
+
+    }
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function popular(IRequest $request, IResponse $response): void
+    {
+        $view = new PopularView();
+        $repository = new BlogPostsRepository();
+        $entry = $repository->getAllFiles();
+        //$object = json_decode(json_encode($entry));
+        // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
+        foreach ($entry as $key => $item) {
+            $entry->$key = htmlspecialchars($item);
+        }
+        $response->setBody($view->render([]));
+
+    }
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
     public function feed(IRequest $request, IResponse $response): void
     {
 
@@ -113,19 +142,8 @@ class Blog extends AbstractController
      */
     public function home(IRequest $request, IResponse $response): void
     {
-        $repository = new BlogPostsRepository();
         $view = new HomeView();
-
-
-        //$id = "1";;
-        //$entry = $repository->getById($id);
-        $entry = $repository->getAllFiles();
-        //$object = json_decode(json_encode($entry));
-        // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
-        foreach ($entry as $key => $item) {
-            $entry->$key = htmlspecialchars($item);
-        }
-        $response->setBody($view->render(['entry' => $entry]));
+        $response->setBody($view->render([]));
 
 
     } /**
