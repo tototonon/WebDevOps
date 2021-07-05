@@ -17,7 +17,7 @@ class PopularPost extends AbstractShow
      */
     public function render(array $data): string
     {
-        $data['title'] = "popular post";
+        $data['file'] = $data['entry']->file;
         return parent::render($data);
     }
 }

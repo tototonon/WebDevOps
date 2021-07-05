@@ -26,6 +26,7 @@ use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
 use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
 use TononT\Webentwicklung\Repository\CommentsRepository;
+use TononT\Webentwicklung\Repository\GetImage;
 use TononT\Webentwicklung\Repository\UserRepository;
 
 
@@ -114,13 +115,15 @@ class Blog extends AbstractController
     {
         $view = new PopularView();
         $repository = new BlogPostsRepository();
-        $entry = $repository->getAllFiles();
+        $repository->getAllFiles();
+        $image = new GetImage();
+        $entry = $image->getImage();
         //$object = json_decode(json_encode($entry));
         // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
         foreach ($entry as $key => $item) {
             $entry->$key = htmlspecialchars($item);
         }
-        $response->setBody($view->render([]));
+        $response->setBody($view->render(['entry' => $entry]));
 
     }
     /**
