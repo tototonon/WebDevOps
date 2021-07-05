@@ -121,20 +121,7 @@ class Auth extends AbstractController
             return false;
         }
     }
-
-    /**
-     * @param $admin
-     */
-    public function admin($admin)
-    {
-
-        //TODO HERE IS ADMIN LOGIN :)
-        if ($admin->role == "1") {
-              echo "<h1>Hello Admin</h1>";
-        } else {
-             echo "<h1>Hello User</h1>";
-        }
-    }
+    
     /**
      * @param IRequest $request
      * @param IResponse $response
