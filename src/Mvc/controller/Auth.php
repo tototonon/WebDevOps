@@ -93,7 +93,6 @@ class Auth extends AbstractController
                 }
                 /// login SUCCESSFUL
                 $this->getSession()->login();
-
                 $admin = $userRepository->isAdmin($user->getRole());
 
                 $this->admin($admin);
@@ -123,7 +122,19 @@ class Auth extends AbstractController
         }
     }
 
+    /**
+     * @param $admin
+     */
+    public function admin($admin)
+    {
 
+        //TODO HERE IS ADMIN LOGIN :)
+        if ($admin->role == "1") {
+              echo "<h1>Hello Admin</h1>";
+        } else {
+             echo "<h1>Hello User</h1>";
+        }
+    }
     /**
      * @param IRequest $request
      * @param IResponse $response
