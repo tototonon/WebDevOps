@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Http;
 
-
 interface IRestAware
 {
     /**
@@ -16,5 +15,4 @@ interface IRestAware
      * @param array $identifiers
      */
     public function setIdentifiers(array $identifiers): void;
-
 }

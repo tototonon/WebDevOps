@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Http;
 
-
 class Request implements IRequest
 {
     /**
@@ -53,9 +52,10 @@ class Request implements IRequest
     public function setUrl($url): void
     {
 
-        if(isset($url))
+        if (isset($url)) {
             $this->url = $url;
         }
+    }
 
     /**
      * @return array
@@ -115,7 +115,4 @@ class Request implements IRequest
     {
         $this->file = $file;
     }
-
-
-
 }

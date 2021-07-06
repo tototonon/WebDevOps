@@ -18,5 +18,4 @@ class NotFoundException extends \Exception
      * @var int
      */
     protected $code = 404;
-
 }

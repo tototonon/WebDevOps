@@ -20,7 +20,7 @@ $request = new Request();
 $request->setUrl($_SERVER['REQUEST_URI']);
 $request->setMethod($_SERVER['REQUEST_METHOD']);
 
-if(isset($_FILES["file"]["name"])) {
+if (isset($_FILES["file"]["name"])) {
     $request->setFile($_FILES["file"]["name"]);
     $image = new Image();
     $image->getImage();
@@ -52,6 +52,7 @@ $router->addRoute('/comment/add', BlogController::class, 'comment');
 $router->addRoute('/blog/delete', BlogController::class, 'delete');
 $router->addRoute('/comment/delete', BlogController::class, 'commentDelete');
 
+
 $routers[] = new NotFoundRouter();
 
 try {
@@ -71,23 +72,13 @@ try {
     $response->setStatusCode($exception->getCode());
     $response->setBody('Ein Login wird benötigt');
     $response->redirect("https://tonon.test/auth/login");
-} catch (\Exception $exception) {
+} catch (Exception $exception) {
     // react on any exception which we do not catch elsewhere to not expose exception messages
     $response->setStatusCode(500);
     $response->setBody('Forbidden');
 }
-
-
 http_response_code($response->getStatusCode());
 foreach ($response->getHeaders() as $name => $header) {
     header($name . ': ' . $header);
 }
-
 echo $response->getBody();
-
-
-
-
-
-
-

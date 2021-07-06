@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
-
 use TononT\Webentwicklung\Http\Session;
 
 abstract class AbstractController implements SessionAwareControllerInterface
@@ -31,6 +30,4 @@ abstract class AbstractController implements SessionAwareControllerInterface
     {
         return $this->session;
     }
-
-
 }

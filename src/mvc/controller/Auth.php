@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
+use Exception;
 use Respect\Validation\Validator;
-use TononT\Webentwicklung\AuthenticationRequiredException;
-use TononT\Webentwicklung\ForbiddenException;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\mvc\model\User;
@@ -20,7 +19,7 @@ class Auth extends AbstractController
     /**
      * @param IRequest $request
      * @param IResponse $response
-     * @throws \Exception
+     * @throws Exception
      */
     public function register(IRequest $request, IResponse $response): void
     {
@@ -40,7 +39,7 @@ class Auth extends AbstractController
             $user->username = $request->getParameter('username'); // coming from our form via $_POST/$_REQUEST
             $user->password = $request->getParameter('password'); // coming from our form via $_POST/$_REQUEST
             $pwRetype = $request->getParameter('confirmpassword'); // coming from our form via $_POST/$_REQUEST
-            if($user->password == $pwRetype) {
+            if ($user->password == $pwRetype) {
                 $userRepository = new UserRepository();
 
                 $userRepository->addUser($user);
@@ -56,7 +55,7 @@ class Auth extends AbstractController
     /**
      * @param IRequest $request
      * @param IResponse $response
-     * @throws \Exception
+     * @throws Exception
      */
     public function login(IRequest $request, IResponse $response): void
     {
@@ -86,7 +85,6 @@ class Auth extends AbstractController
                 // user testing deferred for timing reasons
             if ($user instanceof User) {
                 $hash = $user->password;
-
             }
 
                 /// test if the password is correct
@@ -95,11 +93,10 @@ class Auth extends AbstractController
                 if (password_needs_rehash($hash, PASSWORD_DEFAULT)) {
                     $rehashedPassword = password_hash($password, PASSWORD_DEFAULT);
                     if (!is_string($rehashedPassword)) {
-                        throw new \Exception('Could not update user to rehash password');
+                        throw new Exception('Could not update user to rehash password');
                     }
                     $user->password = $rehashedPassword;
                     $userRepository->update($user);
-
                 }
                 /// login SUCCESSFUL
                 ///check if is admin
@@ -107,13 +104,12 @@ class Auth extends AbstractController
                 if ($blog->admin($user)) {
                     $this->getSession()->loginAsAdmin();
                     //$response->setBody('admin');
-                    $response->redirect("https://tonon.test/home",303);
+                    $response->redirect("https://tonon.test/home", 303);
                 } else {
                     $this->getSession()->login();
                     //$response->setBody('user');
-                    $response->redirect("https://tonon.test/home",303);
+                    $response->redirect("https://tonon.test/home", 303);
                 }
-
             } else {
                 // login failed
                 $response->setStatusCode(401);

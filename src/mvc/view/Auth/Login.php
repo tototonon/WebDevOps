@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\view\Auth;
-
 
 use TononT\Webentwicklung\mvc\view\Blog\AbstractShow;
 

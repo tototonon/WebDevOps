@@ -23,8 +23,8 @@ class CommentsRepository extends AbstractRepository
         $query = $this->connection->prepare("delete from  comments where id=:id");
         $query->bindParam(':id', $id);
         $query->execute();
-
     }
+
     /**
      * @param Comments $comments
      */
@@ -71,13 +71,8 @@ class CommentsRepository extends AbstractRepository
             $result = new Comments();
             $result->setName($results['name']);
             $result->setText($results['text']);
-
-
         }
         echo "</div>";
         return $result;
-
-
-
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
 declare(strict_types=1);
-namespace TononT\Webentwicklung\mvc\view\Blog;
 
+namespace TononT\Webentwicklung\mvc\view\Blog;
 
 class Feed extends AbstractShow
 {
@@ -31,5 +31,4 @@ class Feed extends AbstractShow
     {
         return json_encode($data);
     }
-    
 }

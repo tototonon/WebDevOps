@@ -1,8 +1,6 @@
 <?php
 
-
 namespace TononT\Webentwicklung;
-
 
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\Http\IResponse;
@@ -63,6 +61,4 @@ class RestRouter implements IRouter
 
         return false;
     }
-
-
 }

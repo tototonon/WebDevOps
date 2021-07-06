@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Repository;
 
-
 use PDO;
 use TononT\Webentwicklung\mvc\model\User;
 
@@ -42,13 +41,12 @@ class UserRepository extends AbstractRepository
     public function addUser(User $user)
     {
         $query = $this->connection->prepare(
-            'insert into users(username,password) values (:username,:password)');
+            'insert into users(username,password) values (:username,:password)'
+        );
             $query->bindParam(':username', $user->username);
-            $password = password_hash($user->password,PASSWORD_DEFAULT);
+            $password = password_hash($user->password, PASSWORD_DEFAULT);
             $query->bindParam(':password', $password);
             $query->execute();
-
-
     }
     /**
      * @param User $user
@@ -60,12 +58,10 @@ class UserRepository extends AbstractRepository
             "update users set username=:username, password=:password where id=:id"
         );
         $query->bindParam(':id', $user->id);
-        $query->bindParam(':username', $user->username,PDO::PARAM_STR);
-        $query->bindParam(':password', $user->password,PDO::PARAM_STR);
+        $query->bindParam(':username', $user->username, PDO::PARAM_STR);
+        $query->bindParam(':password', $user->password, PDO::PARAM_STR);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_CLASS, User::class);
         return $query->fetch();
     }
-
-
 }

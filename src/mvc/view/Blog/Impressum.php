@@ -1,8 +1,6 @@
 <?php
 
-
 namespace TononT\Webentwicklung\mvc\view\Blog;
-
 
 class Impressum extends AbstractShow
 {
