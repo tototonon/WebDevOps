@@ -102,9 +102,9 @@ class Response implements IResponse
      * @param int $statusCode
      * @return mixed|void
      */
-    public function redirect($url, $statusCode = 303)
+    public function redirect(string $url, $statusCode = 303)
     {
         header('Location: ' . $url, true, $statusCode);
         die();
     }
-}//end class
+}

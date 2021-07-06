@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Repository;
 
+use PDO;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
-use TononT\Webentwicklung\mvc\model\Comments;
 
 /**
  * @author Timon Tonon
@@ -40,11 +40,11 @@ class GetAll extends AbstractRepository
      * (I assume there is no security disadvantage when print out Html in echo function.)
      * @return BlogPosts $result
      */
-    public function getAll() : BlogPosts
+    public function getAll(): BlogPosts
     {
         $query = $this->connection->prepare('select * from blog_posts ');
         $query->execute();
-        $query->setFetchMode(\PDO::FETCH_ASSOC);
+        $query->setFetchMode(PDO::FETCH_ASSOC);
         $resultData = $query->fetchAll();
         echo "<h3>ALL BLOGPOSTS</h3>";
         foreach ($resultData as $results) {

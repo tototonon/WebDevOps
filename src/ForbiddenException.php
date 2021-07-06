@@ -1,10 +1,10 @@
 <?php
 
-
 namespace TononT\Webentwicklung;
 
+use Exception;
 
-class ForbiddenException extends \Exception
+class ForbiddenException extends Exception
 {
     /**
      * @var string
@@ -15,5 +15,4 @@ class ForbiddenException extends \Exception
      * @var int
      */
     protected $code = 403;
-
 }
