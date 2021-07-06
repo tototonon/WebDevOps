@@ -12,6 +12,7 @@ class Session
      *
      */
     protected const LOGIN_INDICATOR_KEY = 'isLoggedIn';
+    protected const ADMIN_LOGIN_INDICATOR_KEY = 'isLoggedInAsAdmin';
 
     /**
      * @var array
@@ -36,7 +37,13 @@ class Session
     {
         return session_start($options + $this->defaultOptions);
     }
-
+    /**
+     *
+     */
+    public function loginAsAdmin(): void
+    {
+        $this->setEntry(static::ADMIN_LOGIN_INDICATOR_KEY, true);
+    }
     /**
      *
      */
@@ -44,7 +51,13 @@ class Session
     {
         $this->setEntry(static::LOGIN_INDICATOR_KEY, true);
     }
-
+    /**
+     * @return bool
+     */
+    public function isLoggedInAsAdmin(): bool
+    {
+        return $this->hasEntry(static::ADMIN_LOGIN_INDICATOR_KEY);
+    }
     /**
      * @return bool
      */

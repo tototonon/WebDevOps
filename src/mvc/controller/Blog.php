@@ -73,7 +73,7 @@ class Blog extends AbstractController
      */
     public function add(IRequest $request, IResponse $response): void
     {
-        if (!$this->getSession()->isLoggedIn()) {
+        if (!$this->getSession()->isLoggedIn() && !$this->getSession()->isLoggedInAsAdmin()) {
             throw new AuthenticationRequiredException();
         }
         if (!$request->hasParameter('title')) {
@@ -129,7 +129,7 @@ class Blog extends AbstractController
      */
     public function delete(IRequest $request, IResponse $response): void
     {
-        if (!$this->getSession()->isLoggedIn()) {
+        if (!$this->getSession()->isLoggedInAsAdmin()) {
             $response->setBody("Only Admins");
             $response->redirect("https://tonon.test/home",303);
             throw new ForbiddenException();
@@ -244,7 +244,7 @@ class Blog extends AbstractController
          */
     public function commentDelete(IRequest $request, IResponse $response): void
     {
-        if (!$this->getSession()->isLoggedIn()) {
+        if (!$this->getSession()->isLoggedInAsAdmin()) {
             $response->redirect("https://tonon.test/popular/post",303);
             throw new AuthenticationRequiredException();
         } else {
