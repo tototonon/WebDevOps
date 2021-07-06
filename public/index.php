@@ -12,7 +12,7 @@ use TononT\Webentwicklung\mvc\controller\Rest\BlogPosts as BlogPostsRestControll
 use TononT\Webentwicklung\Router;
 use TononT\Webentwicklung\mvc\controller\Blog as BlogController;
 use TononT\Webentwicklung\mvc\controller\Auth as AuthController;
-use TononT\Webentwicklung\Repository\GetImage as Image;
+use TononT\Webentwicklung\Repository\GetAll as Image;
 
 require __DIR__ . '/../vendor/autoload.php';
 
