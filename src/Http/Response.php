@@ -12,7 +12,7 @@ class Response implements IResponse
     /**
      * @var string
      */
-    protected string $body;
+    protected string $body = '';
 
     /**
      * @var int

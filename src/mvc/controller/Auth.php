@@ -28,20 +28,28 @@ class Auth extends AbstractController
             $view = new RegisterView();
             $response->setBody($view->render([]));
         } else {
-            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['username']);
             Validator::allOf(
                 Validator::notEmpty(),
                 Validator::stringType()
             )->check($request->getParameters()['password']);
+            Validator::allOf(
+                Validator::notEmpty(),
+                Validator::stringType()
+            )->check($request->getParameters()['confirmpassword']);
             $user = new User();
             $user->username = $request->getParameter('username'); // coming from our form via $_POST/$_REQUEST
             $user->password = $request->getParameter('password'); // coming from our form via $_POST/$_REQUEST
+            $pwRetype = $request->getParameter('confirmpassword'); // coming from our form via $_POST/$_REQUEST
+            if($user->password == $pwRetype) {
+                $userRepository = new UserRepository();
 
-            $userRepository = new UserRepository();
-
-            $userRepository->addUser($user);
-            $this->getSession()->login();
-            $response->setBody("Welcome to my Blog " . $user->username);
+                $userRepository->addUser($user);
+                $this->getSession()->login();
+                $response->setBody("Welcome to my Blog " . $user->username);
+                $response->redirect("https://tonon.test/home", 303);
+            } else {
+                $response->setBody("password must be the same");
+            }
         }
     }
 
@@ -98,12 +106,12 @@ class Auth extends AbstractController
                 $blog = new  Admin();
                 if ($blog->admin($user)) {
                     $this->getSession()->loginAsAdmin();
-                    $response->setBody('admin');
-                    //$response->redirect("https://tonon.test/home",303);
+                    //$response->setBody('admin');
+                    $response->redirect("https://tonon.test/home",303);
                 } else {
                     $this->getSession()->login();
-                    $response->setBody('user');
-                    //$response->redirect("https://tonon.test/home",303);
+                    //$response->setBody('user');
+                    $response->redirect("https://tonon.test/home",303);
                 }
 
             } else {
