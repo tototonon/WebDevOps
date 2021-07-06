@@ -245,7 +245,8 @@ class Blog extends AbstractController
     public function commentDelete(IRequest $request, IResponse $response): void
     {
         if (!$this->getSession()->isLoggedInAsAdmin()) {
-            $response->redirect("https://tonon.test/popular/post",303);
+            $response->setBody("Only Admins can delete");
+            //$response->redirect("https://tonon.test/popular/post",303);
             throw new AuthenticationRequiredException();
         } else {
             $repository = new CommentsRepository();

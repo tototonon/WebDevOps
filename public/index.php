@@ -79,6 +79,10 @@ try {
 
 
 http_response_code($response->getStatusCode());
+foreach ($response->getHeaders() as $name => $header) {
+    header($name . ': ' . $header);
+}
+
 echo $response->getBody();
 
 

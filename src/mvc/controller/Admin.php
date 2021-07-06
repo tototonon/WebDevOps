@@ -6,30 +6,25 @@ namespace TononT\Webentwicklung\mvc\controller;
 
 use TononT\Webentwicklung\mvc\model\User;
 use TononT\Webentwicklung\Repository\UserRepository;
-
 class Admin
 {
 
     /**
      * @param $user
+     * @return bool
      */
     public function admin($user)
     {
-
         $userRepository = new UserRepository();
         $admin = $userRepository->isAdmin($user->getRole());
         if ($admin->role == "1") {
-            echo "<h1>Hello Admin</h1>";
-            $role = $user->role;
+            //echo "<h1>Hello Admin</h1>";
             return true;
-            //redirect to Admin view
+            //redirect
         } else {
-            echo "<h1>Hello User</h1>";
-            $role = $user->role;
-
+            //echo "<h1>Hello User</h1>";
             return false;
 
-            //redirect to User view
         }
     }
 }
