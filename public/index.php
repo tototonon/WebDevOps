@@ -74,7 +74,7 @@ try {
 } catch (\Exception $exception) {
     // react on any exception which we do not catch elsewhere to not expose exception messages
     $response->setStatusCode(500);
-    $response->setBody('Uh Oh ...');
+    $response->setBody('Forbidden');
 }
 
 
