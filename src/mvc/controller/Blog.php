@@ -131,7 +131,7 @@ class Blog extends AbstractController
     {
         if (!$this->getSession()->isLoggedInAsAdmin()) {
             $response->setBody("Only Admins");
-            $response->redirect("https://tonon.test/home",303);
+            //$response->redirect("https://tonon.test/home",303);
             throw new ForbiddenException();
 
         } else {
@@ -247,7 +247,7 @@ class Blog extends AbstractController
         if (!$this->getSession()->isLoggedInAsAdmin()) {
             $response->setBody("Only Admins can delete");
             //$response->redirect("https://tonon.test/popular/post",303);
-            throw new AuthenticationRequiredException();
+            throw new ForbiddenException();
         } else {
             $repository = new CommentsRepository();
 
