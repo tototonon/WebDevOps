@@ -7,27 +7,40 @@ namespace TononT\Webentwicklung\Repository;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
 use TononT\Webentwicklung\mvc\model\Comments;
 
+/**
+ * @author Timon Tonon
+ * Class GetAll
+ * @package TononT\Webentwicklung\Repository
+ */
 class GetAll extends AbstractRepository
 {
 
 
     /**
-     * @return BlogPosts
+     *
+     * Put image in folder.
      */
-
-    function getImage(): BlogPosts
+    function getImage() :void
     {
 
-        if (isset($_POST['post'])) {
+        if(isset($_POST['post'])) {
             $filename = $_FILES["file"]["name"];
             $tmpname = $_FILES["file"]["tmp_name"];
             $folder = "image/" . $filename;
-            if (move_uploaded_file($tmpname, $folder)) {
+            if(move_uploaded_file($tmpname, $folder)) {
                 echo "Image uploaded !";
             } else {
                 echo "no file uploaded !";
             }
         }
+    }
+
+    /**
+     * Get all BlogPosts and print out in html.
+     * (I assume there is no security disadvantage when print out Html in echo function.)
+     * @return BlogPosts
+     */
+        public function getAll() {
         $query = $this->connection->prepare('select * from blog_posts ');
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
@@ -63,4 +76,5 @@ class GetAll extends AbstractRepository
         }
         return $result;
     }
+
 }
