@@ -44,6 +44,26 @@ class Blog extends AbstractController
         $view = new HomeView();
         $response->setBody($view->render([]));
     }
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function info(IRequest $request, IResponse $response): void
+    {
+        $view = new InfoView();
+        $response->setBody($view->render([]));
+    }
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+
+    public function impressum(IRequest $request, IResponse $response): void
+    {
+        $view = new ImpressumView();
+        $response->setBody($view->render([]));
+    }
 
     /**
      * @param IRequest $request
@@ -88,57 +108,6 @@ class Blog extends AbstractController
         }
     }
 
-
-
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     */
-    public function popular(IRequest $request, IResponse $response): void
-    {
-        $view = new PopularView();
-        $repository = new BlogPostsRepository();
-        $repository->getAllFiles();
-        $image = new GetImage();
-        $entry = $image->getImage();
-        //$object = json_decode(json_encode($entry));
-        // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
-        foreach ($entry as $key => $item) {
-            $entry->$key = htmlspecialchars($item);
-        }
-        $response->setBody($view->render(['entry' => $entry]));
-    }
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     */
-    public function feed(IRequest $request, IResponse $response): void
-    {
-
-        $feedlist = new RSS();
-
-        $feed1 =  "http://www.outdoorphotographer.com/tips-techniques/sports-adventures/feed/";
-        $feed2 =  "https://rss.dw.com/xml/rss-de-news";
-        $feed3 =  "https://gescheitmedien.de/category/news/feed/";
-        $feed4 = "https://www.oliverjanich.de/feed";
-
-        $feedArray = array(
-            $feed1,
-            $feed2,
-            $feed3,
-            $feed4,
-        );
-
-           $view = new FeedView();
-            $i = 1 * rand(0, 3);
-            $feed = $feedArray[$i];
-            $feedlist = $feedlist->dom($feed);
-            $response->setBody($view->render(['entry' => $feedlist]));
-    }
-
-
-
-
     /**
      * @param IRequest $request
      * @param IResponse $response
@@ -148,32 +117,6 @@ class Blog extends AbstractController
     {
         if (!$this->getSession()->isLoggedIn()) {
             throw new AuthenticationRequiredException();
-        }
-    }
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     * @throws AuthenticationRequiredException
-     */
-    public function comment(IRequest $request, IResponse $response): void
-    {
-        if (!$this->getSession()->isLoggedIn()) {
-            throw new AuthenticationRequiredException();
-        }
-
-        if (!$request->hasParameter('text')) {
-            // render the form
-            $view = new CommentsView();
-            $response->setBody($view->render([]));
-        } else {
-            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
-            $comment = new Comments();
-            $comment->setText($request->getParameter('text'));
-            $comment->setName($request->getParameter('name'));
-            $repository = new CommentsRepository();
-            $repository->addComment($comment);
-            $response->setBody('great success');
-            $response->redirect("https://tonon.test/blog/show/how-to-blog", 303);
         }
     }
 
@@ -203,16 +146,95 @@ class Blog extends AbstractController
                 $userRepository = new UserRepository();
 
                 $admin = new Admin();
-                if(!$admin->admin()) {
-                    throw new ForbiddenException();
-                } else {
+                //if(!$admin->admin()) {
+                //    throw new ForbiddenException();
+
                     $repository->delete($potentialUrlKey);
                     $response->setBody('great success');
                     $response->redirect("https://tonon.test/popular/post", 303);
                 }
             }
         }
+
+
+
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function popular(IRequest $request, IResponse $response): void
+    {
+        $view = new PopularView();
+        $repository = new BlogPostsRepository();
+        $repository->getAllFiles();
+        $image = new GetImage();
+        $entry = $image->getImage();
+        //$object = json_decode(json_encode($entry));
+        // THIS IS THE BARE MINIMUM HERE! Better go for a serializer oder escaping library
+        foreach ($entry as $key => $item) {
+            $entry->$key = htmlspecialchars($item);
+        }
+        $response->setBody($view->render(['entry' => $entry]));
     }
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     */
+    public function feed(IRequest $request, IResponse $response): void
+    {
+
+        $feedlist = new RSS();
+
+        $feed1 =  "http://www.outdoorphotographer.com/tips-techniques/sports-adventures/feed/";
+        $feed2 =  "https://rss.dw.com/xml/rss-de-news";
+        $feed3 =  "https://gescheitmedien.de/category/news/feed/";
+        $feed4 = "https://odysee.com/$/rss/@reitschuster/366992bb1cbd36050936a7bbd70a5615e54f37e2";
+
+        $feedArray = array(
+            $feed1,
+            $feed2,
+            $feed3,
+            $feed4,
+
+        );
+
+           $view = new FeedView();
+            $i = 1 * rand(0, 3);
+            $feed = $feedArray[$i];
+            $feedlist = $feedlist->dom($feed);
+            $response->setBody($view->render(['entry' => $feedlist]));
+    }
+
+
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @throws AuthenticationRequiredException
+     */
+    public function comment(IRequest $request, IResponse $response): void
+    {
+        if (!$this->getSession()->isLoggedIn()) {
+            throw new AuthenticationRequiredException();
+        }
+
+        if (!$request->hasParameter('text')) {
+            // render the form
+            $view = new CommentsView();
+            $response->setBody($view->render([]));
+        } else {
+            Validator::allOf(Validator::notEmpty(), Validator::stringType())->check($request->getParameters()['text']);
+            $comment = new Comments();
+            $comment->setText($request->getParameter('text'));
+            $comment->setName($request->getParameter('name'));
+            $repository = new CommentsRepository();
+            $repository->addComment($comment);
+            $response->setBody('great success');
+            $response->redirect("https://tonon.test/blog/show/how-to-blog", 303);
+        }
+    }
+
 
 
         /**
@@ -228,6 +250,7 @@ class Blog extends AbstractController
         } else {
             $repository = new CommentsRepository();
 
+            //TODO select right id
             if (!$id = $request->getParameter("id")) {
                 throw new NotFoundException();
             } else {
@@ -278,24 +301,5 @@ class Blog extends AbstractController
         $response->setBody($view->render(['entry' => $entry]));
     }//end show()
 
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     */
-    public function info(IRequest $request, IResponse $response): void
-    {
-        $view = new InfoView();
-        $response->setBody($view->render([]));
-    }
 
-    /**
-     * @param IRequest $request
-     * @param IResponse $response
-     */
-
-    public function impressum(IRequest $request, IResponse $response): void
-    {
-        $view = new ImpressumView();
-        $response->setBody($view->render([]));
-    }
 }//end class

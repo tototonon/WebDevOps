@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace TononT\Webentwicklung\mvc\controller;
 
 
+ini_set('log_errors', 'On');
+ini_set('display_errors', 'Off');
+
+
 use DOMDocument;
 use TononT\Webentwicklung\mvc\view\Blog\Home;
 
@@ -37,12 +41,12 @@ class RssFeed
                 $link = $data->getElementsByTagName("link")->item(0)->nodeValue;
 
 
-                echo "<div class='feed-box'>";
+                echo "<div class='card w-75' id='feed-box'>";
                 echo "<h3>$title</h3>";
                 echo "<i>$date</i>";
                 echo "<br>";
                 echo "<p>$description</p>";
-                echo "<p>$link</p>";
+                echo "<a href='.$link'</a>";
                 echo "<br>";
                 echo "<br>";
                 echo "</div>";
@@ -54,6 +58,7 @@ class RssFeed
                 'title' => $title,
                 'date' => $date,
                 'description' => $description,
+                'link' => $link,
             );
             return $out;
         }
