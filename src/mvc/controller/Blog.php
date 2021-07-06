@@ -104,7 +104,7 @@ class Blog extends AbstractController
             $repository->add($blogPost);
             $response->setBody('great success');
             if ($response->getBody() == "great success") {
-                $response->redirect("https://tonon.test/blog/show", 303);
+                $response->redirect("https://tonon.test/blog/popular/post", 303);
             }
         }
     }
@@ -142,16 +142,18 @@ class Blog extends AbstractController
             $deleteUrlKey = substr($request->getUrl(), $lastSlash + 2);
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
-            if (!$entry && !$deleteUrlKey == "/blog/delete") {
+            if(!$entry && !$deleteUrlKey == "/blog/delete") {
                 throw new NotFoundException();
             } else {
 
                 //TODO ONLY IF ADMIN
                 $view = new DeleteView();
+                $response->setBody($view->render([]));
                 $repository->delete($potentialUrlKey);
-                $response->setBody($view->render(['entry' => $entry]));
-                }
+               
+
             }
+        }
             }
 
 
