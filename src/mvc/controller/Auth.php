@@ -94,12 +94,15 @@ class Auth extends AbstractController
 
                 }
                 /// login SUCCESSFUL
-                $this->getSession()->login();
-                $response->setBody('great success');
-                //check if is admin
+                ///check if is admin
                 $blog = new  Admin();
-                $blog->admin($user);
-
+                if ($blog->admin($user) == true) {
+                    $this->getSession()->login();
+                    $response->setBody('great success');
+                    $response->redirect("https://tonon.test/home",303);
+                } else {
+                    $response->redirect("https://tonon.test/home",303);
+                }
 
             } else {
                 // login failed

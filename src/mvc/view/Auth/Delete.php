@@ -14,7 +14,7 @@ class Delete extends  AbstractShow
      */
     protected function getTemplatePath(): string
     {
-        return '/view/templates/auth/login.html';
+        return '/view/templates/auth/delete.html';
     }
 
     /**

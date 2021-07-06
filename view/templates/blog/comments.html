@@ -12,7 +12,12 @@
     <label for="form_text">Text</label>
     <input type="text" class="form-control" id="form_text" name="text" placeholder="text" required>
     <br/>
-    <p> <input type="submit" value="post">
+    <p> <input type="submit" onclick="myFunc()" value="post">
 </form>
+<script>
+    function myFunc() {
+        location.replace("https://tonon.test/blog/show")
+    }
+</script>
 </body>
 </html>
