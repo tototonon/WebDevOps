@@ -17,10 +17,9 @@ class GetAll extends AbstractRepository
 
 
     /**
-     *
      * Put image in folder.
      */
-    function getImage(): void
+    public function getImage(): void
     {
 
         if (isset($_POST['post'])) {
