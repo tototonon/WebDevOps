@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung;
 
-class AuthenticationRequiredException extends \Exception
+use Exception;
+
+class AuthenticationRequiredException extends Exception
 {
     /**
      * @var string
@@ -15,6 +17,4 @@ class AuthenticationRequiredException extends \Exception
      * @var int
      */
     protected $code = 401;
-
-
 }
