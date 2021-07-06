@@ -29,7 +29,9 @@ class BlogPostsRepository extends AbstractRepository
 
 
 
-        $query = $this->connection->prepare('insert into blog_posts (title, url_key, author,text,file) values (:title, :urlKey, :author, :text, :file); ');
+        $query = $this->connection->prepare(
+            'insert into blog_posts (title, url_key, author,text,file) values (:title, :urlKey, :author, :text, :file)'
+        );
         $query->bindParam(':title', $title);
         $query->bindParam(':urlKey', $url);
         $query->bindParam(':author', $author);
@@ -49,7 +51,7 @@ class BlogPostsRepository extends AbstractRepository
         $query = $this->connection->prepare("select * from blog_posts where id=:id");
         $query->bindParam(':id', $id);
         $query->execute();
-        $query->setFetchMode(\PDO::FETCH_ASSOC);
+        $query->setFetchMode(PDO::FETCH_ASSOC);
         $resultData = $query->fetch();
         if (!$resultData) {
             return null;
@@ -75,7 +77,7 @@ class BlogPostsRepository extends AbstractRepository
         $query = $this->connection->prepare("select * from blog_posts where url_key=:urlKey");
         $query->bindParam(':urlKey', $urlKey);
         $query->execute();
-        $query->setFetchMode(\PDO::FETCH_ASSOC);
+        $query->setFetchMode(PDO::FETCH_ASSOC);
         $resultData = $query->fetch();
         if (!$resultData) {
             return null;
@@ -134,7 +136,7 @@ class BlogPostsRepository extends AbstractRepository
         $query->bindParam(':id', $id);
         $query->bindParam(':username', $file, PDO::PARAM_STR);
         $query->execute();
-        $query->setFetchMode(\PDO::FETCH_CLASS, BlogPosts::class);
+        $query->setFetchMode(PDO::FETCH_CLASS, BlogPosts::class);
         return $query->fetch();
     }
 
