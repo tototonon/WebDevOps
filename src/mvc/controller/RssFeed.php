@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
-ini_set('log_errors', 'On');
-ini_set('display_errors', 'Off');
-
-
 use DOMDocument;
 
 /**
@@ -25,7 +21,6 @@ class RssFeed
     {
         $domOBJ = new DOMDocument();
         $domOBJ->load($file);//XML page URL
-
         $content = $domOBJ->getElementsByTagName("item");
         $i = 10;
 
