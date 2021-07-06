@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "php": "^7.4|^7.3|^8.0.7",
+    "php": "7.4",
     "php-http/curl-client": "^2.2",
     "vlucas/phpdotenv": "^5.3",
     "ext-pdo": "*",

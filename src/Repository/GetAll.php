@@ -50,20 +50,23 @@ class GetAll extends AbstractRepository
             echo "<div class='card'>";
             echo "<div id='img_box'>";
             if ($results['file'] == null) {
-                echo "<h4>" . $results['title'] . "</h4>";
+                echo "<a href='https://tonon.test/blog/show/" . $results['url_key'] . "'>";
+                echo "<h2>" . $results['title'] . "</h2>";
                 echo "<i>" . $results['date'] . "</i>";
                 echo "<br>";
-                echo "<p>" . $results['author'] . "</p>";
+                echo "<h4>" . $results['author'] . "</h4>";
+                echo "</a>";
                 echo "<br>";
-                echo "<a href='https://tonon.test/blog/show/" . $results['url_key'] . "'>open</a>";
+
             } else {
-                echo "<h4>" . $results['title'] . "</h4>";
+                echo "<a href='https://tonon.test/blog/show/" . $results['url_key'] . "'>";
+                echo "<h2>" . $results['title'] . "</h2>";
                 echo "<i>" . $results['date'] . "</i>";
                 echo "<br>";
                 echo "<p>" . $results['author'] . "</p>";
                 echo "<br>";
                 echo "<p><img src='/image/" . $results['file'] . "' alt='..'></p>";
-                echo "<a href='https://tonon.test/blog/show/" . $results['url_key'] . "'>open</a>";
+                echo "</a>";
             }
             echo "</div>";
             echo "</div>";

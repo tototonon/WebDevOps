@@ -8,6 +8,10 @@ use TononT\Webentwicklung\mvc\model\BlogPosts;
 use TononT\Webentwicklung\mvc\model\Comments;
 use TononT\Webentwicklung\NotFoundException;
 
+/**
+ * Class CommentsRepository
+ * @package TononT\Webentwicklung\Repository
+ */
 class CommentsRepository extends AbstractRepository
 {
     /**
@@ -46,17 +50,18 @@ class CommentsRepository extends AbstractRepository
             $query->setFetchMode(\PDO::FETCH_ASSOC);
             $resultData = $query->fetchAll();
 
-        echo "<h3>Newest comments</h3><br>";
+
+            //use div id to style div
         echo "<div class='comment-box'>";
         foreach ($resultData as $results) {
             echo "<div class='card'>";
             echo "<tr> 
-    <h4><bold>by: {$results['name']}</bold></h4>
+    <h4>by: {$results['name']}</h4>
     <i><h8>published: {$results['date']}</h8></i><br>
-    <p>{$results['text']}</p>
+    <p><bold>{$results['text']}</bold></p>
    </tr>";
             echo "</div>";
-            echo "</div>";
+
 
             $results[] = array(
                 'name' => $results['name'],
@@ -69,6 +74,7 @@ class CommentsRepository extends AbstractRepository
 
 
         }
+        echo "</div>";
         return $result;
 
 

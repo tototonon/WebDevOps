@@ -6,6 +6,10 @@ namespace TononT\Webentwicklung\Repository;
 use Dotenv\Dotenv;
 use PDO;
 
+/**
+ * Class AbstractRepository
+ * @package TononT\Webentwicklung\Repository
+ */
 abstract class AbstractRepository
 {
 

@@ -6,7 +6,10 @@ namespace TononT\Webentwicklung\Repository;
 use PDO;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
 
-
+/**
+ * Class BlogPostsRepository
+ * @package TononT\Webentwicklung\Repository
+ */
 class BlogPostsRepository extends AbstractRepository
 {
 
@@ -148,10 +151,10 @@ class BlogPostsRepository extends AbstractRepository
         $query = $this->connection->prepare("delete from blog_posts where url_key=:urlKey");
         $query->bindParam(':urlKey', $urlKey);
         $query->execute();
-        if ($query == true) {
-            return "true";
+        if (!$query) {
+            return false;
         } else {
-            return "false";
+            return true;
         }
     }
 }
