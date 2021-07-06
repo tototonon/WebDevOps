@@ -52,17 +52,15 @@ class GetAll extends AbstractRepository
             if ($results['file'] == null) {
                 echo "<a href='https://tonon.test/blog/show/" . $results['url_key'] . "'>";
                 echo "<h2>" . $results['title'] . "</h2>";
-                echo "<i>" . $results['date'] . "</i>";
-                echo "<br>";
-                echo "<h4>" . $results['author'] . "</h4>";
+                echo "<p>created: <i>" . $results['date'] . "</i></p>";
+                echo "<h4>by: " . $results['author'] . "</h4>";
                 echo "</a>";
                 echo "<br>";
             } else {
                 echo "<a href='https://tonon.test/blog/show/" . $results['url_key'] . "'>";
                 echo "<h2>" . $results['title'] . "</h2>";
-                echo "<i>" . $results['date'] . "</i>";
-                echo "<br>";
-                echo "<p>" . $results['author'] . "</p>";
+                echo "<p>created: <i>" . $results['date'] . "</i></p>";
+                echo "<h4>by: " . $results['author'] . "</h4>";
                 echo "<br>";
                 echo "<p><img src='/image/" . $results['file'] . "' alt='..'></p>";
                 echo "</a>";
