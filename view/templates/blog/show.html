@@ -25,6 +25,7 @@
         margin-bottom: 20px;
 
     }
+
     .content-container {
         margin-right: 100px;
     }
@@ -35,6 +36,22 @@
 {
     background-color: forestgreen;
 }
+    @media screen and (max-width: 800px) {
+        .main, .comment-box {
+            width: 100%;
+            padding: 0;
+            float: none;
+        }
+            .comment-box{
+                display: none;
+            }
+        .footer{
+            position: fixed;
+            bottom: 0;
+        }
+
+        }
+
 </style>
 <br>
 
