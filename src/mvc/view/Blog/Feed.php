@@ -22,13 +22,4 @@ class Feed extends AbstractShow
         $data['pubDate'] = $data['entry'];
         return parent::render($data);
     }
-
-    /**
-     * @param $data
-     * @return string
-     */
-    public function show($data): string
-    {
-        return json_encode($data);
-    }
 }

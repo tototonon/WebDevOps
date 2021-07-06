@@ -17,11 +17,9 @@ use DOMDocument;
  */
 class RssFeed
 {
-
     /**
-     * Read Xml file by tags and print them out in html
+     * Read Xml file by tags and print them out in html.
      * @param $file
-     * @return array
      */
     public function dom($file)
     {
@@ -33,7 +31,7 @@ class RssFeed
 
 
         foreach ($content as $data) {
-            if($i-- == 0) {
+            if ($i-- == 0) {
                 break;
             }
             $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
