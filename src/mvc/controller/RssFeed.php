@@ -46,7 +46,7 @@ class RssFeed
                 echo "<i>$date</i>";
                 echo "<br>";
                 echo "<p>$description</p>";
-                echo "<a href='.$link'</a>";
+                echo "<a href='$link'</a>";
                 echo "<br>";
                 echo "<br>";
                 echo "</div>";
