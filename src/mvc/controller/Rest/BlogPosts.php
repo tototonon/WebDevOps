@@ -9,7 +9,6 @@ use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRestAware;
 use TononT\Webentwicklung\mvc\controller\AbstractController;
 use TononT\Webentwicklung\mvc\view\JsonView;
-use TononT\Webentwicklung\mvc\view\RssFeed as RSS;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 
@@ -29,7 +28,8 @@ class BlogPosts extends AbstractController
         $entry = $repository->getByUrlKey(current($request->getIdentifiers()));
 
         // TODO: error handling needs to be different for webservices!
-        if (!$entry) {
+
+        if (!$entry && json_last_error() !== JSON_ERROR_NONE) {
             throw new NotFoundException();
         }
         $view = new JsonView();
