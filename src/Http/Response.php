@@ -1,9 +1,6 @@
 <?php
 
-
 namespace TononT\Webentwicklung\Http;
-
-
 
 class Response implements IResponse
 {
@@ -110,5 +107,4 @@ class Response implements IResponse
         header('Location: ' . $url, true, $statusCode);
         die();
     }
-
 }//end class

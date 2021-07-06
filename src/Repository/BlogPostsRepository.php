@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Repository;
+
 use PDO;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
 
@@ -64,7 +65,6 @@ class BlogPostsRepository extends AbstractRepository
         $result->setFile($resultData['file']);
 
         return $result;
-
     }
     /**
      * @param string $urlKey
@@ -102,7 +102,6 @@ class BlogPostsRepository extends AbstractRepository
         $resultData = $query->fetchAll();
 
         foreach ($resultData as $results) {
-
             $results[] = array(
                 'title' => $results['title'],
                 'author' => $results['author'],
@@ -119,7 +118,6 @@ class BlogPostsRepository extends AbstractRepository
 
 
         return $result;
-
     }
 
     /**
@@ -133,17 +131,16 @@ class BlogPostsRepository extends AbstractRepository
         );
         $id = $blogPosts->getId();
         $file = $blogPosts->getFile();
-        $query->bindParam(':id',$id );
-        $query->bindParam(':username',$file ,PDO::PARAM_STR);
+        $query->bindParam(':id', $id);
+        $query->bindParam(':username', $file, PDO::PARAM_STR);
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_CLASS, BlogPosts::class);
         return $query->fetch();
-
     }
 
     /**
      * @param string $urlKey
-     * Delete BlogPost with urlKey
+     * @return bool
      */
     public function delete(string $urlKey)
     {

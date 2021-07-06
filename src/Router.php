@@ -27,8 +27,7 @@ class Router implements IRouter
             'controller' => $controllerName,
             'action' => $actionName
         ];
-
-    }//end addRoute()
+    }
 
 
     /**
@@ -36,7 +35,7 @@ class Router implements IRouter
      * @param IResponse $response
      * @return bool
      */
-    public function route(IRequest $request, IResponse $response) :bool
+    public function route(IRequest $request, IResponse $response): bool
     {
         $url = strtolower($request->getUrl());
         foreach ($this->routes as $route => $controllerArray) {
@@ -46,12 +45,8 @@ class Router implements IRouter
                 $controller->$action($request, $response);
                 return true;
             }
-
-
         }
 
         return false;
-
-
-    }//end class
+    }
 }

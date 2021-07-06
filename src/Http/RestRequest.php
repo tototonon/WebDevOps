@@ -1,8 +1,6 @@
 <?php
 
-
 namespace TononT\Webentwicklung\Http;
-
 
 class RestRequest extends Request implements IRestAware
 {
@@ -39,5 +37,4 @@ class RestRequest extends Request implements IRestAware
     {
         $this->identifiers = $identifiers;
     }
-
 }

@@ -1,9 +1,8 @@
 <?php
 
-
 namespace TononT\Webentwicklung\mvc\model;
 
-
+use stdClass;
 
 class BlogPosts implements \JsonSerializable
 {
@@ -131,17 +130,11 @@ class BlogPosts implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        $result = new \stdClass();
+        $result = new stdClass();
         $result->author = $this->author;
         $result->title = $this->title;
         $result->text = $this->text;
         $result->file = $this->file;
         return $result;
     }
-
-    public function __toString()
-    {
-       return $this->getTitle().$this->getText();
-    }
-
 }

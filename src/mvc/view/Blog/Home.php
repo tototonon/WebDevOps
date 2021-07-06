@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\view\Blog;
 
-
 class Home extends AbstractShow
 {
 
@@ -21,5 +20,4 @@ class Home extends AbstractShow
         $data['title'] = "home";
         return parent::render($data);
     }
-
 }

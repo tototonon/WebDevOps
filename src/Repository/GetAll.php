@@ -20,14 +20,14 @@ class GetAll extends AbstractRepository
      *
      * Put image in folder.
      */
-    function getImage() :void
+    function getImage(): void
     {
 
-        if(isset($_POST['post'])) {
+        if (isset($_POST['post'])) {
             $filename = $_FILES["file"]["name"];
             $tmpname = $_FILES["file"]["tmp_name"];
             $folder = "image/" . $filename;
-            if(move_uploaded_file($tmpname, $folder)) {
+            if (move_uploaded_file($tmpname, $folder)) {
                 echo "Image uploaded !";
             } else {
                 echo "no file uploaded !";
@@ -38,9 +38,10 @@ class GetAll extends AbstractRepository
     /**
      * Get all BlogPosts and print out in html.
      * (I assume there is no security disadvantage when print out Html in echo function.)
-     * @return BlogPosts
+     * @return BlogPosts $result
      */
-        public function getAll() {
+    public function getAll() : BlogPosts
+    {
         $query = $this->connection->prepare('select * from blog_posts ');
         $query->execute();
         $query->setFetchMode(\PDO::FETCH_ASSOC);
@@ -57,7 +58,6 @@ class GetAll extends AbstractRepository
                 echo "<h4>" . $results['author'] . "</h4>";
                 echo "</a>";
                 echo "<br>";
-
             } else {
                 echo "<a href='https://tonon.test/blog/show/" . $results['url_key'] . "'>";
                 echo "<h2>" . $results['title'] . "</h2>";
@@ -79,5 +79,4 @@ class GetAll extends AbstractRepository
         }
         return $result;
     }
-
 }

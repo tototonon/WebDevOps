@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\model;
-
 
 class User
 {
@@ -10,8 +10,7 @@ class User
     public string $username;
     public string $password;
     public string $role;
-
-    /**
+/**
      * @return string
      */
     public function getRole(): string
@@ -26,11 +25,4 @@ class User
     {
         $this->role = $role;
     }
-
-
-
-
-
-
-
 }

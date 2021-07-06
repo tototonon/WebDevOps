@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\view\Auth;
 
-
 use TononT\Webentwicklung\mvc\view\Blog\AbstractShow;
 
 class Register extends AbstractShow
@@ -25,5 +24,4 @@ class Register extends AbstractShow
         $data['title'] = 'Register';
         return parent::render($data);
     }
-
 }

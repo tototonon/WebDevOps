@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\view;
 
-
 class JsonView
 {
     /**
@@ -15,6 +14,4 @@ class JsonView
     {
         return json_encode($data);
     }
-
-
 }

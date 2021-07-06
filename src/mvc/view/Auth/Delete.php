@@ -1,12 +1,10 @@
 <?php
 
-
 namespace TononT\Webentwicklung\mvc\view\Auth;
-
 
 use TononT\Webentwicklung\mvc\view\Blog\AbstractShow;
 
-class Delete extends  AbstractShow
+class Delete extends AbstractShow
 {
 
     /**

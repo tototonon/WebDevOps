@@ -10,7 +10,6 @@ use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRequest;
 use TononT\Webentwicklung\mvc\model\BlogPosts;
 use TononT\Webentwicklung\mvc\model\Comments;
-use TononT\Webentwicklung\mvc\model\User;
 use TononT\Webentwicklung\mvc\view\Blog\Show as ShowView;
 use TononT\Webentwicklung\mvc\view\Blog\Add as AddView;
 use TononT\Webentwicklung\mvc\view\Blog\Info as InfoView;
@@ -27,7 +26,6 @@ use Respect\Validation\Validator;
 use TononT\Webentwicklung\mvc\controller\RssFeed as RSS;
 use TononT\Webentwicklung\Repository\CommentsRepository;
 use TononT\Webentwicklung\Repository\GetAll;
-use TononT\Webentwicklung\Repository\UserRepository;
 
 /**
  * Class Blog
@@ -114,6 +112,7 @@ class Blog extends AbstractController
      * @param IResponse $response
      * @throws AuthenticationRequiredException
      */
+    //TODO
     public function updatePost(IRequest $request, IResponse $response): void
     {
         if (!$this->getSession()->isLoggedIn()) {
@@ -124,7 +123,7 @@ class Blog extends AbstractController
     /**
      * @param IRequest $request
      * @param IResponse $response
-     * @throws AuthenticationRequiredException
+     * @throws ForbiddenException
      * @throws NotFoundException
      */
     public function delete(IRequest $request, IResponse $response): void
@@ -133,7 +132,6 @@ class Blog extends AbstractController
             $response->setBody("Only Admins");
             //$response->redirect("https://tonon.test/home",303);
             throw new ForbiddenException();
-
         } else {
             $repository = new BlogPostsRepository();
 
@@ -142,19 +140,16 @@ class Blog extends AbstractController
             $deleteUrlKey = substr($request->getUrl(), $lastSlash + 2);
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
-            if(!$entry && !$deleteUrlKey == "/blog/delete") {
+            if (!$entry && !$deleteUrlKey == "/blog/delete") {
                 throw new NotFoundException();
             } else {
-
                 //TODO ONLY IF ADMIN
                 $view = new DeleteView();
                 $response->setBody($view->render([]));
                 $repository->delete($potentialUrlKey);
-               
-
             }
         }
-            }
+    }
 
 
 
@@ -235,13 +230,11 @@ class Blog extends AbstractController
     }
 
 
-
-        /**
-         * @param IRequest $request
-         * @param IResponse $response
-         * @throws AuthenticationRequiredException
-         * @throws NotFoundException
-         */
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @throws ForbiddenException
+     */
     public function commentDelete(IRequest $request, IResponse $response): void
     {
         if (!$this->getSession()->isLoggedInAsAdmin()) {
@@ -260,14 +253,14 @@ class Blog extends AbstractController
                     $response->setBody('great success');
                     $response->setBody($view->render([]));
                     //$response->redirect("https://tonon.test/popular/post", 303);
-            }
         }
-
+    }
 
 
     /**
-     * @param IRequest  $request
+     * @param IRequest $request
      * @param IResponse $response
+     * @throws NotFoundException
      */
     public function show(IRequest $request, IResponse $response): void
     {
@@ -287,7 +280,7 @@ class Blog extends AbstractController
         $commentsRepo->getAllComments();
         if (!$entry) {
             $potential = substr($request->getUrl(), $lastSlash + 2);
-            if ($potential = "blog/show/") {
+            if ($potential == "blog/show/") {
                 $response->redirect("https://tonon.test/home", 300);
             } else {
                 throw new NotFoundException();
@@ -301,7 +294,5 @@ class Blog extends AbstractController
 
 
         $response->setBody($view->render(['entry' => $entry]));
-    }//end show()
-
-
-}//end class
+    }
+}

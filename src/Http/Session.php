@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\Http;
 
-
 class Session
 {
 
@@ -108,6 +107,4 @@ class Session
     {
         return isset($_SESSION[$name]);
     }
-
-
 }

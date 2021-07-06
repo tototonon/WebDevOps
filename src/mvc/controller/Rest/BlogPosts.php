@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller\Rest;
 
-
 use TononT\Webentwicklung\Http\IResponse;
 use TononT\Webentwicklung\Http\IRestAware;
 use TononT\Webentwicklung\mvc\controller\AbstractController;
@@ -35,6 +34,4 @@ class BlogPosts extends AbstractController
         $view = new JsonView();
         $response->setBody($view->render($entry));
     }
-
-
 }

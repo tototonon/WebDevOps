@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TononT\Webentwicklung\mvc\controller;
 
-use TononT\Webentwicklung\mvc\model\User;
 use TononT\Webentwicklung\Repository\UserRepository;
+
 class Admin
 {
 
@@ -13,7 +13,7 @@ class Admin
      * @param $user
      * @return bool
      */
-    public function admin($user)
+    public function admin($user): bool
     {
         $userRepository = new UserRepository();
         $admin = $userRepository->isAdmin($user->getRole());
@@ -24,7 +24,6 @@ class Admin
         } else {
             //echo "<h1>Hello User</h1>";
             return false;
-
         }
     }
 }
