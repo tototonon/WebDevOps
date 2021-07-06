@@ -33,7 +33,7 @@ class RssFeed
 
 
         foreach ($content as $data) {
-            if ($i-- == 0) {
+            if($i-- == 0) {
                 break;
             }
             $title = $data->getElementsByTagName("title")->item(0)->nodeValue;
@@ -52,13 +52,5 @@ class RssFeed
             echo "<br>";
             echo "</div>";
         }
-
-            $out[] = array(
-                'title' => $title,
-                'date' => $date,
-                'description' => $description,
-                'link' => $link,
-            );
-            return $out;
     }
 }
