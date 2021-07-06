@@ -9,10 +9,7 @@ use TononT\Webentwicklung\Repository\UserRepository;
 
 class Admin
 {
-    public function isAdmin()
-    {
 
-    }
     /**
      * @param $user
      */
@@ -24,12 +21,13 @@ class Admin
         if ($admin->role == "1") {
             echo "<h1>Hello Admin</h1>";
             $role = $user->role;
-
+            return true;
             //redirect to Admin view
         } else {
             echo "<h1>Hello User</h1>";
             $role = $user->role;
 
+            return false;
 
             //redirect to User view
         }

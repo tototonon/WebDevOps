@@ -50,6 +50,7 @@ $router->addRoute('/popular/post', BlogController::class, 'popular');
 $router->addRoute('/impressum', BlogController::class, 'impressum');
 $router->addRoute('/comment/add', BlogController::class, 'comment');
 $router->addRoute('/blog/delete', BlogController::class, 'delete');
+$router->addRoute('/comment/delete', BlogController::class, 'commentDelete');
 
 $routers[] = new NotFoundRouter();
 

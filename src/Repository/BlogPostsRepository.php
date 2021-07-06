@@ -155,9 +155,9 @@ class BlogPostsRepository extends AbstractRepository
         $query->bindParam(':urlKey', $urlKey);
         $query->execute();
         if ($query == true) {
-            echo "deleted";
+            return "true";
         } else {
-            echo "not deleted";
+            return "false";
         }
     }
 }

@@ -20,6 +20,7 @@ use TononT\Webentwicklung\mvc\view\Blog\Feed as FeedView;
 use TononT\Webentwicklung\mvc\view\Blog\Home as HomeView;
 use TononT\Webentwicklung\mvc\view\Blog\Comments as CommentsView;
 use TononT\Webentwicklung\mvc\view\Auth\Delete as DeleteView;
+use TononT\Webentwicklung\mvc\view\Blog\CommentDelete as DeleteCommentView;
 use TononT\Webentwicklung\NotFoundException;
 use TononT\Webentwicklung\Repository\BlogPostsRepository;
 use Respect\Validation\Validator;
@@ -129,32 +130,30 @@ class Blog extends AbstractController
     public function delete(IRequest $request, IResponse $response): void
     {
         if (!$this->getSession()->isLoggedIn()) {
-            throw new AuthenticationRequiredException();
+            $response->setBody("Only Admins");
+            $response->redirect("https://tonon.test/home",303);
+            throw new ForbiddenException();
+
         } else {
             $repository = new BlogPostsRepository();
 
             $lastSlash = strripos($request->getUrl(), '/') ?: 0;
             $potentialUrlKey = substr($request->getUrl(), $lastSlash + 1);
+            $deleteUrlKey = substr($request->getUrl(), $lastSlash + 2);
             $entry = $repository->getByUrlKey($potentialUrlKey);
 
-            if (!$entry) {
+            if (!$entry && !$deleteUrlKey == "/blog/delete") {
                 throw new NotFoundException();
             } else {
 
                 //TODO ONLY IF ADMIN
                 $view = new DeleteView();
-                $userRepository = new UserRepository();
-
-                $admin = new Admin();
-                //if(!$admin->admin()) {
-                //    throw new ForbiddenException();
-
-                    $repository->delete($potentialUrlKey);
-                    $response->setBody('great success');
-                    $response->redirect("https://tonon.test/popular/post", 303);
+                $repository->delete($potentialUrlKey);
+                $response->setBody($view->render(['entry' => $entry]));
                 }
             }
-        }
+            }
+
 
 
 
@@ -243,24 +242,26 @@ class Blog extends AbstractController
          * @throws AuthenticationRequiredException
          * @throws NotFoundException
          */
-    public function deleteComment(IRequest $request, IResponse $response): void
+    public function commentDelete(IRequest $request, IResponse $response): void
     {
         if (!$this->getSession()->isLoggedIn()) {
+            $response->redirect("https://tonon.test/popular/post",303);
             throw new AuthenticationRequiredException();
         } else {
             $repository = new CommentsRepository();
 
+            $lastSlash = strripos($request->getUrl(), '/') ?: 0;
+            $potentialID = substr($request->getUrl(), $lastSlash + 1);
             //TODO select right id
-            if (!$id = $request->getParameter("id")) {
-                throw new NotFoundException();
-            } else {
-                //TODO ADMIN & USER
-                $repository->deleteComment($id);
-                $response->setBody('great success');
-                $response->redirect("https://tonon.test/popular/post", 303);
+
+            $view = new DeleteCommentView();
+                    $repository->deleteComment($potentialID);
+                    $response->setBody('great success');
+                    $response->setBody($view->render([]));
+                    //$response->redirect("https://tonon.test/popular/post", 303);
             }
         }
-    }
+
 
 
     /**

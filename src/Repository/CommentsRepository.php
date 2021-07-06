@@ -16,7 +16,7 @@ class CommentsRepository extends AbstractRepository
     public function deleteComment(string $id): void
     {
 
-        $query = $this->connection->prepare("delete from blog_posts where id=:id");
+        $query = $this->connection->prepare("delete from  comments where id=:id");
         $query->bindParam(':id', $id);
         $query->execute();
 
