@@ -31,14 +31,5 @@ class Feed extends AbstractShow
     {
         return json_encode($data);
     }
-
-    /**
-     * @param $data
-     * @return \SimpleXMLElement|string
-     */
-    public function xmlRender($data)
-    {
-        return simplexml_load_file($data);
-
-    }
+    
 }
