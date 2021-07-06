@@ -46,15 +46,16 @@ class CommentsRepository extends AbstractRepository
             $query->setFetchMode(\PDO::FETCH_ASSOC);
             $resultData = $query->fetchAll();
 
+        echo "<h3>Newest comments</h3><br>";
+        echo "<div class='comment-box'>";
         foreach ($resultData as $results) {
-
-            echo "<h3>Newest comments</h3><br>";
-            echo "<div class='comment-box' id='comment-box'>";
+            echo "<div class='card'>";
             echo "<tr> 
     <h4><bold>by: {$results['name']}</bold></h4>
     <i><h8>published: {$results['date']}</h8></i><br>
     <p>{$results['text']}</p>
    </tr>";
+            echo "</div>";
             echo "</div>";
 
             $results[] = array(

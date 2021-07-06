@@ -100,7 +100,7 @@ class BlogPostsRepository extends AbstractRepository
 
         echo "<h3>Newest Posts</h3><br>";
         foreach ($resultData as $results) {
-            echo "<div class='file-box'>";
+            echo "<div class='card' id='''file-box'>";
             echo "<tr>
     <h5>Author: {$results['author']}</h5>
     <p>{$results['title']}</p>
@@ -111,10 +111,8 @@ class BlogPostsRepository extends AbstractRepository
                 'author' => $results['author'],
             );
 
-//TODO last title is set.Overwrite !
             $result = new BlogPosts();
             $result->setTitle($results['title']);
-            $result->setUrlKey($results['url_key']);
             $result->setAuthor($results['author']);
             $result->setText($results['text']);
             $result->setFile($results['file']);
