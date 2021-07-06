@@ -28,7 +28,6 @@ class RssFeed
         $content = $domOBJ->getElementsByTagName("item");
         $i = 10;
 
-        $hasImg = $domOBJ->getElementById("img");
 
             foreach ($content as $data) {
 
